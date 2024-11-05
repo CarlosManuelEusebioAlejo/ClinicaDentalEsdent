@@ -1,0 +1,14 @@
+/* Media query para dispositivos con ancho menor a 768px (típicamente tablets) */
+@media (max-width: 1208px) {
+nav a span {
+    display: none; /* Oculta el texto en tablets */
+}
+/* Centrar los íconos en tabletas y reducir el tamaño del div principal */
+.sidebar {
+    width: 130px; /* Hacer la barra más delgada */
+}
+nav a i {
+    justify-content: center; /* Asegura que los íconos estén centrados */
+    margin: 0 auto;
+}
+}
