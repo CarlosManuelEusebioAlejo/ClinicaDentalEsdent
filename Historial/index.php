@@ -152,43 +152,66 @@
         </thead>
 
         <tbody class="bg-gray-100">
-          <!-- Fila 1 -->
+        <?php
+// Conexión a la base de datos
+include '../Configuraciones/conexion.php';
+
+// Consulta para obtener todos los tratamientos
+$query = "SELECT ht.id_tratamiento, ht.Tratamiento, ht.Observacion, ht.Costo, ht.Fecha, d.Nombre_doctor 
+          FROM historial_tratamiento ht
+          INNER JOIN doctores d ON ht.id_doctor = d.id_doctor";
+
+// Ejecutar la consulta
+$result = $conn->query($query);
+
+// Función para convertir la fecha al formato en español
+function formatoFechaEspanol($fecha) {
+    $dias = array('domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado');
+    $meses = array('enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre');
+    
+    $timestamp = strtotime($fecha);
+    $diaSemana = $dias[date('w', $timestamp)];
+    $dia = date('d', $timestamp);
+    $mes = $meses[date('n', $timestamp) - 1]; // Restar 1 ya que los meses en PHP comienzan en 1
+    $anio = date('Y', $timestamp);
+
+    return "$diaSemana, $dia de $mes de $anio";
+}
+
+// Verificar si hay resultados
+if ($result->num_rows > 0) {
+    // Mostrar los datos en la tabla HTML
+    while ($row = $result->fetch_assoc()) {
+        // Formatear la fecha usando la función personalizada
+        $fecha = formatoFechaEspanol($row['Fecha']);
+        ?>
         <div class="mb-2">
-          <tr class="bg-sky-100 overflow-hidden " style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
-              <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">Miércoles 2 de Octubre del 2024</td>
-              <td class="px-4 py-3 text-left">Limpieza y valoración</td>
-              <td class="px-4 py-3 text-left">Porxcita: Blanqueamiento</td>
-              <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-                   <!-- Botón que abre el modal -->
-                   <button class="bg-transparent border-0 cursor-pointer" onclick="openInfoModal()">
-                    <i class='bx bx-id-card text-lg mx-2'></i>
-                  </button>
-                  <!-- Botón para justificante -->
-                  <button onclick="openJustificanteModal()" class="bg-transparent border-0 cursor-pointer">
-                    <i class='bx bx-detail text-lg mx-2' style='color:#3c3c3c'></i>
-                  </button>
-              </td>
-          </tr>
+            <tr class="bg-sky-100 overflow-hidden" style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
+                <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;"><?php echo $fecha; ?></td>
+                <td class="px-4 py-3 text-left"><?php echo $row['Tratamiento']; ?></td>
+                <td class="px-4 py-3 text-left"><?php echo $row['Observacion']; ?></td>
+                <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+                    <!-- Botón que abre el modal -->
+                    <button class="bg-transparent border-0 cursor-pointer" onclick="openInfoModal()">
+                        <i class='bx bx-id-card text-lg mx-2'></i>
+                    </button>
+                    <!-- Botón para justificante -->
+                    <button onclick="openJustificanteModal()" class="bg-transparent border-0 cursor-pointer">
+                        <i class='bx bx-detail text-lg mx-2' style='color:#3c3c3c'></i>
+                    </button>
+                </td>
+            </tr>
         </div>
-  
-          <!-- Fila 2 -->
-          <div class="mb-2">
-          <tr class="overflow-hidden mb-2" style="background-color: #e8ecff; border-radius: 50px;  box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229);">
-              <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">Miércoles 2 de Octubre del 2024</td>
-              <td class="px-4 py-3 text-left">Limpieza dental</td>
-              <td class="px-4 py-3 text-left">Se recomienda usar un enjuague dental y cepillo de dientes con cerdas suaves</td>
-              <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-                   <!-- Botón que abre el modal -->
-                   <button class="bg-transparent border-0 cursor-pointer" onclick="openInfoModal()">
-                    <i class='bx bx-id-card text-lg mx-2'></i>
-                  </button>
-                  <!-- Botón para justificante -->
-                  <button onclick="openJustificanteModal()" class="bg-transparent border-0 cursor-pointer">
-                    <i class='bx bx-detail text-lg mx-2' style='color:#3c3c3c'></i>
-                  </button>
-              </td>
-          </tr>
-          </div>
+        <?php
+    }
+} else {
+    echo "<tr><td colspan='4' class='text-center'>No se encontraron tratamientos.</td></tr>";
+}
+
+// Cerrar la conexión
+$conn->close();
+?>
+
       </tbody>
     </table> 
     <?php

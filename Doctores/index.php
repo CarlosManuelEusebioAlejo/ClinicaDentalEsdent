@@ -1,3 +1,15 @@
+<?php
+  include '../Configuraciones/conexion.php';
+  
+  // Realizamos la consulta para obtener los doctores
+  $query = "SELECT * FROM doctores";
+  $result = mysqli_query($conn, $query);
+
+  // Obtenemos el número de doctores registrados
+  $num_doctores = mysqli_num_rows($result);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +19,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Wallpoet&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>ClinicaDentalEsdent</title>
     <link rel="icon" href="/../ClinicaDentalEsdent/Configuraciones/img/logo.png" type="image/x-icon">
 </head>
@@ -103,7 +116,7 @@
         <!-- Título y párrafo alineados a la izquierda -->
         <div class="ml-8 mt-8">
           <h1 class="text-4xl font-semibold">DOCTORES REGISTRADOS</h1>
-          <p class="text-lg text-gray-500 mt-1 mb-12">5 Doctores</p>
+          <p class="text-lg text-gray-500 mt-1 mb-12"><?php echo mysqli_num_rows($result); ?> Doctores</p>
         </div>
 
         <!-- Div centrado -->
@@ -129,22 +142,41 @@
             
                 <!-- Cuerpo de la tabla -->
                 <tbody class="bg-gray-100">
-                    <!-- Fila 1 -->
+                  <?php
+                  include '../Configuraciones/conexion.php';
+                  // Consulta para obtener todos los doctores
+                  $query = "SELECT * FROM doctores";
+                  $result = mysqli_query($conn, $query);
+
+                  // Verifica si hay resultados
+                  if (mysqli_num_rows($result) > 0) {
+                      while ($doctor = mysqli_fetch_assoc($result)) {
+                  ?>
                   <div class="mb-2">
                     <tr class="bg-sky-100 overflow-hidden " style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
-                        <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">Adriana</td>
-                        <td class="px-4 py-3 text-left">Andrade Villaseñor</td>
-                        <td class="px-4 py-3 text-left">Administrador</td>
+                        <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;"><?php echo $doctor['Nombre_doctor']; ?></td>
+                        <td class="px-4 py-3 text-left"><?php echo $doctor['Especialidad']; ?></td>
+                        <td class="px-4 py-3 text-left"><?php echo $doctor['Rol']; ?></td>
                         <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-                            <button class="ver-registro-btn bg-transparent border-0 cursor-pointer">
+                            <button class="ver-registro-btn bg-transparent border-0 cursor-pointer" data-doctor-id="<?php echo $doctor['id_doctor']; ?>">
                               <i class='bx bx-id-card text-lg mx-2'></i>
                             </button>
-                            <button class="bg-transparent border-0 cursor-pointer">
+                            <button class="bg-transparent border-0 cursor-pointer" onclick="eliminarDoctor(<?php echo $doctor['id_doctor']; ?>)">
                                 <i class='bx bx-trash text-lg mx-2' style='color:#3c3c3c'></i>
                             </button>
                         </td>
                     </tr>
                   </div>
+                  <?php
+                      }
+                  } else {
+                  ?>
+                    <tr>
+                        <td colspan="4" class="text-center">No hay doctores registrados.</td>
+                    </tr>
+                  <?php
+                  }
+                  ?>
                 </tbody>
             </table>    
         </div>
@@ -152,9 +184,60 @@
     </div>
 
     <?php 
+      include 'Solicitudes/AgregarDoctor.php';
       include 'Modales/AgregarDoctor.php';
       include 'Modales/VerDoctor.php';
       include 'Modales/EditarDoctor.php';
     ?>
+
+
+    
 </body>
 </html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    function eliminarDoctor(id_doctor) {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "¡No podrás revertir esto!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminarlo",
+            cancelButtonText: "No, cancelar",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Llamada AJAX para eliminar el doctor
+                $.ajax({
+                    url: 'Solicitudes/EliminarDoctor.php', // URL corregida
+                    method: 'POST',
+                    data: { id_doctor: id_doctor },
+                    success: function(response) {
+                        Swal.fire(
+                            "Eliminado",
+                            response,
+                            "success"
+                        ).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire(
+                            "Error",
+                            "Hubo un problema al eliminar el doctor.",
+                            "error"
+                        );
+                        console.error(error);
+                    }
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire(
+                    "Cancelado",
+                    "El doctor está seguro.",
+                    "error"
+                );
+            }
+        });
+    }
+</script>

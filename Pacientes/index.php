@@ -1,3 +1,6 @@
+<?php
+include 'Solicitudes/VerPacientes.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,18 +114,18 @@
             
                 <!-- Cuerpo de la tabla -->
                 <tbody class="bg-gray-100">
-                    <!-- Fila 1 -->
+                  <?php foreach ($pacientes as $paciente): ?>
                     <div class="mb-2">
                       <tr class="bg-sky-100 overflow-hidden " style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
-                          <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">Adriana</td>
-                          <td class="px-4 py-3 text-left">Andrade Villaseñor</td>
+                          <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;"><?= $paciente['Nombre_paciente'] ?></td>
+                          <td class="px-4 py-3 text-left"><?= $paciente['Apellido_paciente'] ?></td>
                           <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
                               <!-- Botón para abrir el modal -->
                               <button class="ver-registro-btn bg-transparent border-0 cursor-pointer">
                                 <i class='bx bx-id-card text-lg mx-2'></i>
                               </button>
-                              <!-- Botón para redirigir a historial.html -->
-                              <button class="bg-transparent border-0 cursor-pointer" onclick="window.location.href='/../ClinicaDentalEsdent/Historial/'">
+                              <!-- Botón para redirigir a historial.php con el id del paciente -->
+                              <button class="bg-transparent border-0 cursor-pointer" onclick="window.location.href='/../ClinicaDentalEsdent/Historial/?idPaciente=<?= urlencode($paciente['idPaciente']) ?>'">
                                   <i class='bx bx-folder text-lg mx-2'></i>
                               </button>
                               <!-- Botón para borrar -->
@@ -132,6 +135,7 @@
                           </td>
                       </tr>
                     </div>
+                  <?php endforeach; ?>
                 </tbody>
               </table>
             </div>

@@ -7,6 +7,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Wallpoet&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>ClinicaDentalEsdent</title>
     <link rel="icon" href="/../ClinicaDentalEsdent/Configuraciones/img/logo.png" type="image/x-icon">
 </head>
@@ -132,41 +133,44 @@
                 <th class="px-4 py-2 text-center rounded-r-full">OPCIONES</th>
             </tr>
         </thead>
-    
+        <?php
+          // Conexión a la base de datos
+          include '../Configuraciones/conexion.php';                         
+
+          // Consulta para obtener todos los registros de la tabla videoExplicativo
+          $query = "SELECT id_video, Url, Descripcion FROM videoExplicativo";
+          $result = $conn->query($query);
+        ?>
+
         <!-- Cuerpo de la tabla -->
         <tbody class="bg-gray-100">
-            <!-- Fila 1 -->
-          <div class="mb-2">
-            <tr class="bg-sky-100 overflow-hidden " style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
-                <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">Miércoles 2 de Octubre del 2024</td>
-                <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+          <?php if ($result->num_rows > 0): ?>
+            <?php while ($row = $result->fetch_assoc()): ?>
+              <div class="mb-2">
+                <tr class="bg-sky-100 overflow-hidden" style="border-radius: 50px; box-shadow: 0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
+                  <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">
+                    <?php echo htmlspecialchars($row['Descripcion']); ?>
+                  </td>
+                  <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
                     <!-- Botón que abre el modal -->
                     <button onclick="openVerVideoModal()" class="bg-transparent border-0 cursor-pointer">
-                        <i class='bx bx-id-card text-lg mx-2' style='color:#3c3c3c'></i>
-                      </button>
-                    <button class="bg-transparent border-0 cursor-pointer">
-                        <i class='bx bx-trash text-lg mx-2' style='color:#3c3c3c'></i>
+                      <i class='bx bx-id-card text-lg mx-2' style='color:#3c3c3c'></i>
                     </button>
-                </td>
-            </tr>
-          </div>
-    
-            <!-- Fila 2 -->
-            <div class="mb-2">
-            <tr class="overflow-hidden mb-2" style="background-color: #e8ecff; border-radius: 50px;  box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229);">
-                <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">Miércoles 2 de Octubre del 2024</td>
-                <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-                    <!-- Botón que abre el modal -->
-                    <button onclick="openVerVideoModal()" class="bg-transparent border-0 cursor-pointer">
-                        <i class='bx bx-id-card text-lg mx-2' style='color:#3c3c3c'></i>
-                      </button>
-                    <button class="bg-transparent border-0 cursor-pointer">
-                        <i class='bx bx-trash text-lg mx-2' style='color:#3c3c3c'></i>
+                    <button class="bg-transparent border-0 cursor-pointer" onclick="eliminarVideo(<?php echo $row['id_video']; ?>)">
+                      <i class='bx bx-trash text-lg mx-2' style='color:#3c3c3c'></i>
                     </button>
-                </td>
+                  </td>
+                </tr>
+              </div>
+            <?php endwhile; ?>
+          <?php else: ?>
+            <tr>
+              <td colspan="4" class="text-center">No se encuentran videos explicativos registrados.</td>
             </tr>
-            </div>
+          <?php endif; ?>
         </tbody>
+          
+        <?php $conn->close(); ?>
     </table>
     <?php
       include 'Modales/AgregarExplicacion.php';
@@ -174,4 +178,51 @@
     ?>
 </body>
 </html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    function eliminarVideo(id_video) {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "¡No podrás revertir esto!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminarlo",
+            cancelButtonText: "No, cancelar",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Llamada AJAX para eliminar el doctor
+                $.ajax({
+                    url: 'Solicitudes/EliminarExplicacion.php', // URL corregida
+                    method: 'POST',
+                    data: { id_video: id_video },
+                    success: function(response) {
+                        Swal.fire(
+                            "Eliminado",
+                            response,
+                            "success"
+                        ).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire(
+                            "Error",
+                            "Hubo un problema al eliminar el video.",
+                            "error"
+                        );
+                        console.error(error);
+                    }
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire(
+                    "Cancelado",
+                    "El video está seguro.",
+                    "error"
+                );
+            }
+        });
+    }
+</script>
           
