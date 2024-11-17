@@ -10,7 +10,7 @@
         </h1>
 
         <!-- Formulario para Registrar Limpieza -->
-        <form action="Solicitudes/AgregarLimpieza.php" method="POST">
+        <form id="AgregarLimpieza" action="Solicitudes/AgregarLimpieza.php" method="POST">
             <div class="p-6 rounded-sm shadow-md mb-10" style="background-color: #f5f7ff;">
                 <div class="grid grid-cols-2 gap-6">
                     <!-- Input: Búsqueda de Paciente -->
@@ -71,7 +71,46 @@
     </div>
 </div>
 <script>
-  document.getElementById('submit-limpieza').addEventListener('click', function(event) {
+document.addEventListener('DOMContentLoaded', function() {
+    // Selecciona el formulario por ID
+    const limpiezaForm = document.getElementById('AgregarLimpieza');
+
+    // Verifica si hay un parámetro en la URL que indica éxito o error
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('success') === 'true') {
+        Swal.fire({
+            title: "¡Buen trabajo!",
+            text: "¡La limpieza se ha registrado correctamente!",
+            icon: "success",
+            timer: 2000,
+            showConfirmButton: false
+        });
+    } 
+    // Maneja el envío del formulario
+    limpiezaForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Evita el envío del formulario para mostrar la alerta
+
+        // Muestra la alerta de "Registro en curso"
+        Swal.fire({
+            title: "¡Registro en curso!",
+            text: "La limpieza está siendo registrada. Por favor, espere.",
+            icon: "info",
+            timerProgressBar: true,
+            timer: 1500,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        }).then(() => {
+            limpiezaForm.submit(); // Envía el formulario después de mostrar la alerta
+        });
+    });
+});
+
+</script>
+<script>
+// Validación del formulario antes de enviarlo
+document.getElementById('submit-limpieza').addEventListener('click', function(event) {
     const idPaciente = document.getElementById('idPaciente').value;
     const nombrePaciente = document.getElementById('Nombre_paciente').value;
     const apellidoPaciente = document.getElementById('Apellido_paciente').value;
@@ -84,8 +123,7 @@
     }
 });
 
-</script>
-<script>
+// Búsqueda de pacientes
 document.addEventListener('DOMContentLoaded', function () {
     const searchInput = document.getElementById('paciente-buscar');
     const resultsList = document.getElementById('resultado-busqueda');
@@ -95,7 +133,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (query.length > 0) {
             fetch('Solicitudes/BuscarPaciente.php?q=' + query)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta del servidor');
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     resultsList.innerHTML = '';
                     if (data.length > 0) {
@@ -103,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             const li = document.createElement('li');
                             li.classList.add('list-group-item', 'list-group-item-action', 'px-4', 'py-2', 'cursor-pointer');
                             li.textContent = `${paciente.Nombre_paciente} ${paciente.Apellido_paciente} - ${paciente.Telefono}`;
-                            li.dataset.id = paciente.id;
+                            li.dataset.id = paciente.idPaciente;
                             li.dataset.telefono = paciente.Telefono;
                             li.dataset.nombre = paciente.Nombre_paciente;
                             li.dataset.apellido = paciente.Apellido_paciente;
@@ -124,32 +167,32 @@ document.addEventListener('DOMContentLoaded', function () {
                         li.textContent = 'No se encontraron resultados';
                         resultsList.appendChild(li);
                     }
+                })
+                .catch(error => {
+                    console.error('Error en la búsqueda:', error);
                 });
         } else {
             resultsList.innerHTML = '';
         }
     });
 });
-</script>
-  
-<script>
-  const addLimpiezaBtn = document.getElementById('add-limpieza-btn');
-  const closeLimpiezaModalBtn = document.getElementById('close-limpieza-modal-btn');
-  const limpiezaModal = document.getElementById('limpieza-modal');
-  const closeLimpiezaModalX = document.getElementById('close-limpieza-modal-x');
-  
-  // Mostrar el modal al hacer clic en "AGREGAR LIMPIEZA"
-  addLimpiezaBtn.addEventListener('click', function() {
-    limpiezaModal.classList.remove('hidden');
-  });
-  
-  // Cerrar el modal al hacer clic en "Cerrar"
-  closeLimpiezaModalBtn.addEventListener('click', function() {
-    limpiezaModal.classList.add('hidden');
-  });
 
-  // Cerrar el modal al hacer clic en la "X"
-  closeLimpiezaModalX.addEventListener('click', function() {
+// Mostrar modal
+const addLimpiezaBtn = document.getElementById('add-limpieza-btn');
+const closeLimpiezaModalBtn = document.getElementById('close-limpieza-modal-btn');
+const limpiezaModal = document.getElementById('limpieza-modal');
+const closeLimpiezaModalX = document.getElementById('close-limpieza-modal-x');
+
+addLimpiezaBtn.addEventListener('click', function() {
+    limpiezaModal.classList.remove('hidden');
+});
+
+closeLimpiezaModalBtn.addEventListener('click', function() {
     limpiezaModal.classList.add('hidden');
-  });
+});
+
+closeLimpiezaModalX.addEventListener('click', function() {
+    limpiezaModal.classList.add('hidden');
+});
+
 </script>

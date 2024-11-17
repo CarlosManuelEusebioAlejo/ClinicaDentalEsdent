@@ -57,7 +57,7 @@ if ($stmt === false) {
 $stmt->bind_param('isssss', $idPaciente, $Nombre_paciente, $Apellido_paciente, $Telefono, $Ultima_visita, $Siguiente_visita);
 
 if ($stmt->execute()) {
-    header('Location: ../index.php?success=Limpieza añadida exitosamente.');
+    header('Location: ../');
 } else {
     header('Location: ../index.php?error=Error al agregar limpieza: ' . $stmt->error);
 }

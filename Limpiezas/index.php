@@ -7,6 +7,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Wallpoet&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>ClinicaDentalEsdent</title>
     <link rel="icon" href="/../ClinicaDentalEsdent/Configuraciones/img/logo.png" type="image/x-icon">
 </head>
@@ -135,46 +136,44 @@
                     <!-- Cuerpo de la tabla -->
                     <tbody class="bg-gray-100">
                         <!-- Fila 1 -->
-                    <div class="mb-2">
-                        <tr class="bg-sky-100 overflow-hidden " style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
-                            <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">Miércoles 2 de Octubre del 2024</td>
-                            <td class="px-4 py-3 text-left">Carlos Manuel Eusebio Alejo</td>
-                            <td class="px-4 py-3 text-left">3141234567</td>
-                            <td class="px-4 py-3 text-left">Diciembre 2024</td>
-                            <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-                                <!-- Botón que abre el modal -->
-                <button id="edit-limpieza-btn" class="bg-transparent border-0 cursor-pointer">
-                    <i class='bx bx-edit text-lg mx-2'></i>
-                </button>
-                
-                <!-- Botón para justificante -->
-                <button class="bg-transparent border-0 cursor-pointer">
-                <i class='bx bx-trash  text-lg mx-2' style='color:#3c3c3c'></i>
-                </button>
-                            </td>
-                        </tr>
-                    </div>
-                
-                        <!-- Fila 2 -->
+                        <?php
+                        include '../Configuraciones/conexion.php';
+                        // Consulta para obtener todos los doctores
+                        $query = "SELECT * FROM limpieza_dental";
+                        $result = mysqli_query($conn, $query);
+
+                        // Verifica si hay resultados
+                        if (mysqli_num_rows($result) > 0) {
+                            while ($limpieza = mysqli_fetch_assoc($result)) {
+                        ?>
                         <div class="mb-2">
-                        <tr class="overflow-hidden mb-2" style="background-color: #e8ecff; border-radius: 50px;  box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229);">
-                            <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">Miércoles 2 de Octubre del 2024</td>
-                            <td class="px-4 py-3 text-left">Carlos Manuel Eusebio Alejo</td>
-                            <td class="px-4 py-3 text-left">3141234567</td>
-                            <td class="px-4 py-3 text-left">Enero 2025</td>
-                            <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-                            <!-- Botón que abre el modal -->
-                            <button id="edit-limpieza-btn" class="bg-transparent border-0 cursor-pointer">
-                                <i class='bx bx-edit text-lg mx-2'></i>
-                            </button>
-                            
-                            <!-- Botón para justificante -->
-                            <button class="bg-transparent border-0 cursor-pointer">
-                            <i class='bx bx-trash  text-lg mx-2' style='color:#3c3c3c'></i>
-                            </button>
-                            </td>
-                        </tr>
+                            <tr class="bg-sky-100 overflow-hidden " style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
+                                <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;"><?php echo ($limpieza['Ultima_visita']); ?></td>
+                                <td class="px-4 py-3 text-left"><?php echo ($limpieza['Nombre_paciente']) . ' ' . ($limpieza['Apellido_paciente']); ?></td>
+                                <td class="px-4 py-3 text-left telefono"><?php echo ($limpieza['telefono']); ?></td>
+                                <td class="px-4 py-3 text-left"><?php echo ($limpieza['Siguiente_visita']); ?></td>
+                                <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+                                        <!-- Botón que abre el modal -->
+                                    <!-- <button id="edit-limpieza-btn" class="bg-transparent border-0 cursor-pointer">
+                                        <i class='bx bx-edit text-lg mx-2'></i>
+                                    </button> -->
+                                    <!-- Botón para justificante -->
+                                    <button class="bg-transparent border-0 cursor-pointer"onclick="eliminarLimpieza(<?php echo ($limpieza['id_limpieza']); ?>)">
+                                    <i class='bx bx-trash  text-lg mx-2' style='color:#3c3c3c'></i>
+                                    </button>
+                                </td>
+                            </tr>
                         </div>
+                        <?php
+                            }
+                        } else {
+                        ?>
+                          <tr>
+                              <td colspan="4" class="text-center">No hay limpiezas registradas.</td>
+                          </tr>
+                        <?php
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>
@@ -186,3 +185,119 @@
     ?>        
 </body>
 </html>
+<script>
+    function eliminarLimpieza(id_limpieza) {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "¡No podrás revertir esto!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminarlo",
+            cancelButtonText: "No, cancelar",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Llamada AJAX para eliminar el doctor
+                $.ajax({
+                    url: 'Solicitudes/EliminarLimpieza.php', // URL corregida
+                    method: 'POST',
+                    data: { id_limpieza: id_limpieza },
+                    success: function(response) {
+                        Swal.fire(
+                            "Eliminado",
+                            response,
+                            "success"
+                        ).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire(
+                            "Error",
+                            "Hubo un problema al eliminar la limpieza.",
+                            "error"
+                        );
+                        console.error(error);
+                    }
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire(
+                    "Cancelado",
+                    "La limpieza está seguro.",
+                    "error"
+                );
+            }
+        });
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Seleccionar todas las celdas que contienen fechas (ajusta la clase o selector según tu tabla)
+    const fechaElements = document.querySelectorAll('td:first-child');
+
+    // Función para formatear una fecha
+    function formatDate(fecha) {
+        const opciones = { day: '2-digit', month: 'long', year: 'numeric' }; // Opciones de formato
+        const nuevaFecha = new Date(fecha); // Convertir texto en objeto Date
+        return nuevaFecha.toLocaleDateString('es-ES', opciones); // Formatear en español
+    }
+
+    // Iterar sobre los elementos y transformar el texto
+    fechaElements.forEach((element) => {
+        const fechaOriginal = element.textContent.trim(); // Obtener el texto de la celda
+        if (fechaOriginal) {
+            const fechaFormateada = formatDate(fechaOriginal); // Formatear la fecha
+            element.textContent = fechaFormateada; // Actualizar el contenido de la celda
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Mapeo de meses en español
+    const mesesEspanol = [
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+
+    // Selecciona los elementos que contienen fechas (ajusta el selector según tu HTML)
+    const fechaElements = document.querySelectorAll('td');
+
+    // Función para convertir la fecha
+    function convertirMes(fecha) {
+        const nuevaFecha = new Date(fecha); // Convertir texto en objeto Date
+        const mes = nuevaFecha.getMonth(); // Obtener mes (0-11)
+        const anio = nuevaFecha.getFullYear(); // Obtener año
+
+        // Devolver el formato deseado
+        return `${mesesEspanol[mes]} del ${anio}`;
+    }
+
+    // Iterar sobre los elementos y transformar el texto si es una fecha válida
+    fechaElements.forEach((element) => {
+        const fechaOriginal = element.textContent.trim(); // Obtener el texto de la celda
+        if (!isNaN(Date.parse(fechaOriginal))) { // Verificar si el texto es una fecha válida
+            const fechaFormateada = convertirMes(fechaOriginal); // Formatear la fecha
+            element.textContent = fechaFormateada; // Actualizar el contenido de la celda
+        }
+    });
+});
+
+// Función para formatear números
+function formatearTelefono(numero) {
+    // Elimina cualquier carácter no numérico
+    const limpio = numero.replace(/\D/g, '');
+    // Aplica el formato 000-000-00-00
+    return limpio.replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '$1-$2-$3-$4');
+}
+
+// Selecciona todas las celdas con clase 'telefono'
+const telefonos = document.querySelectorAll('.telefono');
+
+// Itera sobre cada celda y formatea el contenido
+telefonos.forEach(celda => {
+    const numeroOriginal = celda.textContent.trim();
+    celda.textContent = formatearTelefono(numeroOriginal);
+});
+
+
+</script>
