@@ -7,7 +7,6 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Wallpoet&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
     <title>ClinicaDentalEsdent</title>
     <link rel="icon" href="/../ClinicaDentalEsdent/Configuraciones/img/logo.png" type="image/x-icon">
     <script type='importmap'>
@@ -19,27 +18,6 @@
             "@fullcalendar/core/locales/es": "https://cdn.skypack.dev/@fullcalendar/core/locales/es"
           }
         }
-    </script>
-
-    <script type='module'>
-      import { Calendar } from '@fullcalendar/core'
-      import dayGridPlugin from '@fullcalendar/daygrid'
-      import timeGridPlugin from '@fullcalendar/timegrid'
-      import esLocale from '@fullcalendar/core/locales/es'  // Importamos el locale en español
-
-      document.addEventListener('DOMContentLoaded', function() {
-        const calendarEl = document.getElementById('calendar')
-        const calendar = new Calendar(calendarEl, {
-          plugins: [dayGridPlugin, timeGridPlugin],
-          locale: esLocale,  // Aquí configuramos el idioma a español
-          headerToolbar: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-          }
-        })
-        calendar.render()
-      })
     </script>
   </head>
   <body class="bg-#EFF1F9" style="background-color: #e8ecff;color: #3C3C3C">
@@ -101,55 +79,76 @@
               <span class="font-semibold mx-4">ESDENT IA</span>
             </a>
           </nav>
-          <style>
-            /* Media query para dispositivos con ancho menor a 768px (típicamente tablets) */
-            @media (max-width: 1208px) {
-              nav a span {
-                display: none; /* Oculta el texto en tablets */
-              }
-              /* Centrar los íconos en tabletas y reducir el tamaño del div principal */
-              .sidebar {
-                width: 130px; /* Hacer la barra más delgada */
-              }
-              nav a i {
-                justify-content: center; /* Asegura que los íconos estén centrados */
-                margin: 0 auto;
-              }
-            }
-          </style>   
+        </div>
+        <!-- Sección inferior (Logout) -->
+        <div class="flex justify-center items-center">
+          <a href="#" class="mt-2 p-3 rounded-lg shadow-lg" style="background-color: #f3f3fd;">
+            <i class='bx bx-log-out mt-1 text-2xl'></i>
+          </a>
+        </div>           
       </div>
-      <!-- Sección inferior (Logout) -->
-      <div class="flex justify-center items-center">
-        <a href="#" class="mt-2 p-3 rounded-lg shadow-lg" style="background-color: #f3f3fd;">
-          <i class='bx bx-log-out mt-1 text-2xl'></i>
-        </a>
-      </div>           
-    </div>
-  <!-- Contenido principal -->
-    <div class="flex-1 flex flex-col mx-4">
-      <!-- Título y párrafo alineados a la izquierda -->
-      <div class="flex justify-between items-center mt-4 mx-8">
-        <!-- Título alineado a la izquierda -->
-        <div>
+      <!-- Contenido principal -->
+      <div class="flex-1 flex flex-col mx-4">
+        <!-- Título y párrafo alineados a la izquierda -->
+        <div class="flex justify-between items-center mt-4 mx-8">
+          <div>
             <h1 class="text-4xl font-semibold">AGENDA</h1>
             <p class="text-lg text-gray-500 mt-1">3 Citas</p>
-        </div>
-        <!-- Botón alineado a la derecha -->
-        <button id="add-presupuesto-btn" class="text-white px-6 py-2 rounded-full shadow-lg" style="background-color: #B4221B;">
+          </div>
+          <button id="add-presupuesto-btn" class="text-white px-6 py-2 rounded-full shadow-lg" style="background-color: #B4221B;">
             + AGREGAR CITA
-        </button>
-      </div>
-      <div class="flex flex-1 justify-center mt-4 items-start">
-        <div class="bg-white shadow-lg rounded-lg p-4 w-full max-w-5xl" style="background-color: #f8f8ff; height: 670px;"> <!-- Cambiado h-4/5 por height: 600px; -->
-            <!-- Contenido original del div -->
-            <div id="calendar" class="h-full"></div> <!-- Añadido h-full para que el calendario ocupe el 100% de la altura del contenedor -->
+          </button>
         </div>
+
+        <!-- Calendario -->
+        <div class="flex flex-1 justify-center mt-4 items-start">
+          <div class="bg-white shadow-lg rounded-lg p-4 w-full max-w-5xl" style="background-color: #f8f8ff; height: 670px;">
+            <div id="calendar" class="h-full"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal para agregar cita -->
+      <?php
+        include 'Modales/AgregarCita.php';
+      ?>
+      <script type='module'>
+        import { Calendar } from '@fullcalendar/core'
+        import dayGridPlugin from '@fullcalendar/daygrid'
+        import timeGridPlugin from '@fullcalendar/timegrid'
+        import esLocale from '@fullcalendar/core/locales/es' 
+
+        document.addEventListener('DOMContentLoaded', function() {
+          const calendarEl = document.getElementById('calendar');
+          const calendar = new Calendar(calendarEl, {
+            plugins: [dayGridPlugin, timeGridPlugin],
+            locale: esLocale, 
+            headerToolbar: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+            },
+            events: async function(fetchInfo, successCallback, failureCallback) {
+              try {
+                // Obtener las citas de la base de datos en formato JSON
+                const response = await fetch('Solicitudes/VerCita.php');  // Ajusta la ruta si es necesario
+                const citas = await response.json();
+              
+                // Llamar a la función successCallback para cargar las citas en el calendario
+                successCallback(citas);
+              } catch (error) {
+                console.error('Error al cargar citas:', error);
+                failureCallback(error);
+              }
+            },
+          });
+          calendar.render();
+        });
+      </script>
+
     </div>
-    <?php
-      include 'Modales/AgregarCita.php';
-    ?>
-</body>
+  </body>
 </html>
+
           
         
        
