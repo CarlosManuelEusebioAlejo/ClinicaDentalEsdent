@@ -15,8 +15,8 @@ SET FOREIGN_KEY_CHECKS = 0;
 --------------------------- INICIO DE LA TABLA DE PACIENTES EN LA BASE DE DATOS  'ClinicaDentalEsdent'.'pacientes',------------------------------- 
 
 DROP TABLE IF EXISTS `ClinicaDentalEsdent`.`pacientes`;
-CREATE TABLE IF NOT EXISTS `ClinicaDentalEsdent`.`pacientes` (
-    `idPaciente`                                TINYINT                     UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID del paciente',
+CREATE TABLE IF NOT EXISTS `ClinicaDentalEsdent`.`pacientes` ( 
+    `idPaciente`                                INT                         UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID del paciente',
     `Nombre_paciente`                           VARCHAR(100)                         NOT NULL                COMMENT 'Nombres del paciente',
     `Apellido_paciente`                         VARCHAR(100)                         NOT NULL                COMMENT 'Apellidos del paciente',
     `Fecha_nacimiento`                          VARCHAR(100)                         NOT NULL                COMMENT 'Fecha de nacimiento del paciente',
@@ -112,7 +112,7 @@ COMMENT='Tabla que almacena toda la información relevante de los pacientes para
 
 DROP TABLE IF EXISTS `ClinicaDentalEsdent`.`doctores`;
 CREATE TABLE IF NOT EXISTS `ClinicaDentalEsdent`.`doctores` (
-    `id_doctor`                 TINYINT                 UNSIGNED NOT NULL           AUTO_INCREMENT  COMMENT 'Identificador único para cada doctor.',
+    `id_doctor`                 INT                 UNSIGNED NOT NULL           AUTO_INCREMENT  COMMENT 'Identificador único para cada doctor.',
     `Nombre_doctor`             VARCHAR(100)                     NOT NULL                           COMMENT 'Nombre completo del doctor.',
     `Correo`                    VARCHAR(100)                     NOT NULL                           COMMENT 'Correo electrónico del doctor, utilizado como identificador único.',
     `Contrasena`                VARCHAR(255)                     NOT NULL                           COMMENT 'Contraseña cifrada para el acceso al sistema.',
@@ -137,7 +137,7 @@ COMMENT='Tabla que almacena toda la información relevante de los doctores para 
 
 DROP TABLE IF EXISTS `ClinicaDentalEsdent`.`videoExplicativo`;
 CREATE TABLE IF NOT EXISTS `ClinicaDentalEsdent`.`videoExplicativo`(
-    `id_video`              TINYINT       NOT NULL         AUTO_INCREMENT  COMMENT 'ID del video explicativo',
+    `id_video`              INT           NOT NULL         AUTO_INCREMENT  COMMENT 'ID del video explicativo',
     `Url`                   VARCHAR(500)  NOT NULL                         COMMENT 'Ruta o URL del video explicativo',
     `Descripcion`           TEXT          NOT NULL                         COMMENT 'Descripción del video explicativo',
     `fecha_registro`        DATETIME      NOT NULL DEFAULT NOW()           COMMENT 'Fecha y hora en que se registró el video explicativo',
@@ -152,9 +152,9 @@ COMMENT='Tabla que almacena la información de los videos explicativos para los 
  
 DROP TABLE IF EXISTS `ClinicaDentalEsdent`.`historial_tratamiento`;
 CREATE TABLE IF NOT EXISTS `ClinicaDentalEsdent`.`historial_tratamiento`(
-    `id_tratamiento`    TINYINT       UNSIGNED   NOT NULL AUTO_INCREMENT  COMMENT 'Identificador único del historial del paciente',
-    `idPaciente`        TINYINT       UNSIGNED   NOT NULL                 COMMENT 'Identificador del paciente para el historial',
-    `id_doctor`         TINYINT       UNSIGNED   NOT NULL                 COMMENT 'Identificador del doctor',
+    `id_tratamiento`    INT           UNSIGNED   NOT NULL AUTO_INCREMENT  COMMENT 'Identificador único del historial del paciente',
+    `idPaciente`        INT           UNSIGNED   NOT NULL                 COMMENT 'Identificador del paciente para el historial',
+    `id_doctor`         INT           UNSIGNED   NOT NULL                 COMMENT 'Identificador del doctor',
     `Nombre_doctor`     VARCHAR(100)             NOT NULL                 COMMENT 'Nombre completo del doctor.',
     `Fecha`             DATE                     NOT NULL                 COMMENT 'Fecha de registo del tratamiento',
     `Tratamiento`       VARCHAR(255)             NOT NULL                 COMMENT 'tratamiento realizado al paciente',
@@ -174,8 +174,8 @@ COMMENT='Tabla para el registro del historial de tratamiento en la clínica dent
  
 DROP TABLE IF EXISTS `ClinicaDentalEsdent`.`radiografias`;
 CREATE TABLE IF NOT EXISTS `ClinicaDentalEsdent`.`radiografias`(
-    `id_radiografias`   TINYINT       UNSIGNED  NOT NULL AUTO_INCREMENT  COMMENT 'Identificador único de la radiografia del paciente',
-    `idPaciente`        TINYINT       UNSIGNED  NOT NULL                 COMMENT 'Identificador del paciente para la radiografia',
+    `id_radiografias`   INT           UNSIGNED  NOT NULL AUTO_INCREMENT  COMMENT 'Identificador único de la radiografia del paciente',
+    `idPaciente`        INT           UNSIGNED  NOT NULL                 COMMENT 'Identificador del paciente para la radiografia',
     `Fecha`             VARCHAR(100)            NOT NULL                 COMMENT 'Fecha de registo de la radiografia',
     `Tipo_radiografia`  ENUM('Panoramica',
                              'Periapical',
@@ -198,14 +198,14 @@ COMMENT='Tabla para el registro de las radiografias en la clínica dental';
  
 DROP TABLE IF EXISTS `ClinicaDentalEsdent`.`odontograma`;
 CREATE TABLE IF NOT EXISTS `ClinicaDentalEsdent`.`odontograma`(
-    `id_odontograma`    TINYINT       UNSIGNED   NOT NULL AUTO_INCREMENT  COMMENT 'Identificador único odontograma del paciente',
-    `idPaciente`        TINYINT       UNSIGNED   NOT NULL                 COMMENT 'Identificador del paciente para el historial',,
-    `OD`                TINYINT       UNSIGNED   NOT NULL                 COMMENT 'órgano dental o diente del paciente',
+    `id_odontograma`    INT           UNSIGNED   NOT NULL AUTO_INCREMENT  COMMENT 'Identificador único odontograma del paciente',
+    `idPaciente`        INT           UNSIGNED   NOT NULL                 COMMENT 'Identificador del paciente para el historial',
+    `OD`                INT           UNSIGNED   NOT NULL                 COMMENT 'órgano dental o diente del paciente',
     `Diagnostico`       VARCHAR(255)             NOT NULL                 COMMENT 'Diagnostico realizado al paciente',
     `Tratamiento`       VARCHAR(255)             NOT NULL                 COMMENT 'tratamiento realizado al paciente',
     `Observacion`       VARCHAR(255)             DEFAULT NULL             COMMENT 'Observaciones realizadas al paciente',
     `fecha_registro`    DATETIME                 NOT NULL DEFAULT NOW()   COMMENT 'Fecha y hora en que se registró el pago',
-    PRIMARY KEY (`id_tratamiento`),
+    PRIMARY KEY (`id_odontograma`),
         CONSTRAINT `fk_odontograma_paciente` FOREIGN KEY (`idPaciente`) REFERENCES `pacientes`(`idPaciente`) ON DELETE CASCADE ON UPDATE CASCADE
 )ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1
 COMMENT='Tabla para el registro del odontograma en la clínica dental';
@@ -217,8 +217,8 @@ COMMENT='Tabla para el registro del odontograma en la clínica dental';
 
 DROP TABLE IF EXISTS `ClinicaDentalEsdent`.`limpieza_dental`;
 CREATE TABLE IF NOT EXISTS `ClinicaDentalEsdent`.`limpieza_dental` (
-    `id_limpieza`       TINYINT        UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Identificador único de la limpieza dental realizada.',
-    `idPaciente`        TINYINT        UNSIGNED NOT NULL                COMMENT 'Identificador único del paciente que recibió la limpieza dental.',
+    `id_limpieza`       INT            UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Identificador único de la limpieza dental realizada.',
+    `idPaciente`        INT            UNSIGNED NOT NULL                COMMENT 'Identificador único del paciente que recibió la limpieza dental.',
     `Nombre_paciente`   VARCHAR(100)            NOT NULL                COMMENT 'Nombres del paciente',
     `Apellido_paciente` VARCHAR(100)            NOT NULL                COMMENT 'Apellidos del paciente',
     `telefono`          INT(10)        UNSIGNED NOT NULL                COMMENT 'Teléfono del paciente',
@@ -239,19 +239,19 @@ CREATE TABLE IF NOT EXISTS `ClinicaDentalEsdent`.`limpieza_dental` (
 
 DROP TABLE IF EXISTS `ClinicaDentalEsdent`.`citas`;
 CREATE TABLE IF NOT EXISTS `ClinicaDentalEsdent`.`citas`(
-    `id_cita`           TINYINT    UNSIGNED  NOT NULL AUTO_INCREMENT  COMMENT 'Identificador único para cada cita',
-    `id_doctor`         TINYINT    UNSIGNED  NOT NULL                 COMMENT 'Identificador del doctor asignado para la cita',
-    `idPaciente`        TINYINT    UNSIGNED  NOT NULL                 COMMENT 'Identificador del paciente asignado para la cita',
-    `Nombre_paciente`   VARCHAR(100)         NOT NULL                 COMMENT 'Nombres del paciente',
-    `Apellido_paciente` VARCHAR(100)         NOT NULL                 COMMENT 'Apellidos del paciente',
-    `Motivo_consulta`   TEXT                 NOT NULL                 COMMENT 'Descripción del motivo de la consulta',
-    `Fecha_cita`        DATE                 NOT NULL                 COMMENT 'Fecha programada para la cita',
-    `Hora_inicio`       TIME                 NOT NULL                 COMMENT 'Hora inicio de cita programada',
-    `Hora_fin`          TIME                 NOT NULL                 COMMENT 'Hora fin de cita programada',
-    `Nombre_doctor`     VARCHAR(100)         NOT NULL                 COMMENT 'Nombre completo del doctor.',
-    `Unidad`            ENUM('1', 
-                             '2',
-                             '3')             NOT NULL                COMMENT 'Identificador de la unidad médica o consultorio',
+    `id_cita`           INT             UNSIGNED  NOT NULL AUTO_INCREMENT  COMMENT 'Identificador único para cada cita',
+    `id_doctor`         INT             UNSIGNED  NOT NULL                 COMMENT 'Identificador del doctor asignado para la cita',
+    `idPaciente`        INT             UNSIGNED  NOT NULL                 COMMENT 'Identificador del paciente asignado para la cita',
+    `Nombre_paciente`   VARCHAR(100)              NOT NULL                 COMMENT 'Nombres del paciente',
+    `Apellido_paciente` VARCHAR(100)              NOT NULL                 COMMENT 'Apellidos del paciente',
+    `Motivo_consulta`   TEXT                      NOT NULL                 COMMENT 'Descripción del motivo de la consulta',
+    `Fecha_cita`        DATE                      NOT NULL                 COMMENT 'Fecha programada para la cita',
+    `Hora_inicio`       TIME                      NOT NULL                 COMMENT 'Hora inicio de cita programada',
+    `Hora_fin`          TIME                      NOT NULL                 COMMENT 'Hora fin de cita programada',
+    `Nombre_doctor`     VARCHAR(100)              NOT NULL                 COMMENT 'Nombre completo del doctor.',
+    `Unidad`            ENUM('1',     
+                             '2',     
+                             '3')                  NOT NULL                COMMENT 'Identificador de la unidad médica o consultorio',
     `fecha_registro`    DATETIME              NOT NULL DEFAULT NOW()  COMMENT 'Fecha y hora en que se registró la cita',
     PRIMARY KEY (`id_cita`),
         CONSTRAINT `fk_citas_doctor` FOREIGN KEY (`id_doctor`) REFERENCES `doctores`(`id_doctor`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -266,9 +266,9 @@ COMMENT='Tabla para el registro de citas en la clínica dental';
 
 DROP TABLE IF EXISTS `ClinicaDentalEsdent`.`pagos`;
 CREATE TABLE IF NOT EXISTS `ClinicaDentalEsdent`.`pagos`(
-    `id_pagos`          TINYINT               UNSIGNED   NOT NULL AUTO_INCREMENT  COMMENT 'Identificador único para cada pago',
-    `id_doctor`         TINYINT               UNSIGNED   NOT NULL                 COMMENT 'Identificador del doctor asignado por el pago',
-    `idPaciente`        TINYINT               UNSIGNED   NOT NULL                 COMMENT 'Identificador del paciente asignado para el pago',
+    `id_pagos`          INT                   UNSIGNED   NOT NULL AUTO_INCREMENT  COMMENT 'Identificador único para cada pago',
+    `id_doctor`         INT                   UNSIGNED   NOT NULL                 COMMENT 'Identificador del doctor asignado por el pago',
+    `idPaciente`        INT                   UNSIGNED   NOT NULL                 COMMENT 'Identificador del paciente asignado para el pago',
     `Nombre_paciente`   VARCHAR(100)                     NOT NULL                 COMMENT 'Nombres del paciente',
     `Apellido_paciente` VARCHAR(100)                     NOT NULL                 COMMENT 'Apellidos del paciente',
     `Nombre_doctor`     VARCHAR(100)                     NOT NULL                 COMMENT 'Nombre completo del doctor.',
