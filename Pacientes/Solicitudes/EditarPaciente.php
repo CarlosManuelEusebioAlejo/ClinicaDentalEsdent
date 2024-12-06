@@ -1,10 +1,10 @@
 <?php
-include('../Configuraciones/conexion.php'); // Incluye el archivo de conexión a la base de datos
+include('../../Configuraciones/conexion.php'); // Incluye el archivo de conexión a la base de datos
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Recupera y sanitiza los datos enviados desde el formulario
-    $Nombre                                 = mysqli_real_escape_string($conn, $_POST['Nombre']);
-    $Apellido                               = mysqli_real_escape_string($conn, $_POST['Apellido']);
+    $Nombre                                 = mysqli_real_escape_string($conn, $_POST['Nombre_paciente']);
+    $Apellido                               = mysqli_real_escape_string($conn, $_POST['Apellido_paciente']);
     $Fecha_nacimiento                       = mysqli_real_escape_string($conn, $_POST['Fecha_nacimiento']);
     $Edad                                   = mysqli_real_escape_string($conn, $_POST['Edad']);
     $Direccion                              = mysqli_real_escape_string($conn, $_POST['Direccion']);
@@ -92,11 +92,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 Apellido                                ='$Apellido',
                 Fecha_nacimiento                        ='$Fecha_nacimiento',
                 Edad                                    ='$Edad',
-                Direccion                               ='$direccion',
-                correo                                  ='$correo', 
+                Direccion                               ='$Direccion',
+                Correo                                  ='$Correo', 
                 Estado_civil                            ='$Estado_civil',
-                Telefono                                ='$telefono',  
-                Ocupacion                               ='$ocupacion',
+                Telefono                                ='$Telefono',  
+                Ocupacion                               ='$Ocupacion',
                 Recomendacion                           ='$Recomendacion',
                 Genero                                  ='$Genero',
                 Esta_embarazada                         ='$Esta_embarazada',
@@ -149,7 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 Hemofilia                               ='$Hemofilia',
                 Hepatitis                               ='$Hepatitis',
                 Anemia                                  ='$Anemia',
-                Presion_alta                            ='$presion_alta',
+                Presion_alta                            ='$Presion_alta',
                 Presion_baja                            ='$Presion_baja',
                 Asma                                    ='$Asma',
                 Artritis                                ='$Artritis',
@@ -164,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 Drogas_consumiendo                      ='$Drogas_consumiendo'
                 Consume_alcohol                         ='$Consume_alcohol'
                 Foto_paciente                           ='$Foto_paciente'
-              WHERE id='$id'";
+              WHERE idPaciente='$id'";
 
 if (mysqli_query($conn, $query)) {
     echo json_encode(['status' => 'success', 'message' => 'Datos actualizados correctamente.']);

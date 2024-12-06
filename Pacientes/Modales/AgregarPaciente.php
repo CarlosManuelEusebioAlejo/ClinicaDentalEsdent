@@ -8,7 +8,7 @@
         <h1 class="text-white text-center shadow-md rounded-full mb-10 text-3xl" style="background-color: #B4221B; height: 50px;">
           Registro de pacientes
         </h1>
-        <form action="" method="POST">
+        <form enctype="multipart/form-data" id="formAgregarPaciente">
         <!-- Sección de Datos Personales -->
         <div class=" p-6 rounded-sm shadow-lg mb-10" style="background-color: #f5f7ff;">
             <h2 class="text-white px-4 pt-1 mb-10 rounded-full text-xl" style="background-color: #B4221B; height: 40px;">
@@ -21,7 +21,7 @@
                            type="text" 
                            placeholder="NOMBRE(S)"
                            id="Nombre" 
-                           name="Nombre">
+                           name="Nombre_paciente">
                 </div>
             
                 <!-- Input: APELLIDOS -->
@@ -30,7 +30,7 @@
                            type="text" 
                            placeholder="APELLIDOS"
                            id="Apellido" 
-                           name="Apellido">
+                           name="Apellido_paciente">
                 </div>
             
                 <!-- Input: Fecha de Nacimiento -->
@@ -108,11 +108,11 @@
                 <!-- Select: Género -->
                 <select class="pl-8 py-2 bg-[#E6ECF8] col-span-2 text-xs rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
                         id="gender"
-                        name="Genero">
+                        name="genero">
                     <option disabled selected>GÉNERO</option>
-                    <option value="femenino">Masculino</option>
-                    <option value="masculino">Femenino</option>
-                    <option value="masculino">Otro</option>
+                    <option value="femenino">Femenino</option>
+                    <option value="masculino">Masculino</option>
+                    <option value="Otro">Otro</option>
                 </select>
             
                 <!-- Input: Estado de embarazo (solo si es femenino) -->
@@ -130,7 +130,7 @@
                            id="meses-embarazo"  
                            name="Meses_de_gestacion"
                            type="number" 
-                           placeholder="¿Cuántos meses de embarazo?" 
+                           placeholder="¿Cuántos meses de embarazo?, ingrese solo el numero " 
                            style="display: none;">
                 </div>
             </div>   
@@ -183,7 +183,6 @@
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
-                        <option value="Aveces">No</option>
                     </select>
                 </div>
               
@@ -369,7 +368,7 @@
             
                 <!-- Select: ¿Está tomando algún anticoagulante oral? -->
                 <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Está tomando algún anticoagulante oral?</label>
+                    <label class="block text-xs text-[#3B3636] mb-1">¿Está tomando algún anticoagulante oral (ASPIRINA, WARFARINA, RIVAROXABÁN, APIXABAN, CLOPIDROGEL)?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
                             id="anticoagulante"
                             name="Toma_anticoagulante">
@@ -786,270 +785,320 @@
 
 
                     <!--6------------------------- Sección 6 del modal -----------------------------> 
-                    <div class="p-6 rounded-sm shadow-lg mb-10" style="background-color: #f5f7ff;">
-                        <h2 class="text-white px-4 pt-1 mb-10 rounded-full text-xl" style="background-color: #B4221B;">
-                          FIRMA DEL PACIENTE
-                        </h2>
-                        
-                        <!-- Contenedor para el botón y la firma -->
-                        <div class="flex items-center">
-                            <!-- Botón para agregar firma -->
-                            <button id="add-signature-btn" class="bg-white text-black py-2 px-4 rounded-full shadow-md ml-auto">
-                                Agregar Firma
-                            </button>
+                <!-- Sección 6 del modal -->
+                <div class="p-6 rounded-sm shadow-lg mb-10" style="background-color: #f5f7ff;">
+                    <h2 class="text-white px-4 pt-1 mb-10 rounded-full text-xl" style="background-color: #B4221B;">
+                        FIRMA DEL PACIENTE
+                    </h2>
 
-                            <!-- Espacio para mostrar la firma -->
-                            <div id="signature-display" class="border-2 border-gray-300 w-1/2 h-64 rounded-md flex items-center justify-center ml-auto" style="height: 250px;">
-                                <span class="text-gray-500">Aquí se mostrará la firma</span>
-                            </div>
+                    <!-- Contenedor para el botón y la firma -->
+                    <div class="flex items-center">
+                        <!-- Botón para agregar firma -->
+                        <button type="button" id="add-signature-btn" class="bg-white text-black py-2 px-4 rounded-full shadow-md ml-auto">
+                            Agregar Firma
+                        </button>
+
+                        <!-- Input de archivo para subir la firma -->
+                        <input type="file" name="Firma" id="Firma" accept="image/png" class="hidden">
+
+                        <!-- Espacio para mostrar la firma -->
+                        <div id="signature-display" class="border-2 border-gray-300 w-1/2 h-64 rounded-md flex items-center justify-center ml-auto" style="height: 250px;">
+                            <span class="text-gray-500">Aquí se mostrará la firma</span>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Mini Modal para agregar firma -->
-                    <div id="signature-modal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
-                        <div class="bg-white p-6 rounded-lg shadow-lg w-[600px] h-[400px]" style="width: 600px; height: 400px;"> <!-- Aumentando el tamaño -->
-                            <h3 class="text-lg font-bold mb-4">Dibuje su firma</h3>
-                            <!-- Área para dibujar la firma -->
-                            <canvas id="signature-pad" class="border-2 border-gray-300 w-full h-32 mb-4" style="height: 250px;"></canvas>
-                            
-                            <div class="flex justify-between mt-4">
-                                <button id="reset-signature" class="bg-blue-100 text-black rounded-full py-2 px-4">Reiniciar</button>
-                                <button id="save-signature" class="bg-blue-900 text-white rounded-full py-2 px-4">Guardar Firma</button>
-                            </div>
+                <!-- Mini Modal para agregar firma -->
+                <div id="signature-modal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
+                    <div class="bg-white p-6 rounded-lg shadow-lg w-[600px] h-[400px]" style="width: 600px; height: 400px;">
+                        <h3 class="text-lg font-bold mb-4">Dibuje su firma</h3>
+                        <!-- Área para dibujar la firma -->
+                        <canvas id="signature-pad" class="border-2 border-gray-300 w-full h-32 mb-4" style="height: 250px;"></canvas>
+
+                        <div class="flex justify-between mt-4">
+                            <button type="button" id="reset-signature" class="bg-blue-100 text-black rounded-full py-2 px-4">Reiniciar</button>
+                            <button type="button" id="save-signature" class="bg-blue-900 text-white rounded-full py-2 px-4">Guardar Firma</button>
                         </div>
                     </div>
+                </div>
 
+                <!-- Sección para la fotografía del paciente -->
+                <div class="p-6 rounded-sm shadow-lg mb-10" style="background-color: #f5f7ff;">
+                    <h2 class="text-white px-4 pt-1 mb-10 rounded-full text-xl" style="background-color: #B4221B;">FOTOGRAFÍA DEL PACIENTE</h2>
 
-  
-                    <!--7------------------------- Sección 7 del modal ----------------------------->   
-                    <div class="p-6 rounded-sm shadow-lg mb-10" style="background-color: #f5f7ff;">
-                        <h2 class="text-white px-4 pt-1 mb-10 rounded-full text-xl" style="background-color: #B4221B;">FOTOGRAFÍA DEL PACIENTE</h2>
-                        
-                        <div class="flex items-center">
-                            <!-- Contenedor para seleccionar la fotografía -->
-                            <div class="mr-4">
-                                <input type="file" id="photo-input" accept="image/*" class="mb-4">
-                            </div>
+                    <div class="flex items-center">
+                        <!-- Contenedor para seleccionar la fotografía -->
+                        <div class="mr-4">
+                            <label for="Foto_paciente" class="bg-white text-black py-2 px-4 rounded-full shadow-md cursor-pointer">
+                                Seleccionar Fotografía
+                            </label>
+                            <input type="file" id="Foto_paciente" name="Foto_paciente" accept="image/*" class="hidden">
+                        </div>
 
-                            <!-- Espacio para mostrar la fotografía -->
-                            <div id="photo-display" class="border-2 border-gray-300 w-1/2 h-64 rounded-md flex items-center justify-center">
-                                <span class="text-gray-500">Aquí se mostrará la fotografía</span>
-                            </div>
+                        <!-- Espacio para mostrar la fotografía -->
+                        <div id="photo-display" class="border-2 border-gray-300 w-1/2 h-64 rounded-md flex items-center justify-center">
+                            <span class="text-gray-500">Aquí se mostrará la fotografía</span>
                         </div>
                     </div>
-
-                    <script>
-                        
-                    </script>
-
-
-
-
-              
-         
-      
+                </div>
           <div class="flex justify-end mt-6">
           <!-- Botón de cerrar -->
-          <button id="close-modal-btn" class="text-white px-4 py-2 rounded-full mr-2 shadow-inner" style="background-color: #B4221B;">
+          <button type="button" id="close-modal-btn" class="text-white px-4 py-2 rounded-full mr-2 shadow-inner" style="background-color: #B4221B;">
             Cerrar
           </button>
-            <button id="submit-patient" class="text-white px-4 py-2 rounded-full shadow-md" style="background-color: #B4221B;">
+            <button type="submit" id="submit-patient" class="text-white px-4 py-2 rounded-full shadow-md" style="background-color: #B4221B;">
               Agregar Paciente
             </button>
           </div>
         </div>
       </div>
       
-      <script>
-        const addPatientBtn = document.getElementById('add-patient-btn');
-        const closeModalBtn = document.getElementById('close-modal-btn');
-        const modal = document.getElementById('patient-modal');
-        const genderSelect = document.getElementById('gender');
-        const embarazoSection = document.getElementById('embarazo-section');
-        const mesesEmbarazoInput = document.getElementById('meses-embarazo');
-        const closeAddPatientModalX = document.getElementById('close-add-patient-modal-x');
-      
-        // Mostrar el modal al hacer clic en "AGREGAR PACIENTE"
-        addPatientBtn.addEventListener('click', function() {
-          modal.classList.remove('hidden');
-        });
-      
-        // Cerrar el modal al hacer clic en "Cerrar"
-        closeModalBtn.addEventListener('click', function() {
-          modal.classList.add('hidden');
+
+        <script>
+               // Previsualizar la fotografía seleccionada
+        document.getElementById('Foto_paciente').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('photo-display').innerHTML = `
+                        <img src="${e.target.result}" alt="Fotografía del paciente" class="w-full h-full object-cover rounded-md">
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
         });
 
-         // Cerrar el modal al hacer clic en la "X"
-         closeAddPatientModalX.addEventListener('click', function() {
-          modal.classList.add('hidden');
-        });
-      
-        // Ocultar o mostrar el estado de embarazo según el género seleccionado
-        genderSelect.addEventListener('change', function() {
-          if (this.value === 'femenino') {
-            embarazoSection.style.display = 'block';
-          } else {
-            embarazoSection.style.display = 'none';
-            mesesEmbarazoInput.style.display = 'none';
-          }
-        });
-      
-        embarazoSection.addEventListener('change', function(event) {
-          if (event.target.value === 'si') {
-            mesesEmbarazoInput.style.display = 'block';
-          } else {
-            mesesEmbarazoInput.style.display = 'none';
-          }
+        // Guardar la firma dibujada en un archivo temporal
+        document.getElementById('save-signature').addEventListener('click', () => {
+            const canvas = document.getElementById('signature-pad');
+            const FirmaInput = document.getElementById('Firma');
+            canvas.toBlob(blob => {
+                const file = new File([blob], 'firma.png', { type: 'image/png' });
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                FirmaInput.files = dataTransfer.files;
+            
+                // Previsualizar la firma en el contenedor
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('signature-display').innerHTML = `
+                        <img src="${e.target.result}" alt="Firma del paciente" class="w-full h-full object-contain">
+                    `;
+                };
+                reader.readAsDataURL(file);
+            });
+            document.getElementById('signature-modal').classList.add('hidden');
         });
 
+        </script>
+        <script>
+          const addPatientBtn = document.getElementById('add-patient-btn');
+          const closeModalBtn = document.getElementById('close-modal-btn');
+          const modal = document.getElementById('patient-modal');
+          const genderSelect = document.getElementById('gender');
+          const embarazoSection = document.getElementById('embarazo-section');
+          const mesesEmbarazoInput = document.getElementById('meses-embarazo');
+          const closeAddPatientModalX = document.getElementById('close-add-patient-modal-x');
         
+          // Mostrar el modal al hacer clic en "AGREGAR PACIENTE"
+          addPatientBtn.addEventListener('click', function() {
+            modal.classList.remove('hidden');
+          });
         
-        //JS de la segunda seccion del modal 
-        document.getElementById('bruxismo').addEventListener('change', function() {
-          var bruxismoAdicional = document.getElementById('bruxismo-adicional');
-          if (this.value === 'si') {
-            bruxismoAdicional.style.display = 'block';
-          } else {
-            bruxismoAdicional.style.display = 'none';
-          }
-        });
+          // Cerrar el modal al hacer clic en "Cerrar"
+          closeModalBtn.addEventListener('click', function() {
+            modal.classList.add('hidden');
+          });
+
+           // Cerrar el modal al hacer clic en la "X"
+           closeAddPatientModalX.addEventListener('click', function() {
+            modal.classList.add('hidden');
+          });
+        
+          // Ocultar o mostrar el estado de embarazo según el género seleccionado
+          genderSelect.addEventListener('change', function() {
+            if (this.value === 'femenino') {
+              embarazoSection.style.display = 'block';
+            } else {
+              embarazoSection.style.display = 'none';
+              mesesEmbarazoInput.style.display = 'none';
+            }
+          });
+        
+          embarazoSection.addEventListener('change', function(event) {
+            if (event.target.value === 'si') {
+              mesesEmbarazoInput.style.display = 'block';
+            } else {
+              mesesEmbarazoInput.style.display = 'none';
+            }
+          });
 
 
-        //JS de la tercera seccion del modal 
-                    document.getElementById('medicamento').addEventListener('change', function() {
-                    document.getElementById('cual-medicamento').style.display = this.value === 'si' ? 'block' : 'none';
-                    });
-                
-                    document.getElementById('alergico-medicamento').addEventListener('change', function() {
-                    document.getElementById('cual-alergico').style.display = this.value === 'si' ? 'block' : 'none';
-                    });
-                
-                    document.getElementById('operado').addEventListener('change', function() {
-                    document.getElementById('de-que-operado').style.display = this.value === 'si' ? 'block' : 'none';
-                    });
 
-                    document.getElementById('operado-bucal').addEventListener('change', function() {
-                    document.getElementById('de-que-operado-bucal').style.display = this.value === 'si' ? 'block' : 'none';
-                    });
-                
-                    document.getElementById('anticoagulante').addEventListener('change', function() {
-                    document.getElementById('cual-anticoagulante').style.display = this.value === 'si' ? 'block' : 'none';
-                    });
-                
-                    document.getElementById('antidepresivo').addEventListener('change', function() {
-                    document.getElementById('cual-antidepresivo').style.display = this.value === 'si' ? 'block' : 'none';
-                    });
-                
-                    document.getElementById('diabetes').addEventListener('change', function() {
-                    document.getElementById('valores-diabetes').style.display = this.value === 'si' ? 'block' : 'none';
-                    });
-                
-                    document.getElementById('hipertenso').addEventListener('change', function() {
-                    document.getElementById('valores-hipertenso').style.display = this.value === 'si' ? 'block' : 'none';
-                    });
+          //JS de la segunda seccion del modal 
+          document.getElementById('bruxismo').addEventListener('change', function() {
+            var bruxismoAdicional = document.getElementById('bruxismo-adicional');
+            if (this.value === 'si') {
+              bruxismoAdicional.style.display = 'block';
+            } else {
+              bruxismoAdicional.style.display = 'none';
+            }
+          });
 
-                    document.getElementById('experiencia-anestesicos').addEventListener('change', function() {
-                    document.getElementById('cual-anestesico').style.display = this.value === 'si' ? 'block' : 'none';
-                    });
 
-                    document.getElementById('operado-corazon').addEventListener('change', function() {
-                    document.getElementById('operacion-corazon').style.display = this.value === 'si' ? 'block' : 'none';
-                    });
-
+          //JS de la tercera seccion del modal 
+                      document.getElementById('medicamento').addEventListener('change', function() {
+                      document.getElementById('cual-medicamento').style.display = this.value === 'si' ? 'block' : 'none';
+                      });
                     
+                      document.getElementById('alergico-medicamento').addEventListener('change', function() {
+                      document.getElementById('cual-alergico').style.display = this.value === 'si' ? 'block' : 'none';
+                      });
+                    
+                      document.getElementById('operado').addEventListener('change', function() {
+                      document.getElementById('de-que-operado').style.display = this.value === 'si' ? 'block' : 'none';
+                      });
+
+                      document.getElementById('operado-bucal').addEventListener('change', function() {
+                      document.getElementById('de-que-operado-bucal').style.display = this.value === 'si' ? 'block' : 'none';
+                      });
+                    
+                      document.getElementById('anticoagulante').addEventListener('change', function() {
+                      document.getElementById('cual-anticoagulante').style.display = this.value === 'si' ? 'block' : 'none';
+                      });
+                    
+                      document.getElementById('antidepresivo').addEventListener('change', function() {
+                      document.getElementById('cual-antidepresivo').style.display = this.value === 'si' ? 'block' : 'none';
+                      });
+                    
+                      document.getElementById('diabetes').addEventListener('change', function() {
+                      document.getElementById('valores-diabetes').style.display = this.value === 'si' ? 'block' : 'none';
+                      });
+                    
+                      document.getElementById('hipertenso').addEventListener('change', function() {
+                      document.getElementById('valores-hipertenso').style.display = this.value === 'si' ? 'block' : 'none';
+                      });
+
+                      document.getElementById('experiencia-anestesicos').addEventListener('change', function() {
+                      document.getElementById('cual-anestesico').style.display = this.value === 'si' ? 'block' : 'none';
+                      });
+
+                      document.getElementById('operado-corazon').addEventListener('change', function() {
+                      document.getElementById('operacion-corazon').style.display = this.value === 'si' ? 'block' : 'none';
+                      });
 
 
-        //JS de la cuarta seccion del modal 
-        document.getElementById('familiar-enfermedad').addEventListener('change', function() {
-                      const enfermedadesFamiliares = document.getElementById('enfermedades-familiares');
-                      if (this.value === 'si') {
-                        enfermedadesFamiliares.style.display = 'block';
-                      } else {
-                        enfermedadesFamiliares.style.display = 'none';
-                      }
-                    });
-              
-        //JS de la quinta seccion del modal 
-        document.getElementById('fuma').addEventListener('change', function() {
-                      const cigarrillos = document.getElementById('cigarrillos');
-                      if (this.value === 'si') {
-                        cigarrillos.style.display = 'block';
-                      } else {
-                        cigarrillos.style.display = 'none';
-                      }
-                    });
-                  
-                    document.getElementById('droga').addEventListener('change', function() {
-                      const tipoDroga = document.getElementById('tipo-droga');
-                      if (this.value === 'si') {
-                        tipoDroga.style.display = 'block';
-                      } else {
-                        tipoDroga.style.display = 'none';
-                      }
-                    });
 
-        //JS de la sexta seccion del modal
-        const addSignatureBtn = document.getElementById('add-signature-btn');
-            const signatureModal = document.getElementById('signature-modal');
-            const signaturePad = document.getElementById('signature-pad');
-            const signatureDisplay = document.getElementById('signature-display');
-            const resetSignatureBtn = document.getElementById('reset-signature');
-            const saveSignatureBtn = document.getElementById('save-signature');
 
-            let isDrawing = false;
-            const ctx = signaturePad.getContext('2d');
-
-            // Abrir el modal
-            addSignatureBtn.addEventListener('click', () => {
-                signatureModal.classList.remove('hidden');
-                ctx.clearRect(0, 0, signaturePad.width, signaturePad.height); // Limpiar el canvas
-            });
-
-            // Dibujar la firma
-            signaturePad.addEventListener('mousedown', (e) => {
-                isDrawing = true;
-                ctx.moveTo(e.offsetX, e.offsetY);
-            });
-
-            signaturePad.addEventListener('mousemove', (e) => {
-                if (isDrawing) {
-                    ctx.lineTo(e.offsetX, e.offsetY);
-                    ctx.stroke();
-                }
-            });
-
-            signaturePad.addEventListener('mouseup', () => {
-                isDrawing = false;
-                ctx.beginPath(); // Resetear el path
-            });
-
-            // Reiniciar la firma
-            resetSignatureBtn.addEventListener('click', () => {
-                ctx.clearRect(0, 0, signaturePad.width, signaturePad.height);
-            });
-
-            // Guardar la firma
-            saveSignatureBtn.addEventListener('click', () => {
-                const dataUrl = signaturePad.toDataURL();
-                signatureDisplay.innerHTML = `<img src="${dataUrl}" alt="Firma" class="h-full"/>`;
-                signatureModal.classList.add('hidden'); // Cerrar el modal
-            });
-
-        //JS de la séptima seccion del modal
-        const photoInput = document.getElementById('photo-input');
-                    const photoDisplay = document.getElementById('photo-display');
-
-                    // Mostrar la fotografía seleccionada
-                    photoInput.addEventListener('change', (event) => {
-                        const file = event.target.files[0];
-                        if (file) {
-                            const reader = new FileReader();
-                            reader.onload = function (e) {
-                                photoDisplay.innerHTML = `<img src="${e.target.result}" alt="Fotografía del paciente" class="h-full w-full object-cover rounded-md"/>`;
-                            }
-                            reader.readAsDataURL(file);
+          //JS de la cuarta seccion del modal 
+          document.getElementById('familiar-enfermedad').addEventListener('change', function() {
+                        const enfermedadesFamiliares = document.getElementById('enfermedades-familiares');
+                        if (this.value === 'si') {
+                          enfermedadesFamiliares.style.display = 'block';
+                        } else {
+                          enfermedadesFamiliares.style.display = 'none';
                         }
-                    });
+                      });
+                    
+          //JS de la quinta seccion del modal 
+          document.getElementById('fuma').addEventListener('change', function() {
+                        const cigarrillos = document.getElementById('cigarrillos');
+                        if (this.value === 'si') {
+                          cigarrillos.style.display = 'block';
+                        } else {
+                          cigarrillos.style.display = 'none';
+                        }
+                      });
+                    
+                      document.getElementById('droga').addEventListener('change', function() {
+                        const tipoDroga = document.getElementById('tipo-droga');
+                        if (this.value === 'si') {
+                          tipoDroga.style.display = 'block';
+                        } else {
+                          tipoDroga.style.display = 'none';
+                        }
+                      });
 
-      </script>
+        // JS para la sección de firma
+        const signaturePad = document.getElementById('signature-pad');
+        const signatureModal = document.getElementById('signature-modal');
+        const addSignatureBtn = document.getElementById('add-signature-btn');
+        const resetSignatureBtn = document.getElementById('reset-signature');
+        const saveSignatureBtn = document.getElementById('save-signature');
+        const firmaInput = document.getElementById('Firma');
+        const signatureDisplay = document.getElementById('signature-display');
+                        
+        let canvasContext = signaturePad.getContext('2d');
+        let drawing = false;
+                        
+        // Configuración del canvas
+        signaturePad.width = 500; // Ajusta el ancho del canvas según tus necesidades
+        signaturePad.height = 200; // Ajusta el alto del canvas según tus necesidades
+        canvasContext.lineWidth = 2; // Define el grosor de la línea
+        canvasContext.lineCap = 'round'; // Define el estilo de las líneas
+                        
+        // Abrir el modal de la firma
+        addSignatureBtn.addEventListener('click', () => {
+            signatureModal.classList.remove('hidden');
+        });
+        
+        // Iniciar el dibujo
+        signaturePad.addEventListener('mousedown', (e) => {
+            drawing = true;
+            canvasContext.beginPath();
+            canvasContext.moveTo(e.offsetX, e.offsetY);
+        });
+        
+        signaturePad.addEventListener('mousemove', (e) => {
+            if (drawing) {
+                canvasContext.lineTo(e.offsetX, e.offsetY);
+                canvasContext.stroke();
+            }
+        });
+        
+        // Detener el dibujo
+        signaturePad.addEventListener('mouseup', () => {
+            drawing = false;
+        });
+        
+        signaturePad.addEventListener('mouseleave', () => {
+            drawing = false;
+        });
+        
+        // Limpiar el canvas
+        resetSignatureBtn.addEventListener('click', () => {
+            canvasContext.clearRect(0, 0, signaturePad.width, signaturePad.height);
+        });
+        
+        // Guardar la firma
+        saveSignatureBtn.addEventListener('click', () => {
+            // Convertir el canvas a Blob
+            signaturePad.toBlob((blob) => {
+                // Crear una URL para mostrar la firma
+                const signatureURL = URL.createObjectURL(blob);
+            
+                // Mostrar la firma en el contenedor
+                signatureDisplay.innerHTML = `<img src="${signatureURL}" alt="Firma del paciente" class="w-full h-full object-contain" />`;
+            
+                // Asignar el Blob al campo oculto (opcional, si se envía con AJAX)
+                const fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.name = 'Firma';
+                fileInput.files = new File([blob], 'signature.png', { type: 'image/png' });
+                firmaInput.replaceWith(fileInput);
+            
+                // Cerrar el modal
+                signatureModal.classList.add('hidden');
+            }, 'image/png');
+        });
+        
+        // Cerrar el modal al hacer clic fuera del área
+        signatureModal.addEventListener('click', (e) => {
+            if (e.target === signatureModal) {
+                signatureModal.classList.add('hidden');
+            }
+        });
+        
+        </script>
       

@@ -1,512 +1,442 @@
-<!-- Modal Ver Registro -->
 <div id="VerRegistro-modal" class="fixed inset-0 flex items-center justify-center bg-opacity-50 bg-black hidden">
   <div class="p-8 rounded-lg overflow-auto relative" style="background-color: #FBFDFF; height: 800px; width: 805px;">
-      <!-- Botón X para cerrar el modal -->
-    <button id="close-ver-registro-x" class="absolute top-0 right-0 m-2 pb-px border-4 border-red-700 text-red-700 hover:bg-red-700 hover:text-white w-8 h-8 rounded-full flex items-center justify-center text-lg font-bold">&times;</button>
+    <!-- Botón X para cerrar el modal -->
+    <button type="button" id="close-ver-registro-x" class="absolute top-0 right-0 m-2 pb-px border-4 border-red-700 text-red-700 hover:bg-red-700 hover:text-white w-8 h-8 rounded-full flex items-center justify-center text-lg font-bold">&times;</button>
 
+    <!-- Encabezado del modal -->
+    <div class="rounded-full shadow-md items-center justify-center flex text-center m-4" style="background-color: #B4221B; height: 50px;">
+      <h1 class="text-white text-3xl mr-4">Datos Paciente</h1>
+      <button type="button" id="edit-patient-btn" class="w-8 h-8 pt-1 bg-white rounded shadow-md" name="idPaciente">
+        <i class="bx bx-edit" style="color:#3c3c3c; font-size: 1.5rem; margin-top: 1.2px;"></i>
+      </button>
+    </div>
 
-     
-        <div class="rounded-full shadow-md items-center justify-center flex text-center m-4" style="background-color: #B4221B; height: 50px;">
-          <h1 class="text-white text-3xl mr-4">Ver Paciente Registrado</h1>
-          <button id='edit-patient-btn' class="w-8 h-8 pt-1 bg-white rounded  shadow-md">
-            <i class='bx bx-edit' style='color:#3c3c3c; font-size: 1.5rem; margin-top: 1.2px;'></i>
-          </button>
+<!--1------------------------- Sección 1 de Datos Personales ------------------------------------>
+    <div class="p-6 rounded-sm shadow-lg mb-10" style="background-color: #f5f7ff;">
+      <h2 class="text-white px-4 pt-1 mb-10 rounded-full text-xl" style="background-color: #B4221B; height: 40px;">
+        DATOS PERSONALES
+      </h2>
+
+      <div class="flex flex-row justify-center gap-8">
+        <!-- Contenedor para la fotografía -->
+        <div class="flex flex-col items-center">
+          <div id="Foto-display" class="border-2 border-gray-300 w-64 h-64 rounded-md flex items-center justify-center">
+            <span class="text-gray-500" id="placeholder-text">Aquí se mostrará la fotografía</span>
+            <img id="Paciente-Foto" src="" alt="Fotografía del paciente" class="hidden w-full h-full object-cover rounded-md" />
+          </div>
         </div>
-        <!-- Botón para abrir el modal --
-        <button id="edit-patient-btn" class="bg-transparent border-0 cursor-pointer">
-          <i class='bx bx-id-card text-lg mx-2'></i>
-        </button>-->
+
+        <!-- Contenedor para la firma -->
+        <div class="flex flex-col items-center">
+          <div id="Firma-display" class="border-2 border-gray-300 w-64 h-64 rounded-md flex items-center justify-center">
+            <span class="text-gray-500" id="placeholder-text">Aquí se mostrará la firma</span>
+            <img id="Paciente-Firma" src="" alt="Firma del paciente" class="hidden w-full h-full object-cover rounded-md" />
+          </div>
+        </div>
+      </div>
+      <br>
 
 
-           <!-- Sección de Datos Personales -->
-           <div class=" p-6 rounded-sm shadow-lg mb-10" style="background-color: #f5f7ff;">
-            <h2 class="text-white px-4 pt-1 mb-10 rounded-full text-xl" style="background-color: #B4221B; height: 40px;">
-              DATOS PERSONALES
-            </h2>
+      <div class="grid grid-cols-2 gap-6">
+          <!-- Input: Nombre(s) -->
+          <div class="relative">
+            <label class="block text-xs text-[#3B3636] mb-1">Nombres del paciente</label>
+            <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" name="Nombre_paciente" disabled>
+          </div>
       
-            <div class="grid grid-cols-2 gap-6">
-                <!-- Input: Nombre(s) -->
-                <div class="relative">
-                    <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" type="text" placeholder="NOMBRE(S)" disabled>
-                </div>
-            
-                <!-- Input: APELLIDOS -->
-                <div class="relative">
-                    <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled type="text" placeholder="APELLIDOS">
-                </div>
-            
-                <!-- Input: Fecha de Nacimiento -->
-                <div class="relative">
-                    <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled type="text" placeholder="FECHA DE NACIMIENTO">
-                </div>
-            
-                <!-- Input: Edad -->
-                <div class="relative">
-                    <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled type="number" placeholder="EDAD">
-                </div>
-            
-                <!-- Input: Dirección -->
-                <div class="relative">
-                    <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled type="text" placeholder="DIRECCIÓN">
-                </div>
-            
-                <!-- Input: Número de Teléfono -->
-                <div class="relative">
-                    <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled type="tel" placeholder="NÚMERO DE TELÉFONO">
-                </div>
-            
-                <!-- Input: Correo Electrónico -->
-                <div class="relative">
-                    <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled type="email" placeholder="CORREO ELECTRÓNICO">
-                </div>
-            
-                <!-- Input: Estado Civil -->
-                <div class="relative">
-                    <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled type="text" placeholder="ESTADO CIVIL">
-                </div>
-            
-                <!-- Input: Ocupación -->
-                <div class="relative">
-                    <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled type="text" placeholder="OCUPACIÓN">
-                </div>
-            
-                <!-- Input: Recomendación -->
-                <div class="relative">
-                    <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled type="text" placeholder="RECOMENDACIÓN">
-                </div>
-            
-                <!-- Select: Género -->
-                <select class="pl-8 py-2 bg-[#E6ECF8] col-span-2 text-xs rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled id="genero">
-                  <option disabled selected>GÉNERO</option>
-                  <option value="femenino">Femenino</option>
-                  <option value="masculino">Masculino</option>
-                </select>
+          <!-- Input: APELLIDOS -->
+          <div class="relative">
+            <label class="block text-xs text-[#3B3636] mb-1">Apellidos del paciente</label>
+            <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Apellido_paciente">
+          </div>
+      
+          <!-- Input: Fecha de Nacimiento -->
+          <div class="relative">
+            <label class="block text-xs text-[#3B3636] mb-1">Fecha Nacimiento</label>
+            <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="FechaNacimiento">
+          </div>
+      
+          <!-- Input: Edad -->
+          <div class="relative">
+            <label class="block text-xs text-[#3B3636] mb-1">Edad</label>
+            <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Edad">
+          </div>
+      
+          <!-- Input: Dirección -->
+          <div class="relative">
+            <label class="block text-xs text-[#3B3636] mb-1">Domicilio</label>
+            <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Direccion">
+          </div>
+      
+          <!-- Input: Número de Teléfono -->
+          <div class="relative">
+            <label class="block text-xs text-[#3B3636] mb-1">Número de Teléfono</label>
+            <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Telefono">
+          </div>
+      
+          <!-- Input: Correo Electrónico -->
+          <div class="relative">
+            <label class="block text-xs text-[#3B3636] mb-1">Correo Electrónico</label>
+            <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Correo">
+          </div>
+      
+          <!-- Input: Estado Civil -->
+          <div class="relative">
+            <label class="block text-xs text-[#3B3636] mb-1">Estado Civil</label>
+            <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Estado_Civil">
+          </div>
+      
+          <!-- Input: Ocupación -->
+          <div class="relative">
+            <label class="block text-xs text-[#3B3636] mb-1">Ocupación</label>
+            <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name=Ocupacion>
+          </div>
+      
+          <!-- Input: Recomendación -->
+          <div class="relative">
+            <label class="block text-xs text-[#3B3636] mb-1">Recomendación</label>
+            <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Recomendacion">
+          </div>
 
-                <!-- Input: Estado de embarazo (solo si es femenino) -->
-                <div class="w-full col-span-2 text-xs mb-4" id="embarazo-seccion" style="display: none;">
-                  <select class="pl-8 py-2 bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled id="estado-embarazo">
-                    <option disabled selected>¿Estás embarazada?</option>
-                    <option value="si">Sí</option>
-                    <option value="no">No</option>
-                  </select>
+          <div class="relative">
+            <label class="block text-xs text-[#3B3636] mb-1">Genero</label>
+            <input 
+              class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
+              disabled 
+              name="Genero" 
+              id="genero"
+              value="Femenino"
+              >
+          </div>
+          <div class|="relative" id="embarazada-container" style="display: none;">
+            <label class="block text-xs text-[#3B3636] mb-1">Esta embarazada</label>
+            <input 
+              class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
+              disabled 
+              name="Esta_embarazada"
+            >
+          </div>
 
-                  <!-- Input: Meses de embarazo (si selecciona que sí está embarazada) -->
-                  <input id="periodo-embarazo" class="pl-8 text-xs py-2 col-span-2 mt-8 bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled type="number" placeholder="¿Cuántos meses de embarazo?" style="display: none;">
-                </div>
+          <div class="relative">
+            <label class="block text-xs text-[#3B3636] mb-1">Meses de gestación</label>
+            <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Meses_de_gestacion">
+          </div>
+      </div>
+    </div> 
 
-            </div>
-            
+<!--2------------------------- Sección 2 de Consulta y antecedentes ----------------------------->
+    <div class="p-6 rounded-sm shadow-md mb-10" style="background-color: #f5f7ff;">
+      <div class="mb-8">
+        <!-- Título: Motivo de consulta y antecedentes -->
+        <h2 class="text-white px-4 pt-1 mb-10 rounded-full text-xl" style="background-color: #B4221B; height: 40px;">
+          MOTIVO DE CONSULTA Y ANTECEDENTES
+        </h2>
+        <!-- Input: Motivo de Consulta -->
+        <div class="relative mb-4 shadow-sm">
+            <label class="block text-xs text-[#3B3636] mb-1">Motivo de consulta</label>
+            <input class="pl-4 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Motivo_consulta">
+        </div>
+        
+        <!-- Input: Última visita al odontólogo -->
+        <div class="relative mb-4 shadow-sm">
+            <label class="block text-xs text-[#3B3636] mb-1">Última visita al odontólogo</label>
+            <input class="pl-4 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Ultima_visita_odontologo">
+        </div>
+        
+        <!-- Input: Cuántas veces se cepilla los dientes al día -->
+        <div class="relative mb-4 shadow-sm">
+            <label class="block text-xs text-[#3B3636] mb-1">¿Cuántas veces se cepilla sus dientes al día?</label>
+            <input class="pl-4 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Cepillo_dientes_al_dia">
+        </div>
+        
+        <!-- Select: Sus encías sangran con frecuencia -->
+        <div class="relative mb-4 shadow-sm">
+            <label class="block text-xs text-[#3B3636] mb-1">¿Sus encías sangran con frecuencia?</label>
+            <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Sangrado_encias">
+
+        </div>
+        
+        <!-- Select: Padece de bruxismo -->
+        <div class="relative mb-4 shadow-sm" >
+          <label class="block text-xs text-[#3B3636] mb-1">¿Padece de bruxismo (Apretar sus dientes)?</label>
+          <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Aprieta_dientes">
+        </div>
+        <div class="relative mb-4 shadow-sm" >
+          <input id="bruxismo" class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Durante_dia_o_noche">
+        </div>
+        
+        <!-- Select: Le han realizado alguna cirugía bucal -->
+        <div class="relative mb-4 shadow-sm">
+            <label class="block text-xs text-[#3B3636] mb-1">¿Le han realizado alguna cirugía bucal?</label>
+            <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Ha_realizado_cirugia_bucal">
         </div>
 
-<!--2------------------------- Sección 2 del modal ----------------------------->
-        <div class="p-6 rounded-sm shadow-md mb-10" style="background-color: #f5f7ff;">
-            <div class="mb-8">
-                <!-- Título: Motivo de consulta y antecedentes -->
-                <h2 class="text-white px-4 pt-1 mb-10 rounded-full text-xl" style="background-color: #B4221B; height: 40px;">
-                  MOTIVO DE CONSULTA Y ANTECEDENTES
-                </h2>
-              
-                <!-- Input: Motivo de Consulta -->
-                <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">Motivo de consulta</label>
-                    <input class="pl-4 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled type="text" placeholder="Describe el motivo de tu consulta">
-                </div>
-              
-                <!-- Input: Última visita al odontólogo -->
-                <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">Última visita al odontólogo</label>
-                    <input class="pl-4 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled type="text" placeholder="¿Cuándo fue tu última visita?">
-                </div>
-              
-                <!-- Input: Cuántas veces se cepilla los dientes al día -->
-                <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Cuántas veces se cepilla sus dientes al día?</label>
-                    <input class="pl-4 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled type="text" placeholder="Indica cuántas veces te cepillas al día">
-                </div>
-              
-                <!-- Select: Sus encías sangran con frecuencia -->
-                <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Sus encías sangran con frecuencia?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled>
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
-                </div>
-              
-                <!-- Select: Padece de bruxismo -->
-                <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Padece de bruxismo?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled  id="BRuxismo">
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
-                
-                    <!-- Pregunta adicional si selecciona que sí en bruxismo -->
-                    <div id="bruxismo-Adicional" style="display: none;" class="mt-2">
-                        <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled>
-                            <option disabled selected>¿Durante el día o la noche?</option>
-                            <option value="dia">Día</option>
-                            <option value="noche">Noche</option>
-                        </select>
-                    </div>
-                </div>
-              
-                <!-- Select: Le han realizado alguna cirugía bucal -->
-                <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Le han realizado alguna cirugía bucal?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled>
-                        <option disabled selected>Selecciona una opción</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
-                </div>
-              
-                <!-- Select: Tiene dificultad para abrir o cerrar la boca -->
-                <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Tiene dificultad para abrir o cerrar la boca?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled>
-                        <option disabled selected>Selecciona una opción</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
-                </div>
-              
-                <!-- Select: Ha utilizado tratamiento de brackets -->
-                <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Ha utilizado tratamiento de brackets?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled>
-                        <option disabled selected>Selecciona una opción</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
-                </div>
-            </div>
+        <!-- Select: Qué cirugía bucal -->
+        <div class="relative mb-4 shadow-sm">
+          <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled name="Que_operacion_bucal">
         </div>
+        
+        <!-- Select: Tiene dificultad para abrir o cerrar la boca -->
+        <div class="relative mb-4 shadow-sm">
+            <label class="block text-xs text-[#3B3636] mb-1">¿Tiene dificultad para abrir o cerrar la boca?</label>
+            <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled name="Dificultad_abrir_boca">
+        
+        </div>
+        
+        <!-- Select: Ha utilizado tratamiento de brackets -->
+        <div class="relative mb-4 shadow-sm">
+            <label class="block text-xs text-[#3B3636] mb-1">¿Ha utilizado tratamiento de brackets?</label>
+            <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"  disabled name="Tiene_brackets">
+        </div>
+      </div>
+    </div>
         
               
               
 
-<!--3------------------------- Sección 3 del modal ----------------------------->
-                <div class=" p-6 rounded-sm shadow-lg mb-10" style="background-color: #f5f7ff;">
+<!--3------------------------- Sección 3 de Patologicos y enfermedades -------------------------->
+              <div class=" p-6 rounded-sm shadow-lg mb-10" style="background-color: #f5f7ff;">
                 <div class="mb-8">
-                    <!-- Título: Antecedentes Patológicos y Enfermedades -->
-                    <h2 class="text-white px-4 pt-1 mb-10 rounded-full text-xl" style="background-color: #B4221B; height: 40px;">
-                        ANTECEDENTES PATOLÓGICOS Y ENFERMEDADES
-                    </h2>
+                  <!-- Título: Antecedentes Patológicos y Enfermedades -->
+                  <h2 class="text-white px-4 pt-1 mb-10 rounded-full text-xl" style="background-color: #B4221B; height: 40px;">
+                      ANTECEDENTES PATOLÓGICOS Y ENFERMEDADES
+                  </h2>
                   
                     <!-- Select: ¿Está tomando algún medicamento? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Está tomando algún medicamento?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled id="Medicamento">
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
-                
-                    <!-- Input: ¿Cuál? (si selecciona que sí) -->
-                    <div id="Cual-medicamento" style="display: none;" class="mt-2">
-                        <input class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled type="text" placeholder="¿Cuál?">
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Está tomando algún medicamento?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Toma_medicamentos">
                     </div>
+                    <!-- Input: ¿Cuál? (si selecciona que sí) -->
+                    <div class="relative mb-4 shadow-sm">
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Que_medicamento">
                     </div>
                 
                     <!-- Select: ¿Es alérgico a algún medicamento? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Es alérgico a algún medicamento?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled id="Alergico-medicamento">
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
-                
-                    <!-- Input: ¿A cuál? (si selecciona que sí) -->
-                    <div id="Cual-alergico" style="display: none;" class="mt-2">
-                        <input class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled type="text" placeholder="¿A cuál?">
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Es alérgico a algún medicamento?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Alergico_a_medicamento">
                     </div>
+                    <!-- Select: ¿Medicamento al que es alergico? -->
+                    <div class="relative mb-4 shadow-sm">
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Medicamento_que_es_alergico">
                     </div>
-                
+    
                     <!-- Select: ¿Ha tenido mala experiencia con anestésicos? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Ha tenido mala experiencia con anestésicos?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled>
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Ha tenido mala experiencia con anestésicos?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Mala_experiencia_con_anestesicos">
+                    </div>
+                    <!-- Select: ¿Anestésicos con mala experiencia? -->
+                    <div class="relative mb-4 shadow-sms">
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Cual_anestesico">
                     </div>
                 
                     <!-- Select: ¿Lo han operado? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Lo han operado?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled id="Operado">
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
-                
-                    <!-- Input: ¿De qué? (si selecciona que sí) -->
-                    <div id="De-que-operado" style="display: none;" class="mt-2">
-                        <input class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled type="text" placeholder="¿De qué?">
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Lo han operado?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Lo_han_operado">
                     </div>
+                    <!-- Select: ¿De que lo han operado? -->
+                    <div class="relative mb-4 shadow-sm">
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Que_operacion_le_han_hecho">
                     </div>
-                
+
                     <!-- Select: ¿Tiene algún marcapasos o le han operado del corazón? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Tiene algún marcapasos o le han operado del corazón?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled>
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
+                      <label class="block text-xs text-[#3B3636] mb-1">Lo han operado del corazón?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Lo_han_operado_corazon">
+                    </div>
+
+                    <!-- Select: ¿Tiene algún marcapasos o le han operado del corazón? -->
+                    <div class="relative mb-4 shadow-sm">
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Tiene marcapasos del corazón?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Tiene_marcapasos_corazon">
                     </div>
                 
                     <!-- Select: ¿Está tomando algún anticoagulante oral? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Está tomando algún anticoagulante oral (ASPIRINA, WARFARINA, RIVAROXABÁN, APIXABAN, CLOPIDROGEL)?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled id="Anticoagulante">
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
-                
-                    <!-- Input: ¿Cuál está tomando? (si selecciona que sí) -->
-                    <div id="Cual-anticoagulante" style="display: none;" class="mt-2">
-                        <input class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled type="text" placeholder="¿Cuál está tomando?">
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Está tomando algún anticoagulante oral?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Toma_anticoagulante">
                     </div>
+                    <!-- Select: ¿Cuál anticoagulante toma? -->
+                    <div class="relative mb-4 shadow-sm">
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Cual_anticoagulante_toma">
                     </div>
-                
+                    
                     <!-- Select: ¿Está en tratamiento antidepresivo? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Está en tratamiento antidepresivo?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled id="Antidepresivo">
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
-                
-                    <!-- Input: ¿Qué tratamiento toma? (si selecciona que sí) -->
-                    <div id="Cual-antidepresivo" style="display: none;" class="mt-2">
-                        <input class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled type="text" placeholder="¿Qué tratamiento toma?">
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Está en tratamiento antidepresivo?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Tiene_tratamiento_antidepresivo">
                     </div>
+                    <!-- Select: ¿Qué tratamiento toma? -->
+                    <div class="relative mb-4 shadow-sm">
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Que_Tratamiento_Antidepresivo">
                     </div>
                 
                     <!-- Select: ¿Padece de artritis reumatoide? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Padece de artritis reumatoide?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled>
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Padece de artritis reumatoide?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Artritis_reumatoide">
                     </div>
                 
                     <!-- Select: ¿Padece de osteoporosis? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Padece de osteoporosis?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled>
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Padece de osteoporosis?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Padece_osteoporosis">
                     </div>
                 
                     <!-- Select: ¿Tiene diabetes? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Tiene diabetes?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled id="Diabetes">
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
-                
-                    <!-- Input: ¿Qué valores maneja? (si selecciona que sí) -->
-                    <div id="Valores-diabetes" style="display: none;" class="mt-2">
-                        <input class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled type="text" placeholder="¿Qué valores maneja?">
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Tiene diabetes?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Tiene_diabetes">
                     </div>
+                    <!-- Select:  ¿Qué valores maneja?  -->
+                    <div class="relative mb-4 shadow-sm">
+                    <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Que_valores_diabetes_maneja">
                     </div>
                 
                     <!-- Select: ¿Es hipertenso? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Es hipertenso?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled id="Hipertenso">
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
-                
-                    <!-- Input: ¿Qué valores maneja? (si selecciona que sí) -->
-                    <div id="Valores-hipertenso" style="display: none;" class="mt-2">
-                        <input class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled type="text" placeholder="¿Qué valores maneja?">
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Es hipertenso?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Es_hipertenso">                
                     </div>
+                    <!-- Select: ¿Qué valores maneja? -->
+                    <div class="relative mb-4 shadow-sm">
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Valores_hipertenso_maneja">                
                     </div>
-                
-                    <!-- Resto de las preguntas -->
+
                     <!-- Select: ¿Le han realizado transfusiones sanguíneas? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Le han realizado transfusiones sanguíneas?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled>
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Le han realizado transfusiones sanguíneas?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Le_han_realizado_transfusion_sanguinea">
                     </div>
                 
                     <!-- Select: ¿Sangra mucho al cortarse? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Sangra mucho al cortarse?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled>
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Sangra mucho al cortarse?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Sangra_al_cortarse">
                     </div>
                 
                     <!-- Select: ¿Ha tenido infarto en el corazón? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Ha tenido infarto en el corazón?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled>
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Ha tenido infarto en el corazón?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Ha_tenido_infarto_corazon">
                     </div>
                 
                     <!-- Select: ¿Tiene prótesis en el corazón? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Tiene prótesis en el corazón?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled>
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Tiene prótesis en el corazón?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Tiene_protesis_corazon">
                     </div>
                 
                     <!-- Select: ¿Toma ácido zoledrónico? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Toma ácido zoledrónico?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled>
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Toma ácido zoledrónico?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"disabled name="Toma_acido_zoledronico">
                     </div>
                 
                     <!-- Select: ¿Toma Fosamax (Alendronato)? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Toma Fosamax (Alendronato)?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled>
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Toma Fosamax (Alendronato)?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Toma_fosamax_alendronato">
                     </div>
                 
                     <!-- Select: ¿Toma Ibandronato (Boniva)? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Toma Ibandronato (Boniva)?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled>
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Toma Ibandronato (Boniva)?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled type="text" name="Toma_ibandronato_boniva">
                     </div>
                 
                     <!-- Select: ¿Toma Actonel (Risedronato)? -->
                     <div class="relative mb-4 shadow-sm">
-                    <label class="block text-xs text-[#3B3636] mb-1">¿Toma Actonel (Risedronato)?</label>
-                    <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled>
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                    </select>
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Toma Actonel (Risedronato)?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Toma_actonel_risedronato">
                     </div>
                 </div>
-                </div>
+              </div>
                 
                 
 
 
 
-<!--4------------------------- Sección 4 del modal ----------------------------->             
-            <div class=" p-6 rounded-sm shadow-lg mb-10" style="background-color: #f5f7ff;">
-                
+<!--4------------------------- Sección 4 de Salud ----------------------------------------------->             
+                  <div class=" p-6 rounded-sm shadow-lg mb-10" style="background-color: #f5f7ff;">
                     <h2 class="text-white px-4 pt-1 mb-10 rounded-full text-xl" style="background-color: #B4221B; height: 40px;">
                         SALUD
                     </h2>
                     <p class="text-xs text-[#3B3636] mb-4">(Favor de marcar las enfermedades que padezca o haya padecido)</p>
-                  
                     <div class="grid grid-cols-2 gap-6 mb-4">
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="Enfermedades_corazon" disabled>
                         ENFERMEDADES DEL CORAZÓN
                       </label>
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="Enfermedades_pulmonares" disabled>
                         ENFERMEDADES PULMONALES
                       </label>
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="Insuficiencia_renal" disabled>
                         INSUFICIENCIA RENAL
                       </label>
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="Gastritis" disabled>
                         GASTRITIS
                       </label>
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="Epilepsia" disabled>
                         EPILEPSIA
                       </label>
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="Diabetes" disabled>
                         DIABETES
                       </label>
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="Paralisis" disabled>
                         PARÁLISIS
                       </label>
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="vih_sida" disabled>
                         VIH/SIDA
                       </label>
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="Tuberculosis" disabled>
                         TUBERCULOSIS
                       </label>
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="Hemofilia" disabled>
                         HEMOFILIA
                       </label>
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="Hepatitis" disabled>
                         HEPATITIS
                       </label>
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="Anemia" disabled>
                         ANEMIA
                       </label>
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="Presion_alta" disabled>
                         PRESIÓN ALTA
                       </label>
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="Presion_baja" disabled>
                         PRESIÓN BAJA
                       </label>
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="Asma" disabled>
                         ASMA
                       </label>
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="Artritis" disabled>
                         ARTRITIS
                       </label>
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="Tiroides" disabled>
                         PROBLEMAS DE TIROIDES
                       </label>
                       <label class="flex items-center">
-                        <input type="checkbox" class="mr-2" disabled>
+                        <input type="checkbox" class="mr-2" data-enfermedades="Cancer" disabled>
                         CÁNCER
                       </label>
                     </div>
@@ -514,35 +444,22 @@
                     <!-- Pregunta: ¿Algún familiar ha padecido de alguna de las enfermedades anteriores? -->
                     <div class="relative mb-4 shadow-sm">
                       <label class="block text-xs text-[#3B3636] mb-1">¿Algún familiar ha padecido de alguna de las enfermedades anteriores?</label>
-                      <select id="FAmiliar-enfermedad" class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled>
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                      </select>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Familiar_padecido_enfermedades">
                     </div>
-                  
-                    <!-- Sección que aparece si la respuesta es "Sí" -->
-                    <div id="ENfermedades-familiares" style="display: none;">
-                      <!-- Enfermedades que han padecido -->
-                      <div class="relative mb-4 shadow-sm">
-                        <label class="block text-xs text-[#3B3636] mb-1">ENFERMEDADES QUE HAN PADECIDO</label>
-                        <input class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled type="text" placeholder="Ingrese las enfermedades">
-                      </div>
-                  
-                      <!-- ¿Quiénes han padecido las enfermedades? -->
-                      <div class="relative mb-4 shadow-sm">
-                        <label class="block text-xs text-[#3B3636] mb-1">¿QUIÉNES HAN PADECIDO LAS ENFERMEDADES?</label>
-                        <input class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled type="text" placeholder="Ingrese el parentesco">
-                      </div>
+
+                    <!-- Pregunta: ¿Algún familiar ha padecido de alguna de las enfermedades anteriores? -->
+                    <div class="relative mb-4 shadow-sm">
+                      <label class="block text-xs text-[#3B3636] mb-1">Enfermedades que han padecido</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Enfermedades_padecidas">
+                    </div>
+
+                    <!-- Pregunta: ¿Quiénes han padecido las enfermedades? -->
+                    <div class="relative mb-4 shadow-sm">
+                      <label class="block text-xs text-[#3B3636] mb-1">Quienes han padecido las enfermedades</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Quien_padecio">
                     </div>
                   </div>
-                  
-
-
-
-
-
-<!--5------------------------- Sección 5 del modal -----------------------------> 
+<!--5------------------------- Sección 5 de Habitos perniciosos ---------------------------------> 
                   <div class=" p-6 rounded-sm shadow-lg mb-10" style="background-color: #f5f7ff;">
                     <h2 class="text-white px-4 pt-1 mb-10 rounded-full text-xl" style="background-color: #B4221B;">
                         HÁBITOS PERNICIOSOS
@@ -551,204 +468,60 @@
                   
                     <!-- Pregunta: ¿Fuma? -->
                     <div class="relative mb-4">
-                      <label class="block text-xs text-[#3B3636] mb-1">¿FUMA?</label>
-                      <select id="Fuma" class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled>
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                      </select>
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Fuma?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Fuma">
                     </div>
-                  
-                    <!-- Sección que aparece si la respuesta es "Sí" a Fuma -->
-                    <div id="Cigarrillos" style="display: none;">
-                      <div class="relative mb-4">
-                        <label class="block text-xs text-[#3B3636] mb-1">¿CUÁNTOS CIGARROS AL DÍA?</label>
-                        <input class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled type="number" placeholder="Ingrese cantidad">
-                      </div>
+
+                    <!-- Pregunta: ¿Fuma? -->
+                    <div class="relative mb-4">
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Cuántos cigarros al dia?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Cuantos_cigarros_al_dia_fuma">
                     </div>
                   
                     <!-- Pregunta: ¿Consume algún tipo de droga? -->
                     <div class="relative mb-4">
-                      <label class="block text-xs text-[#3B3636] mb-1">¿CONSUME ALGÚN TIPO DE DROGA?</label>
-                      <select id="Droga" class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled>
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                      </select>
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Consume drogas?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Consume_drogas">
                     </div>
-                  
-                    <!-- Sección que aparece si la respuesta es "Sí" a Consume algún tipo de droga -->
-                    <div id="Tipo-droga" style="display: none;">
-                      <div class="relative mb-4">
-                        <label class="block text-xs text-[#3B3636] mb-1">¿QUÉ DROGAS ESTÁ CONSUMIENDO?</label>
-                        <input class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" type="text" placeholder="Ingrese las drogas" disabled>
-                      </div>
+
+                    <!-- Pregunta: ¿Qué drogas está consumiendo? -->
+                    <div class="relative mb-4">
+                      <label class="block text-xs text-[#3B3636] mb-1">¿Qué drogas está consumiendo?</label>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Drogas_consumiendo">
                     </div>
                   
                     <!-- Pregunta: ¿Consume bebidas alcohólicas con frecuencia? -->
                     <div class="relative mb-4">
                       <label class="block text-xs text-[#3B3636] mb-1">¿CONSUME BEBIDAS ALCOHÓLICAS CON FRECUENCIA?</label>
-                      <select id="Alcohol" class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled>
-                        <option disabled selected>Seleccione</option>
-                        <option value="si">Sí</option>
-                        <option value="no">No</option>
-                      </select>
+                      <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" disabled name="Consume_alcohol">
+
                     </div>
                   </div>
                   
-
-
-  
-<!--7------------------------- Sección 7 del modal ----------------------------->   
-                    <div class="p-6 rounded-sm shadow-lg mb-10" style="background-color: #f5f7ff;">
-                        <h2 class="text-white px-4 pt-1 mb-10 rounded-full text-xl" style="background-color: #B4221B;">FOTOGRAFÍA DEL PACIENTE</h2>
-                        
-                        <div class="flex items-center">
-                          <!-- Contenedor para seleccionar la fotografía -->
-                          <div class="mr-4">
-                              <input type="file" id="Foto-input" accept="image/*" class="mb-4" disabled>
-                          </div>
-                      
-                          <!-- Espacio para mostrar la fotografía -->
-                          <div id="Foto-display" class="border-2 border-gray-300 w-64 h-64 rounded-md flex items-center justify-center" disabled  >
-                              <span class="text-gray-500" id="placeholder-text">Aquí se mostrará la fotografía</span>
-                          </div>
-                      </div>
-                    </div>
-
-                   
-
-
-
-        
+<!--7------------------------- Sección 7 de Fotografia y firma  --------------------------------->   
 
       <!-- Botones de Guardar y Cerrar -->
       <div class="flex justify-end mt-6">
-        <button id="close-ver-registro-btn" class="text-white px-4 py-2 rounded-full mr-2 shadow-inner" style="background-color: #B4221B;">Cerrar</button>
-        <button id="submit-patient" class="text-white px-4 py-2 rounded-full shadow-md" style="background-color: #B4221B;">Agregar Paciente</button>
+        <button type="button" id="close-ver-registro-btn" class="text-white px-4 py-2 rounded-full mr-2 shadow-inner" style="background-color: #B4221B;">Cerrar</button>
+        <button class="text-white px-4 py-2 rounded-full shadow-md" style="background-color: #B4221B;"><i class="bx bx-printer" style="color:#3c3c3c; font-size: 1.5rem; margin-top: 1.2px;"></i></button>
     </div>
   </div>
 </div>
 
 <!-- JavaScript para abrir y cerrar el modal -->
-<script>
+<script>    
 
-const verRegistroBtns = document.querySelectorAll('.ver-registro-btn');
-const verRegistroModal = document.getElementById('VerRegistro-modal');
-const closeVerRegistroBtn = document.getElementById('close-ver-registro-btn');
-const closeVerRegistroX = document.getElementById('close-ver-registro-x');
+document.addEventListener("DOMContentLoaded", function() {
+  const generoInput = document.getElementById("genero");
+  const embarazadaContainer = document.getElementById("embarazada-container");
 
-// Mostrar el modal al hacer clic en cualquiera de los botones
-verRegistroBtns.forEach(btn => {
-  btn.addEventListener('click', function() {
-      verRegistroModal.classList.remove('hidden');
-  });
+  // Verificar el valor del campo de género
+  if (generoInput.value.trim().toLowerCase() === "femenino") {
+    embarazadaContainer.style.display = "block"; // Mostrar si es femenino
+  } else {
+    embarazadaContainer.style.display = "none"; // Ocultar si no es femenino
+  }
 });
-
-// Cerrar el modal al hacer clic en el botón de cerrar
-closeVerRegistroBtn.addEventListener('click', function() {
-    verRegistroModal.classList.add('hidden');
-});
-
-// Cerrar el modal al hacer clic en la "X"
-closeVerRegistroX.addEventListener('click', function() {
-    verRegistroModal.classList.add('hidden');
-});
-
-
-  const generoSelect = document.getElementById('genero');
-  const embarazoSeccion = document.getElementById('embarazo-seccion');
-  const estadoEmbarazo = document.getElementById('estado-embarazo');
-  const periodoEmbarazoInput = document.getElementById('periodo-embarazo');
-
-  generoSelect.addEventListener('change', function() {
-    if (this.value === 'femenino') {
-      embarazoSeccion.style.display = 'block';
-    } else {
-      embarazoSeccion.style.display = 'none';
-      periodoEmbarazoInput.style.display = 'none';
-    }
-  });
-
-  estadoEmbarazo.addEventListener('change', function(event) {
-    if (event.target.value === 'si') {
-      periodoEmbarazoInput.style.display = 'block';
-    } else {
-      periodoEmbarazoInput.style.display = 'none';
-    }
-  });
-
-        
-        
-        //JS de la segunda seccion del modal 
-        document.getElementById('BRuxismo').addEventListener('change', function() {
-          var Bruxismoadicional = document.getElementById('bruxismo-Adicional');
-          if (this.value === 'si') {
-            Bruxismoadicional.style.display = 'block';
-          } else {
-            Bruxismoadicional.style.display = 'none';
-          }
-        });
-
-
-        //JS de la tercera seccion del modal 
-        document.getElementById('Medicamento').addEventListener('change', function() {
-                    document.getElementById('Cual-medicamento').style.display = this.value === 'si' ? 'block' : 'none';
-                    });
-                
-                    document.getElementById('Alergico-medicamento').addEventListener('change', function() {
-                    document.getElementById('Cual-alergico').style.display = this.value === 'si' ? 'block' : 'none';
-                    });
-                
-                    document.getElementById('Operado').addEventListener('change', function() {
-                    document.getElementById('De-que-operado').style.display = this.value === 'si' ? 'block' : 'none';
-                    });
-                
-                    document.getElementById('Anticoagulante').addEventListener('change', function() {
-                    document.getElementById('Cual-anticoagulante').style.display = this.value === 'si' ? 'block' : 'none';
-                    });
-                
-                    document.getElementById('Antidepresivo').addEventListener('change', function() {
-                    document.getElementById('Cual-antidepresivo').style.display = this.value === 'si' ? 'block' : 'none';
-                    });
-                
-                    document.getElementById('Diabetes').addEventListener('change', function() {
-                    document.getElementById('Valores-diabetes').style.display = this.value === 'si' ? 'block' : 'none';
-                    });
-                
-                    document.getElementById('Hipertenso').addEventListener('change', function() {
-                    document.getElementById('Valores-hipertenso').style.display = this.value === 'si' ? 'block' : 'none';
-                    });
-
-
-        //JS de la cuarta seccion del modal 
-        document.getElementById('FAmiliar-enfermedad').addEventListener('change', function() {
-                      const ENfermedadesFamiliares = document.getElementById('ENfermedades-familiares');
-                      if (this.value === 'si') {
-                        ENfermedadesFamiliares.style.display = 'block';
-                      } else {
-                        ENfermedadesFamiliares.style.display = 'none';
-                      }
-                    });
-              
-        //JS de la quinta seccion del modal 
-        document.getElementById('Fuma').addEventListener('change', function() {
-                      const Cigarrillos = document.getElementById('Cigarrillos');
-                      if (this.value === 'si') {
-                        Cigarrillos.style.display = 'block';
-                      } else {
-                        Cigarrillos.style.display = 'none';
-                      }
-                    });
-                  
-                    document.getElementById('Droga').addEventListener('change', function() {
-                      const TipoDroga = document.getElementById('Tipo-droga');
-                      if (this.value === 'si') {
-                        TipoDroga.style.display = 'block';
-                      } else {
-                        TipoDroga.style.display = 'none';
-                      }
-                    });
 
 
         //JS de la séptima seccion del modal
@@ -766,7 +539,137 @@ closeVerRegistroX.addEventListener('click', function() {
                 reader.readAsDataURL(file);
             }
         });
-
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Seleccionar todos los botones de "Ver Registro"
+  const verRegistroBtns = document.querySelectorAll(".ver-registro-btn");
+
+  // Función para abrir el modal y cargar los datos
+  verRegistroBtns.forEach(button => {
+    button.addEventListener("click", function() {
+      const idPaciente = this.getAttribute("data-id"); // Obtener el idPaciente del botón
+
+      // Hacer una llamada AJAX para obtener los datos del paciente
+      fetch(`getPaciente.php?id=${idPaciente}`)
+        .then(response => response.json())
+        .then(data => {
+          // Cargar los datos del paciente en los campos del modal "Ver Paciente"
+          document.querySelector("#VerRegistro-modal button[name='idPaciente']").value = data.idPaciente;
+          document.querySelector("#VerRegistro-modal input[name='Nombre_paciente']").value = data.Nombre_paciente;
+          document.querySelector("#VerRegistro-modal input[name='Apellido_paciente']").value = data.Apellido_paciente;
+          document.querySelector("#VerRegistro-modal input[name='FechaNacimiento']").value = data.FechaNacimiento;
+          document.querySelector("#VerRegistro-modal input[name='Edad']").value = data.Edad;
+          document.querySelector("#VerRegistro-modal input[name='Direccion']").value = data.Direccion;
+          document.querySelector("#VerRegistro-modal input[name='Telefono']").value = data.Telefono;
+          document.querySelector("#VerRegistro-modal input[name='Correo']").value = data.Correo;
+          document.querySelector("#VerRegistro-modal input[name='Estado_Civil']").value = data.Estado_Civil;
+          document.querySelector("#VerRegistro-modal input[name='Ocupacion']").value = data.Ocupacion;
+          document.querySelector("#VerRegistro-modal input[name='Recomendacion']").value = data.Recomendacion;
+          document.querySelector("#VerRegistro-modal input[name='Genero']").value = data.Genero;
+          document.querySelector("#VerRegistro-modal input[name='Esta_embarazada']").value = data.Esta_embarazada; 
+          document.querySelector("#VerRegistro-modal input[name='Meses_de_gestacion']").value = data.Meses_de_gestacion;
+          document.querySelector("#VerRegistro-modal input[name='Motivo_consulta']").value = data.Motivo_consulta;
+          document.querySelector("#VerRegistro-modal input[name='Ultima_visita_odontologo']").value = data.Ultima_visita_odontologo;
+          document.querySelector("#VerRegistro-modal input[name='Cepillo_dientes_al_dia']").value = data.Cepillo_dientes_al_dia;
+          document.querySelector("#VerRegistro-modal input[name='Sangrado_encias']").value = data.Sangrado_encias;
+          document.querySelector("#VerRegistro-modal input[name='Aprieta_dientes']").value = data.Aprieta_dientes;
+          document.querySelector("#VerRegistro-modal input[name='Durante_dia_o_noche']").value = data.Durante_dia_o_noche;
+          document.querySelector("#VerRegistro-modal input[name='Ha_realizado_cirugia_bucal']").value = data.Ha_realizado_cirugia_bucal;
+          document.querySelector("#VerRegistro-modal input[name='Que_operacion_bucal']").value = data.Que_operacion_bucal;
+          document.querySelector("#VerRegistro-modal input[name='Dificultad_abrir_boca']").value = data.Dificultad_abrir_boca;
+          document.querySelector("#VerRegistro-modal input[name='Tiene_brackets']").value = data.Tiene_brackets;
+          document.querySelector("#VerRegistro-modal input[name='Toma_medicamentos']").value = data.Toma_medicamentos;
+          document.querySelector("#VerRegistro-modal input[name='Que_medicamento']").value = data.Que_medicamento;
+          document.querySelector("#VerRegistro-modal input[name='Alergico_a_medicamento']").value = data.Alergico_a_medicamento;
+          document.querySelector("#VerRegistro-modal input[name='Medicamento_que_es_alergico']").value = data.Medicamento_que_es_alergico;
+          document.querySelector("#VerRegistro-modal input[name='Mala_experiencia_con_anestesicos']").value = data.Mala_experiencia_con_anestesicos;
+          document.querySelector("#VerRegistro-modal input[name='Cual_anestesico']").value = data.Cual_anestesico;
+          document.querySelector("#VerRegistro-modal input[name='Lo_han_operado']").value = data.Lo_han_operado;
+          document.querySelector("#VerRegistro-modal input[name='Que_operacion_le_han_hecho']").value = data.Que_operacion_le_han_hecho; 
+          document.querySelector("#VerRegistro-modal input[name='Lo_han_operado_corazon']").value = data.Lo_han_operado_corazon;
+          document.querySelector("#VerRegistro-modal input[name='Tiene_marcapasos_corazon']").value = data.Tiene_marcapasos_corazon;  
+          document.querySelector("#VerRegistro-modal input[name='Toma_anticoagulante']").value = data.Toma_anticoagulante;
+          document.querySelector("#VerRegistro-modal input[name='Cual_anticoagulante_toma']").value = data.Cual_anticoagulante_toma;  
+          document.querySelector("#VerRegistro-modal input[name='Tiene_tratamiento_antidepresivo']").value = data.Tiene_tratamiento_antidepresivo;
+          document.querySelector("#VerRegistro-modal input[name='Que_Tratamiento_Antidepresivo']").value = data.Que_Tratamiento_Antidepresivo;
+          document.querySelector("#VerRegistro-modal input[name='Artritis_reumatoide']").value = data.Artritis_reumatoide;
+          document.querySelector("#VerRegistro-modal input[name='Padece_osteoporosis']").value = data.Padece_osteoporosis; 
+          document.querySelector("#VerRegistro-modal input[name='Tiene_diabetes']").value = data.Tiene_diabetes;
+          document.querySelector("#VerRegistro-modal input[name='Que_valores_diabetes_maneja']").value = data.Que_valores_diabetes_maneja; 
+          document.querySelector("#VerRegistro-modal input[name='Es_hipertenso']").value = data.Es_hipertenso;
+          document.querySelector("#VerRegistro-modal input[name='Valores_hipertenso_maneja']").value = data.Valores_hipertenso_maneja;
+          document.querySelector("#VerRegistro-modal input[name='Le_han_realizado_transfusion_sanguinea']").value = data.Le_han_realizado_transfusion_sanguinea;
+          document.querySelector("#VerRegistro-modal input[name='Sangra_al_cortarse']").value = data.Sangra_al_cortarse;
+          document.querySelector("#VerRegistro-modal input[name='Ha_tenido_infarto_corazon']").value = data.Ha_tenido_infarto_corazon;
+          document.querySelector("#VerRegistro-modal input[name='Tiene_protesis_corazon']").value = data.Tiene_protesis_corazon;
+          document.querySelector("#VerRegistro-modal input[name='Toma_acido_zoledronico']").value = data.Toma_acido_zoledronico;
+          document.querySelector("#VerRegistro-modal input[name='Toma_fosamax_alendronato']").value = data.Toma_fosamax_alendronato;
+          document.querySelector("#VerRegistro-modal input[name='Toma_ibandronato_boniva']").value = data.Toma_ibandronato_boniva;
+          document.querySelector("#VerRegistro-modal input[name='Toma_actonel_risedronato']").value = data.Toma_actonel_risedronato; 
+
+
+          document.querySelector("#VerRegistro-modal input[name='Familiar_padecido_enfermedades']").value = data.Familiar_padecido_enfermedades;
+          document.querySelector("#VerRegistro-modal input[name='Enfermedades_padecidas']").value = data.Enfermedades_padecidas;
+          document.querySelector("#VerRegistro-modal input[name='Quien_padecio']").value = data.Quien_padecio;
+          
+          document.querySelector("#VerRegistro-modal input[name='Fuma']").value = data.Fuma;
+          document.querySelector("#VerRegistro-modal input[name='Cuantos_cigarros_al_dia_fuma']").value = data.Cuantos_cigarros_al_dia_fuma; 
+          document.querySelector("#VerRegistro-modal input[name='Consume_drogas']").value = data.Consume_drogas;
+          document.querySelector("#VerRegistro-modal input[name='Drogas_consumiendo']").value = data.Drogas_consumiendo;
+          document.querySelector("#VerRegistro-modal input[name='Consume_alcohol']").value = data.Consume_alcohol;
+
+
+
+let fotoPaciente = data.Foto_paciente;  
+
+
+if (fotoPaciente.startsWith('../')) {
+    fotoPaciente = fotoPaciente.substring(3);  
+}
+
+
+const fotoImg = document.getElementById('Paciente-Foto');
+fotoImg.src = fotoPaciente; 
+
+
+document.getElementById('placeholder-text').style.display = 'none';
+fotoImg.style.display = 'block';  
+
+  
+          // Llenar los checkboxes de enfermedades con base en los datos del paciente
+          const enfermedadesCheckboxes = document.querySelectorAll("#VerRegistro-modal [data-enfermedades]");
+          enfermedadesCheckboxes.forEach((checkbox) => {
+            const enfermedades = checkbox.dataset.enfermedades; // Obtén el identificador del checkbox
+            if (data[enfermedades] === "Si") { // Compara con los datos del paciente
+              checkbox.checked = true; // Marca el checkbox si aplica
+            } else {            
+                            checkbox.checked = false; // Desmarca si no aplica
+            }
+          });
+          // Mostrar el modal de "Ver Paciente"
+          document.getElementById("VerRegistro-modal").classList.remove("hidden");
+        })
+
+    });
+  });
+
+  // Función para cerrar el modal de "Ver Paciente"
+  document.getElementById("close-ver-registro-x").addEventListener("click", function() {
+    document.getElementById("VerRegistro-modal").classList.add("hidden");
+  }); 
+
+  // Función para cerrar el modal de "Ver Paciente"
+  document.getElementById("close-ver-registro-btn").addEventListener("click", function() {
+    document.getElementById("VerRegistro-modal").classList.add("hidden");
+  }); 
+
+  // Función para cerrar el modal de "Editar Paciente"
+  document.getElementById("close-edit-registro-x").addEventListener("click", function() {
+    document.getElementById("EditPatient-modal").classList.add("hidden");
+  });
+});
+
+</script>
 

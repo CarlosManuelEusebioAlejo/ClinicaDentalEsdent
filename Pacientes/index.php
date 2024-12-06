@@ -1,6 +1,9 @@
 <?php
-include 'Solicitudes/VerPacientes.php';
+
+// PHP QUE EXTRAE LA INFORMACION DE LOS PACIENTES Y LOS MUESTRA EN LA TABLA
+include 'solicitudes/mostrar_pacientes.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +16,9 @@ include 'Solicitudes/VerPacientes.php';
     <title>ClinicaDentalEsdent</title>
     <link rel="icon" href="/../ClinicaDentalEsdent/Configuraciones/img/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="/../Configuraciones/css/menu.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-#EFF1F9 " style="background-color: #e8ecff;color: #3C3C3C">
     <!-- Contenedor principal -->
@@ -114,18 +120,21 @@ include 'Solicitudes/VerPacientes.php';
             
                 <!-- Cuerpo de la tabla -->
                 <tbody class="bg-gray-100">
-                  <?php foreach ($pacientes as $paciente): ?>
+                <?php foreach ($pacientes as $paciente): ?>
+                    <!-- Fila 1 -->
                     <div class="mb-2">
                       <tr class="bg-sky-100 overflow-hidden " style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
                           <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;"><?= $paciente['Nombre_paciente'] ?></td>
                           <td class="px-4 py-3 text-left"><?= $paciente['Apellido_paciente'] ?></td>
                           <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
                               <!-- Botón para abrir el modal -->
-                              <button class="ver-registro-btn bg-transparent border-0 cursor-pointer">
-                                <i class='bx bx-id-card text-lg mx-2'></i>
-                              </button>
-                              <!-- Botón para redirigir a historial.php con el id del paciente -->
-                              <button class="bg-transparent border-0 cursor-pointer" onclick="window.location.href='/../ClinicaDentalEsdent/Historial/?idPaciente=<?= urlencode($paciente['idPaciente']) ?>'">
+                                   <!-- Botón para abrir el modal -->
+<!-- Botón para abrir el modal -->
+<button type="button"  class="ver-registro-btn bg-transparent border-0 cursor-pointer" data-id="<?= $paciente['idPaciente'] ?>">
+    <i class='bx bx-id-card text-lg mx-2'></i>
+</button>
+                              <!-- Botón para redirigir a historial.html -->
+                              <button class="bg-transparent border-0 cursor-pointer" onclick="window.location.href='/../ClinicaDentalEsdent/Historial/'">
                                   <i class='bx bx-folder text-lg mx-2'></i>
                               </button>
                               <!-- Botón para borrar -->
@@ -135,7 +144,7 @@ include 'Solicitudes/VerPacientes.php';
                           </td>
                       </tr>
                     </div>
-                  <?php endforeach; ?>
+                    <?php endforeach; ?>
                 </tbody>
               </table>
             </div>
@@ -147,5 +156,6 @@ include 'Solicitudes/VerPacientes.php';
       include 'Modales/VerPaciente.php';
       include 'Modales/EditarPaciente.php';
     ?>
+    <script src="../js/AgregarPacientes.js"></script>
 </body>
 </html>

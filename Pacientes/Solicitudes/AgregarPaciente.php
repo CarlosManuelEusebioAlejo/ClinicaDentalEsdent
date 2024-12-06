@@ -1,6 +1,6 @@
 <?php
 // Incluir el archivo de conexión a la base de datos
-include('../Configuraciones/conexion.php');
+include('../../Configuraciones/conexion.php');
 
 // Iniciar la sesión para las alertas
 session_start();
@@ -9,8 +9,8 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Recibir y limpiar los datos del formulario
-    $Nombre                                 = mysqli_real_escape_string($conn, $_POST['Nombre']);
-    $Apellido                               = mysqli_real_escape_string($conn, $_POST['Apellido']);
+    $Nombre                                 = mysqli_real_escape_string($conn, $_POST['Nombre_paciente']);
+    $Apellido                               = mysqli_real_escape_string($conn, $_POST['Apellido_paciente']);
     $Fecha_nacimiento                       = mysqli_real_escape_string($conn, $_POST['Fecha_nacimiento']);
     $Edad                                   = mysqli_real_escape_string($conn, $_POST['Edad']);
     $Direccion                              = mysqli_real_escape_string($conn, $_POST['Direccion']);
@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Telefono                               = mysqli_real_escape_string($conn, $_POST['Telefono']);
     $Ocupacion                              = mysqli_real_escape_string($conn, $_POST['Ocupacion']);
     $Recomendacion                          = mysqli_real_escape_string($conn, $_POST['Recomendacion']);
-    $Genero                                 = mysqli_real_escape_string($conn, $_POST['Genero']);
+    $genero                                 = mysqli_real_escape_string($conn, $_POST['genero']);
     $Esta_embarazada                        = mysqli_real_escape_string($conn, $_POST['Esta_embarazada']);
     $Meses_de_gestacion                     = mysqli_real_escape_string($conn, $_POST['Meses_de_gestacion']);
   
@@ -93,29 +93,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Consume_alcohol = mysqli_real_escape_string($conn, $_POST['drogas_tomando'] ?? '');
 
     // Recibir y limpiar la firma
-    $Firma = mysqli_real_escape_string($conn, $_POST['Firma'] ?? '');
+// Verificar si se cargó un archivo de firma
+if (isset($_FILES['Firma']) && $_FILES['Firma']['error'] === UPLOAD_ERR_OK) {
+    $firmaTmpPath = $_FILES['Firma']['tmp_name']; // Ruta temporal del archivo
+    $firmaFileName = uniqid() . '_' . $_FILES['Firma']['name']; // Nombre único
+    $firmaFilePath = '../../firmas_pacientes/' . $firmaFileName; // Ruta destino
 
-    // Decodificar la imagen base64
-    $Firma = str_replace('data:image/png;base64,', '', $Firma);
-    $Firma = str_replace(' ', '+', $Firma);
-    $Firma_data = base64_decode($Firma);
-
-    // Verificar si la decodificación fue exitosa
-    if ($Firma_data === false) {
-        $response = array(
-            'status' => 'error',
-            'message' => 'La Firma no se pudo decodificar correctamente.'
-        );
-        header('Content-Type: application/json');
-        echo json_encode($response);
-        exit;
-    }
-
-    // Ruta para guardar la imagen
-    $Firma_file_path = '../../firmas_pacientes/' . uniqid() . '.png';
-
-    // Guardar la imagen en el servidor
-    if (!file_put_contents($Firma_file_path, $Firma_data)) {
+    // Mover el archivo a la ruta final
+    if (move_uploaded_file($firmaTmpPath, $firmaFilePath)) {
+        $Firma = $firmaFilePath; // Guardar la ruta en la variable
+    } else {
         $response = array(
             'status' => 'error',
             'message' => 'No se pudo guardar la firma en el servidor.'
@@ -124,192 +111,219 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode($response);
         exit;
     }
+}
 
-    // Verificar si el correo ya existe en la base de datos
-    $check_email_query = "SELECT * FROM pacientes WHERE correo = '$correo'";
-    $result = mysqli_query($conn, $check_email_query);
+// Verificar si se cargó una foto del paciente
+if (isset($_FILES['Foto_paciente']) && $_FILES['Foto_paciente']['error'] === UPLOAD_ERR_OK) {
+    $fotoTmpPath = $_FILES['Foto_paciente']['tmp_name']; // Ruta temporal del archivo
+    $fotoFileName = uniqid() . '_' . $_FILES['Foto_paciente']['name']; // Nombre único
+    $fotoFilePath = '../../Fotos_pacientes/' . $fotoFileName; // Ruta destino
 
-    if (mysqli_num_rows($result) > 0) {
+    // Mover el archivo a la ruta final
+    if (move_uploaded_file($fotoTmpPath, $fotoFilePath)) {
+        $Foto_paciente = $fotoFilePath; // Guardar la ruta en la variable
+    } else {
         $response = array(
             'status' => 'error',
-            'message' => 'El correo electrónico ya está registrado.'
+            'message' => 'No se pudo guardar la foto en el servidor.'
         );
         header('Content-Type: application/json');
         echo json_encode($response);
         exit;
     }
+}
+
+
+// Verificar si el correo ya existe en la base de datos
+$check_email_query = "SELECT * FROM pacientes WHERE Correo = '$Correo'";
+$result = mysqli_query($conn, $check_email_query);
+
+if (mysqli_num_rows($result) > 0) {
+    $response = array(
+        'status' => 'error',
+        'message' => 'El correo electrónico ya está registrado.'
+    );
+    header('Content-Type: application/json');
+    echo json_encode($response);
+    exit;
+}
+
+
 
     // Insertar los datos en la base de datos
-    $sql = "INSERT INTO pacientes (Nombre, 
-                                   Apellido, 
-                                   Fecha_nacimiento, 
-                                   Edad, 
-                                   Direccion, 
-                                   Correo,
-                                   Estado_civil, 
-                                   Telefono, 
-                                   Ocupacion,                                                           
-                                   Recomendacion, 
-                                   Genero, 
-                                   Esta_embarazada,
-                                   Meses_de_gestacion,
-                                   Motivo_consulta, 
-                                   Ultima_visita_odontologo, 
-                                   Cepillo_dientes_al_dia, 
-                                   Sangrado_encias, 
-                                   Aprieta_dientes, 
-                                   Durante_dia_o_noche, 
-                                   Ha_realizado_cirugia_bucal, 
-                                   Que_operacion_bucal,
-                                   Dificultad_abrir_boca,
-                                   Tiene_brackets, 
-                                   Toma_medicamentos, 
-                                   Que_medicamento,
-                                   Alergico_a_medicamento,
-                                   Mala_experiencia_con_anestesicos,
-                                   Cual_anestesico,
-                                   Lo_han_operado, 
-                                   Que_operacion_le_han_hecho,
-                                   Lo_han_operado_corazon,
-                                   Tiene_marcapasos_corazon,
-                                   Toma_anticoagulante,
-                                   Cual_anticoagulante_toma,
-                                   Tiene_tratamiento_antidepresivo,
-                                   Que_Tratamiento_Antidepresivo,
-                                   Artritis_reumatoide,
-                                   Padece_osteoporosis,
-                                   Tiene_diabetes,
-                                   Que_valores_diabetes_maneja,
-                                   Es_hipertenso,
-                                   Valores_hipertenso_maneja,
-                                   Le_han_realizado_transfusion_sanguinea,
-                                   Sangra_al_cortarse,
-                                   Ha_tenido_infarto_corazon,
-                                   Toma_acido_zoledronico,
-                                   Toma_fosamax_alendronato,
-                                   Toma_ibandronato_boniva,
-                                   Toma_actonel_risedronato,
-                                   Enfermedades_corazon, 
-                                   Enfermedades_pulmonares,
-                                   Insuficiencia_renal,
-                                   Gastritis, 
-                                   Epilepsia, 
-                                   Diabetes, 
-                                   Paralisis,
-                                   vih_sida,
-                                   Tuberculosis,
-                                   Hemofilia,
-                                   Hepatitis,
-                                   Anemia,
-                                   Presion_alta, 
-                                   Presion_baja, 
-                                   Asma, 
-                                   Artritis,
-                                   Tiroides,
-                                   Cancer, 
-                                   Familiar_padecido_enfermedades, 
-                                   Enfermedades_padecidas,
-                                   Quien_padecio,
-                                   Fuma, 
-                                   Cuantos_cigarros_al_dia_fuma,
+// Insertar los datos en la base de datos
+$sql = "INSERT INTO pacientes (Nombre_paciente, 
+                               Apellido_paciente, 
+                               Fecha_nacimiento, 
+                               Edad, 
+                               Direccion, 
+                               Correo,
+                               Estado_civil, 
+                               Telefono, 
+                               Ocupacion,                                                           
+                               Recomendacion, 
+                               genero, 
+                               Esta_embarazada,
+                               Meses_de_gestacion,
+                               Motivo_consulta, 
+                               Ultima_visita_odontologo, 
+                               Cepillo_dientes_al_dia, 
+                               Sangrado_encias, 
+                               Aprieta_dientes, 
+                               Durante_dia_o_noche, 
+                               Ha_realizado_cirugia_bucal, 
+                               Que_operacion_bucal,
+                               Dificultad_abrir_boca,
+                               Tiene_brackets, 
+                               Toma_medicamentos, 
+                               Que_medicamento,
+                               Alergico_a_medicamento,
+                               Mala_experiencia_con_anestesicos,
+                               Cual_anestesico,
+                               Lo_han_operado, 
+                               Que_operacion_le_han_hecho,
+                               Lo_han_operado_corazon,
+                               Tiene_marcapasos_corazon,
+                               Toma_anticoagulante,
+                               Cual_anticoagulante_toma,
+                               Tiene_tratamiento_antidepresivo,
+                               Que_Tratamiento_Antidepresivo,
+                               Artritis_reumatoide,
+                               Padece_osteoporosis,
+                               Tiene_diabetes,
+                               Que_valores_diabetes_maneja,
+                               Es_hipertenso,
+                               Valores_hipertenso_maneja,
+                               Le_han_realizado_transfusion_sanguinea,
+                               Sangra_al_cortarse,
+                               Ha_tenido_infarto_corazon,
+                               Toma_acido_zoledronico,
+                               Toma_fosamax_alendronato,
+                               Toma_ibandronato_boniva,
+                               Toma_actonel_risedronato,
+                               Enfermedades_corazon, 
+                               Enfermedades_pulmonares,
+                               Insuficiencia_renal,
+                               Gastritis, 
+                               Epilepsia, 
+                               Diabetes, 
+                               Paralisis,
+                               vih_sida,
+                               Tuberculosis,
+                               Hemofilia,
+                               Hepatitis,
+                               Anemia,
+                               Presion_alta, 
+                               Presion_baja, 
+                               Asma, 
+                               Artritis,
+                               Tiroides,
+                               Cancer, 
+                               Familiar_padecido_enfermedades, 
+                               Enfermedades_padecidas,
+                               Quien_padecio,
+                               Fuma, 
+                               Cuantos_cigarros_al_dia_fuma,
+                               Consume_drogas,
+                               Drogas_consumiendo,
+                               Consume_alcohol,
+                               Firma,
+                               Foto_paciente)
+        VALUES ('$Nombre', 
+                '$Apellido', 
+                '$Fecha_nacimiento',
+                '$Edad', 
+                '$Direccion', 
+                '$Correo', 
+                '$Estado_civil', 
+                '$Telefono', 
+                '$Ocupacion', 
+                '$Recomendacion', 
+                '$genero',
+                '$Esta_embarazada',
+                '$Meses_de_gestacion',
+                '$Motivo_consulta',
+                '$Ultima_visita_odontologo',
+                '$Cepillo_dientes_al_dia',
+                '$Sangrado_encias',
+                '$Aprieta_dientes', 
+                '$Durante_dia_o_noche',
+                '$Ha_realizado_cirugia_bucal',
+                '$Que_operacion_bucal',
+                '$Dificultad_abrir_boca',
+                '$Tiene_brackets',
+                '$Toma_medicamentos',
+                '$Que_medicamento',
+                '$Alergico_a_medicamento',
+                '$Mala_experiencia_con_anestesicos',
+                '$Cual_anestesico',
+                '$Lo_han_operado',
+                '$Que_operacion_le_han_hecho', 
+                '$Lo_han_operado_corazon', 
+                '$Tiene_marcapasos_corazon',
+                '$Toma_anticoagulante', 
+                '$Cual_anticoagulante_toma', 
+                '$Tiene_tratamiento_antidepresivo', 
+                '$Que_Tratamiento_Antidepresivo',
+                '$Artritis_reumatoide',
+                '$Padece_osteoporosis',
+                '$Tiene_diabetes', 
+                '$Que_valores_diabetes_maneja',
+                '$Es_hipertenso', 
+                '$Valores_hipertenso_maneja',
+                '$Le_han_realizado_transfusion_sanguinea',
+                '$Sangra_al_cortarse', 
+                '$Ha_tenido_infarto_corazon', 
+                '$Toma_acido_zoledronico',
+                '$Toma_fosamax_alendronato', 
+                '$Toma_ibandronato_boniva',
+                '$Toma_actonel_risedronato',
+                '$Enfermedades_corazon', 
+                '$Enfermedades_pulmonares', 
+                '$Insuficiencia_renal', 
+                '$Gastritis', 
+                '$Epilepsia', 
+                '$Diabetes', 
+                '$Paralisis',
+                '$vih_sida',
+                '$Tuberculosis',
+                '$Hemofilia',
+                '$Hepatitis',
+                '$Anemia',
+                '$Presion_alta', 
+                '$Presion_baja', 
+                '$Asma',
+                '$Artritis', 
+                '$Tiroides',
+                '$Cancer', 
+                '$Familiar_padecido_enfermedades',                                                           
+                '$Enfermedades_padecidas', 
+                '$Quien_padecio',
+                '$Fuma', 
+                '$Cuantos_cigarros_al_dia_fuma',
+                '$Consume_drogas', 
+                '$Drogas_consumiendo', 
+                '$Consume_alcohol', 
+                '$Firma',
+                '$Foto_paciente')";
 
-                                   Consume_drogas,
-                                   Drogas_consumiendo,
-                                   Consume_alcohol,
-                                   Firma,
-                                   Foto_paciente) VALUES ('$Nombre', 
-                                                          '$Apellido', 
-                                                          '$Fecha_nacimiento',
-                                                          '$Edad', 
-                                                          '$Direccion', 
-                                                          '$Correo', 
-                                                          '$Telefono', 
-                                                          '$Ocupacion', 
-                                                          '$Recomendacion', 
-                                                          '$Genero',
-                                                          '$Esta_embarazada',
-                                                          '$Meses_de_gestacion',
-                                                          '$Motivo_consulta',
-                                                          '$Ultima_visita_odontologo',
-                                                          '$Cepillo_dientes_al_dia',
-                                                          '$Sangrado_encias',
-                                                          '$Aprieta_dientes', 
-                                                          '$Durante_dia_o_noche',
-                                                          '$Ha_realizado_cirugia_bucal',
-                                                          '$Que_operacion_bucal',
-                                                          '$Dificultad_abrir_boca',
-                                                          '$Tiene_brackets',
-                                                          '$Toma_medicamentos',
-                                                          '$Que_medicamento',
-                                                          '$Alergico_a_medicamento',
-                                                          '$Mala_experiencia_con_anestesicos',
-                                                          '$Cual_anestesico',
-                                                          '$Lo_han_operado',
-                                                          '$Que_operacion_le_han_hecho', 
-                                                          '$Lo_han_operado_corazon', 
-                                                          '$Tiene_marcapasos_corazon',
-                                                          '$Toma_anticoagulante', 
-                                                          '$Cual_anticoagulante_toma', 
-                                                          '$Tiene_tratamiento_antidepresivo', 
-                                                          '$Que_Tratamiento_Antidepresivo',
-                                                          '$Artritis_reumatoide',
-                                                          '$Padece_osteoporosis',
-                                                          '$Tiene_diabetes', 
-                                                          '$Que_valores_diabetes_maneja',
-                                                          '$Es_hipertenso', 
-                                                          '$Valores_hipertenso_maneja',
-                                                          '$Le_han_realizado_transfusion_sanguinea',
-                                                          '$Sangra_al_cortarse', 
-                                                          '$Ha_tenido_infarto_corazon', 
-                                                          '$Toma_acido_zoledronico',
-                                                          '$Toma_fosamax_alendronato', 
-                                                          '$Toma_ibandronato_boniva',
-                                                          '$Toma_actonel_risedronato',
-                                                          '$Enfermedades_corazon', 
-                                                          '$Enfermedades_pulmonares', 
-                                                          '$Insuficiencia_renal', 
-                                                          '$Gastritis', 
-                                                          '$Epilepsia', 
-                                                          '$Diabetes', 
-                                                          '$Paralisis',
-                                                          '$vih_sida',
-                                                          '$Tuberculosis',
-                                                          '$Hemofilia',
-                                                          '$Hepatitis',
-                                                          '$Anemia',
-                                                          '$Presion_alta', 
-                                                          '$Presion_baja', 
-                                                          '$Asma',
-                                                          '$Artritis', 
-                                                          '$Tiroides',
-                                                          '$Cancer', 
-                                                          '$Familiar_padecido_enfermedades',                                                           
-                                                          '$Enfermedades_padecidas', 
-                                                          '$Quien_padecio',
-                                                          '$Fuma', 
-                                                          '$Cuantos_cigarros_al_dia_fuma',
-                                                          '$Consume_drogas', 
-                                                          '$Drogas_consumiendo', 
-                                                          '$Consume_alcohol', 
-                                                          '$firma_file_path',
-                                                          '$Foto_paciente',)";
+if (mysqli_query($conn, $sql)) {
+    $response = array(
+        'status' => 'success',
+        'message' => 'Paciente agregado exitosamente.'
+    );
+} else {
+    $response = array(
+        'status' => 'error',
+        'message' => 'Error al agregar el paciente: ' . mysqli_error($conn)
+    );
+}
 
-    if (mysqli_query($conn, $sql)) {
-        $response = array(
-            'status' => 'success',
-            'message' => 'Paciente agregado exitosamente.'
-        );
-    } else {
-        $response = array(
-            'status' => 'error',
-            'message' => 'Error al agregar el paciente: ' . mysqli_error($conn)
-        );
-    }
-    // Cerrar la conexión a la base de datos
-    mysqli_close($conn);
 
     // Enviar la respuesta como JSON
     header('Content-Type: application/json');
     echo json_encode($response);
 }
+    // Cerrar la conexión a la base de datos
+    mysqli_close($conn);
 ?>
