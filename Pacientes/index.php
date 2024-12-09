@@ -129,16 +129,23 @@ include 'solicitudes/mostrar_pacientes.php';
                           <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
                               <!-- Botón para abrir el modal -->
                                    <!-- Botón para abrir el modal -->
-<!-- Botón para abrir el modal -->
-<button type="button"  class="ver-registro-btn bg-transparent border-0 cursor-pointer" data-id="<?= $paciente['idPaciente'] ?>">
-    <i class='bx bx-id-card text-lg mx-2'></i>
-</button>
-                              <!-- Botón para redirigir a historial.html -->
-                              <button class="bg-transparent border-0 cursor-pointer" onclick="window.location.href='/../ClinicaDentalEsdent/Historial/'">
-                                  <i class='bx bx-folder text-lg mx-2'></i>
-                              </button>
+                            <!-- Botón para abrir el modal -->
+<!-- Botón para ver datos del paciente -->
+<button onclick="openVerPacienteModal(<?= $paciente['idPaciente'] ?>)" class="bg-transparent border-0 cursor-pointer">
+        <i class="bx bx-id-card text-lg mx-2" style="color:#3c3c3c;"></i>
+    </button>
+
+                           
+                              <!-- Botón para redirigir al historial sin pasar el idPaciente en la URL -->
+                              <form id="redirectForm<?= $paciente['idPaciente'] ?>" method="POST" action="/../ClinicaDentalEsdent/Historial/index.php" style="display: none;">
+                              <input type="hidden" name="idPaciente" value="<?= $paciente['idPaciente'] ?>">
+                              </form>
+                              <button class="bg-transparent border-0 cursor-pointer" onclick="document.getElementById('redirectForm<?= $paciente['idPaciente'] ?>').submit();">
+                                <i class='bx bx-folder text-lg mx-2'></i>
+                              </button>                                                            
+
                               <!-- Botón para borrar -->
-                              <button class="bg-transparent border-0 cursor-pointer"">
+                              <button class="bg-transparent border-0 cursor-pointer">
                                   <i class='bx bx-trash text-lg mx-2' style='color:#3c3c3c'></i>
                               </button>
                           </td>
