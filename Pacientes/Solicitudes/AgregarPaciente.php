@@ -9,35 +9,35 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Recibir y limpiar los datos del formulario
-    $Nombre                                 = mysqli_real_escape_string($conn, $_POST['Nombre_paciente']);
-    $Apellido                               = mysqli_real_escape_string($conn, $_POST['Apellido_paciente']);
-    $Fecha_nacimiento                       = mysqli_real_escape_string($conn, $_POST['Fecha_nacimiento']);
-    $Edad                                   = mysqli_real_escape_string($conn, $_POST['Edad']);
-    $Direccion                              = mysqli_real_escape_string($conn, $_POST['Direccion']);
-    $Correo                                 = mysqli_real_escape_string($conn, $_POST['Correo']);
-    $Estado_civil                           = mysqli_real_escape_string($conn, $_POST['Estado_civil']);
-    $Telefono                               = mysqli_real_escape_string($conn, $_POST['Telefono']);
-    $Ocupacion                              = mysqli_real_escape_string($conn, $_POST['Ocupacion']);
-    $Recomendacion                          = mysqli_real_escape_string($conn, $_POST['Recomendacion']);
-    $genero                                 = mysqli_real_escape_string($conn, $_POST['genero']);
-    $Esta_embarazada                        = mysqli_real_escape_string($conn, $_POST['Esta_embarazada']);
-    $Meses_de_gestacion                     = mysqli_real_escape_string($conn, $_POST['Meses_de_gestacion']);
+    $Nombre                                 = mysqli_real_escape_string($conn, $_POST['Nombre_paciente'] ?? '');
+    $Apellido                               = mysqli_real_escape_string($conn, $_POST['Apellido_paciente'] ?? '');
+    $Fecha_nacimiento                       = mysqli_real_escape_string($conn, $_POST['Fecha_nacimiento'] ?? '');
+    $Edad                                   = mysqli_real_escape_string($conn, $_POST['Edad'] ?? '');
+    $Direccion                              = mysqli_real_escape_string($conn, $_POST['Direccion'] ?? '');
+    $Correo                                 = mysqli_real_escape_string($conn, $_POST['Correo'] ?? '');
+    $Estado_civil                           = mysqli_real_escape_string($conn, $_POST['Estado_civil'] ?? '');
+    $Telefono                               = mysqli_real_escape_string($conn, $_POST['Telefono'] ?? '');
+    $Ocupacion                              = mysqli_real_escape_string($conn, $_POST['Ocupacion'] ?? '');
+    $Recomendacion                          = mysqli_real_escape_string($conn, $_POST['Recomendacion'] ?? '');
+    $genero                                 = mysqli_real_escape_string($conn, $_POST['genero'] ?? '');
+    $Esta_embarazada                        = mysqli_real_escape_string($conn, $_POST['Esta_embarazada'] ?? '');
+    $Meses_de_gestacion                     = mysqli_real_escape_string($conn, $_POST['Meses_de_gestacion'] ?? '');
   
-    $Motivo_consulta                        = mysqli_real_escape_string($conn, $_POST['Motivo_consulta']);
-    $Ultima_visita_odontologo               = mysqli_real_escape_string($conn, $_POST['Ultima_visita_odontologo']);
-    $Cepillo_dientes_al_dia                 = mysqli_real_escape_string($conn, $_POST['Cepillo_dientes_al_dia']);
-    $Sangrado_encias                        = mysqli_real_escape_string($conn, $_POST['Sangrado_encias']);
-    $Aprieta_dientes                        = mysqli_real_escape_string($conn, $_POST['Aprieta_dientes']);
-    $Durante_dia_o_noche                    = mysqli_real_escape_string($conn, $_POST['Durante_dia_o_noche']);
-    $Ha_realizado_cirugia_bucal             = mysqli_real_escape_string($conn, $_POST['Ha_realizado_cirugia_bucal']);
-    $Que_operacion_bucal                    = mysqli_real_escape_string($conn, $_POST['Que_operacion_bucal']);
-    $Dificultad_abrir_boca                  = mysqli_real_escape_string($conn, $_POST['Dificultad_abrir_boca']);
-    $Tiene_brackets                         = mysqli_real_escape_string($conn, $_POST['Tiene_brackets']);
+    $Motivo_consulta                        = mysqli_real_escape_string($conn, $_POST['Motivo_consulta'] ?? '');
+    $Ultima_visita_odontologo               = mysqli_real_escape_string($conn, $_POST['Ultima_visita_odontologo'] ?? '');
+    $Cepillo_dientes_al_dia                 = mysqli_real_escape_string($conn, $_POST['Cepillo_dientes_al_dia'] ?? '');
+    $Sangrado_encias                        = mysqli_real_escape_string($conn, $_POST['Sangrado_encias'] ?? '');
+    $Aprieta_dientes                        = mysqli_real_escape_string($conn, $_POST['Aprieta_dientes'] ?? '');
+    $Durante_dia_o_noche                    = mysqli_real_escape_string($conn, $_POST['Durante_dia_o_noche'] ?? '');
+    $Ha_realizado_cirugia_bucal             = mysqli_real_escape_string($conn, $_POST['Ha_realizado_cirugia_bucal'] ?? '');
+    $Que_operacion_bucal                    = mysqli_real_escape_string($conn, $_POST['Que_operacion_bucal'] ?? '');
+    $Dificultad_abrir_boca                  = mysqli_real_escape_string($conn, $_POST['Dificultad_abrir_boca'] ?? '');
+    $Tiene_brackets                         = mysqli_real_escape_string($conn, $_POST['Tiene_brackets'] ?? '');
 
     $Toma_medicamentos                      = mysqli_real_escape_string($conn, $_POST['Toma_medicamentos'] ?? '');
     $Que_medicamento                        = mysqli_real_escape_string($conn, $_POST['Que_medicamento'] ?? '');
-    $Alergico_a_medicamento                 = mysqli_real_escape_string($conn, $_POST['Que_medicamento'] ?? '');
-    $Medicamento_que_es_alergico            = mysqli_real_escape_string($conn, $_POST['Que_medicamento'] ?? '');
+    $Alergico_a_medicamento                 = mysqli_real_escape_string($conn, $_POST['Alergico_a_medicamento'] ?? '');
+    $Medicamento_que_es_alergico            = mysqli_real_escape_string($conn, $_POST['Medicamento_que_es_alergico'] ?? '');
     $Mala_experiencia_con_anestesicos       = mysqli_real_escape_string($conn, $_POST['Mala_experiencia_con_anestesicos'] ?? '');
     $Cual_anestesico                        = mysqli_real_escape_string($conn, $_POST['Cual_anestesico'] ?? '');
     $Lo_han_operado                         = mysqli_real_escape_string($conn, $_POST['Lo_han_operado'] ?? '');
@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Toma_acido_zoledronico                 = mysqli_real_escape_string($conn, $_POST['Toma_acido_zoledronico'] ?? '');
     $Toma_fosamax_alendronato               = mysqli_real_escape_string($conn, $_POST['Toma_fosamax_alendronato'] ?? '');
     $Toma_ibandronato_boniva                = mysqli_real_escape_string($conn, $_POST['Toma_ibandronato_boniva'] ?? '');
-    $Toma_actonel_risedronato               = mysqli_real_escape_string($conn, $_POST['toma_acido_zoledronico'] ?? '');
+    $Toma_actonel_risedronato               = mysqli_real_escape_string($conn, $_POST['Toma_actonel_risedronato'] ?? '');
 
     $Enfermedades_corazon                   = mysqli_real_escape_string($conn, $_POST['Enfermedades_corazon'] ?? '');
     $Enfermedades_pulmonares                = mysqli_real_escape_string($conn, $_POST['Enfermedades_pulmonares'] ?? '');
@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $vih_sida                               = mysqli_real_escape_string($conn, $_POST['vih_sida'] ?? '');
     $Tuberculosis                           = mysqli_real_escape_string($conn, $_POST['Tuberculosis'] ?? '');
     $Hemofilia                              = mysqli_real_escape_string($conn, $_POST['Hemofilia'] ?? '');
-    $Hepatitis                              = mysqli_real_escape_string($conn, $_POST['hepatitis'] ?? '');
+    $Hepatitis                              = mysqli_real_escape_string($conn, $_POST['Hepatitis'] ?? '');
     $Anemia                                 = mysqli_real_escape_string($conn, $_POST['Anemia'] ?? '');
     $Presion_alta                           = mysqli_real_escape_string($conn, $_POST['Presion_alta'] ?? '');
     $Presion_baja                           = mysqli_real_escape_string($conn, $_POST['Presion_baja'] ?? '');
@@ -89,10 +89,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $Fuma                                   = mysqli_real_escape_string($conn, $_POST['Fuma'] ?? '');
     $Cuantos_cigarros_al_dia_fuma           = mysqli_real_escape_string($conn, $_POST['Cuantos_cigarros_al_dia_fuma'] ?? ''); 
     $Consume_drogas                         = mysqli_real_escape_string($conn, $_POST['Consume_drogas'                      ] ?? '');
-    $Drogas_consumiendo = mysqli_real_escape_string($conn, $_POST['consume_drogas'] ?? '');
-    $Consume_alcohol = mysqli_real_escape_string($conn, $_POST['drogas_tomando'] ?? '');
+    $Drogas_consumiendo                     = mysqli_real_escape_string($conn, $_POST['Drogas_consumiendo'] ?? '');
+    $Consume_alcohol                        = mysqli_real_escape_string($conn, $_POST['Consume_alcohol'] ?? '');
+
 
     // Recibir y limpiar la firma
+    $Firma = null; // Inicializamos la variable
+    $Foto_paciente = null; // Inicializamos la variable
 // Verificar si se cargó un archivo de firma
 if (isset($_FILES['Firma']) && $_FILES['Firma']['error'] === UPLOAD_ERR_OK) {
     $firmaTmpPath = $_FILES['Firma']['tmp_name']; // Ruta temporal del archivo
@@ -178,6 +181,7 @@ $sql = "INSERT INTO pacientes (Nombre_paciente,
                                Toma_medicamentos, 
                                Que_medicamento,
                                Alergico_a_medicamento,
+                               Medicamento_que_es_alergico,
                                Mala_experiencia_con_anestesicos,
                                Cual_anestesico,
                                Lo_han_operado, 
@@ -255,6 +259,7 @@ $sql = "INSERT INTO pacientes (Nombre_paciente,
                 '$Toma_medicamentos',
                 '$Que_medicamento',
                 '$Alergico_a_medicamento',
+                '$Medicamento_que_es_alergico',
                 '$Mala_experiencia_con_anestesicos',
                 '$Cual_anestesico',
                 '$Lo_han_operado',
