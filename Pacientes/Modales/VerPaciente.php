@@ -27,7 +27,7 @@
                 <div class="flex flex-col items-center cursor-pointer group">
                     <div id="VFoto-display" class="border-2 border-gray-300 w-64 h-64 rounded-md flex items-center justify-center overflow-hidden relative group">
                         <span class="text-gray-500 absolute z-10 group-hover:hidden" id="Vplaceholder-text"></span>
-                        <img id="VPaciente-Foto" src="../Fotos_pacientes/67471c25cb94b_Captura de pantalla 2024-06-14 230018.png" alt="Fotografía del paciente"
+                        <img id="VPaciente-Foto" src="../<?= !empty($paciente['Foto_paciente']) ? str_replace('../', '', $paciente['Foto_paciente']) : 'Fotos_pacientes/default.webp' ?>"
                              class="w-full h-full object-cover rounded-md transition-all duration-300 transform group-hover:scale-110 group-hover:opacity-90"
                              onclick="openImageInModal(this)">
                     </div>
