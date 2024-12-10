@@ -21,7 +21,7 @@
                            type="text" 
                            placeholder="NOMBRE(S)"
                            id="Nombre" 
-                           name="Nombre_paciente">
+                           name="AGREGAR_Nombre_paciente">
                 </div>
             
                 <!-- Input: APELLIDOS -->
@@ -30,7 +30,7 @@
                            type="text" 
                            placeholder="APELLIDOS"
                            id="Apellido" 
-                           name="Apellido_paciente">
+                           name="AGREGAR_Apellido_paciente">
                 </div>
             
                 <!-- Input: Fecha de Nacimiento -->
@@ -39,7 +39,7 @@
                            type="text" 
                            placeholder="FECHA DE NACIMIENTO"
                            id="Fecha_nacimiento" 
-                           name="Fecha_nacimiento">
+                           name="AGREGAR_Fecha_nacimiento">
                 </div>
             
                 <!-- Input: Edad -->
@@ -48,7 +48,7 @@
                            type="number" 
                            placeholder="EDAD"
                            id="Edad" 
-                           name="Edad">
+                           name="AGREGAR_Edad">
                 </div>
             
                 <!-- Input: Dirección -->
@@ -57,7 +57,7 @@
                            type="text" 
                            placeholder="DIRECCIÓN"
                            id="Direccion" 
-                           name="Direccion">
+                           name="AGREGAR_Direccion">
                 </div>
             
                 <!-- Input: Número de Teléfono -->
@@ -66,7 +66,7 @@
                            type="tel" 
                            placeholder="NÚMERO DE TELÉFONO"
                            id="Telefono" 
-                           name="Telefono">
+                           name="AGREGAR_Telefono">
                 </div>
             
                 <!-- Input: Correo Electrónico -->
@@ -75,7 +75,7 @@
                            type="email" 
                            placeholder="CORREO ELECTRÓNICO"
                            id="Correo" 
-                           name="Correo">
+                           name="AGREGAR_Correo">
                 </div>
             
                 <!-- Input: Estado Civil -->
@@ -84,7 +84,7 @@
                            type="text" 
                            placeholder="ESTADO CIVIL"
                            id="Estado_civil" 
-                           name="Estado_civil">
+                           name="AGREGAR_Estado_civil">
                 </div>
             
                 <!-- Input: Ocupación -->
@@ -93,7 +93,7 @@
                            type="text" 
                            placeholder="OCUPACIÓN"
                            id="Ocupacion" 
-                           name="Ocupacion">
+                           name="AGREGAR_Ocupacion">
                 </div>
             
                 <!-- Input: Recomendación -->
@@ -102,13 +102,13 @@
                            type="text" 
                            placeholder="RECOMENDACIÓN"
                            id="Recomendacion" 
-                           name="Recomendacion">
+                           name="AGREGAR_Recomendacion">
                 </div>
             
                 <!-- Select: Género -->
                 <select class="pl-8 py-2 bg-[#E6ECF8] col-span-2 text-xs rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
                         id="gender"
-                        name="genero">
+                        name="AGREGAR_genero">
                     <option disabled selected>GÉNERO</option>
                     <option value="femenino">Femenino</option>
                     <option value="masculino">Masculino</option>
@@ -119,7 +119,7 @@
                 <div class="w-full col-span-2 text-xs mb-4" id="embarazo-section" style="display: none;">
                     <select class="pl-8 py-2 bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                             id="Esta_embarazada" 
-                            name="Esta_embarazada">
+                            name="AGREGAR_Esta_embarazada">
                         <option disabled selected>¿Estás embarazada?</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -128,7 +128,7 @@
                     <!-- Input: Meses de embarazo (si selecciona que sí está embarazada) -->
                     <input class="pl-8 text-xs py-2 col-span-2 mt-8 bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
                            id="meses-embarazo"  
-                           name="Meses_de_gestacion"
+                           name="AGREGAR_Meses_de_gestacion"
                            type="number" 
                            placeholder="¿Cuántos meses de embarazo?, ingrese solo el numero " 
                            style="display: none;">
@@ -151,7 +151,7 @@
                            type="text" 
                            placeholder="Describe el motivo de tu consulta"
                            id="Motivo_consulta" 
-                           name="Motivo_consulta">
+                           name="AGREGAR_Motivo_consulta">
                 </div>
               
                 <!-- Input: Última visita al odontólogo -->
@@ -161,7 +161,7 @@
                            type="text" 
                            placeholder="¿Cuándo fue tu última visita?"
                            id="Ultima_visita_odontologo" 
-                           name="Ultima_visita_odontologo">
+                           name="AGREGAR_Ultima_visita_odontologo">
                 </div>
               
                 <!-- Input: Cuántas veces se cepilla los dientes al día -->
@@ -171,7 +171,7 @@
                            type="text" 
                            placeholder="Indica cuántas veces te cepillas al día"
                            id="Cepillo_dientes_al_dia" 
-                           name="Cepillo_dientes_al_dia">
+                           name="AGREGAR_Cepillo_dientes_al_dia">
                 </div>
               
                 <!-- Select: Sus encías sangran con frecuencia -->
@@ -179,7 +179,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Sus encías sangran con frecuencia?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                             id="Sangrado_encias" 
-                            name="Sangrado_encias">
+                            name="AGREGAR_Sangrado_encias">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -191,7 +191,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Padece de bruxismo (Apretar sus dientes)?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
                             id="bruxismo"
-                            name="Aprieta_dientes">
+                            name="AGREGAR_Aprieta_dientes">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -199,7 +199,7 @@
                     <!-- Pregunta adicional si selecciona que sí en bruxismo -->
                     <div id="bruxismo-adicional" style="display: none;" class="mt-2">
                         <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
-                            name="Durante_dia_o_noche">
+                            name="AGREGAR_Durante_dia_o_noche">
                             <option disabled selected>¿Durante el día o la noche?</option>
                             <option value="dia">Día</option>
                             <option value="noche">Noche</option>
@@ -213,7 +213,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Le han realizado alguna cirugía bucal?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
                             id="operado-bucal"
-                            name="Ha_realizado_cirugia_bucal">
+                            name="AGREGAR_Ha_realizado_cirugia_bucal">
                         <option disabled selected>Selecciona una opción</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -224,7 +224,7 @@
                             type="text" 
                             placeholder="¿Cuál?"
                             id="Que_operacion_bucal"
-                            name="Que_operacion_bucal">
+                            name="AGREGAR_Que_operacion_bucal">
                     </div>
                 </div>
               
@@ -233,7 +233,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Tiene dificultad para abrir o cerrar la boca?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                             id="Dificultad_abrir_boca" 
-                            name="Dificultad_abrir_boca">
+                            name="AGREGAR_Dificultad_abrir_boca">
                         <option disabled selected>Selecciona una opción</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -245,7 +245,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Ha utilizado tratamiento de brackets?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                             id="Tiene_brackets" 
-                            name="Tiene_brackets">
+                            name="AGREGAR_Tiene_brackets">
                         <option disabled selected>Selecciona una opción</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -270,7 +270,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Está tomando algún medicamento?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
                             id="medicamento"
-                            name="Toma_medicamentos">
+                            name="AGREGAR_Toma_medicamentos">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -282,7 +282,7 @@
                                type="text" 
                                placeholder="¿Cuál?"
                                id="Que_medicamento" 
-                               name="Que_medicamento">
+                               name="AGREGAR_Que_medicamento">
                     </div>
                 </div>
             
@@ -291,7 +291,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Es alérgico a algún medicamento?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
                             id="alergico-medicamento"
-                            name="Alergico_a_medicamento">
+                            name="AGREGAR_Alergico_a_medicamento">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -302,7 +302,7 @@
                                type="text" 
                                placeholder="¿A cuál?"
                                id="Medicamento_que_es_alergico" 
-                               name="Medicamento_que_es_alergico">
+                               name="AGREGAR_Medicamento_que_es_alergico">
                     </div>
                 </div>
 
@@ -311,7 +311,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Ha tenido mala experiencia con anestésicos?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
                             id="experiencia-anestesicos"
-                            name="Mala_experiencia_con_anestesicos">
+                            name="AGREGAR_Mala_experiencia_con_anestesicos">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -322,7 +322,7 @@
                                type="text" 
                                placeholder="¿A cuál?"
                                id="Cual_anestesico" 
-                               name="Cual_anestesico">
+                               name="AGREGAR_Cual_anestesico">
                     </div>
                 </div>
             
@@ -331,7 +331,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Lo han operado?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
                             id="operado"
-                            name="Lo_han_operado">
+                            name="AGREGAR_Lo_han_operado">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -342,7 +342,7 @@
                               type="text" 
                               placeholder="¿De qué?"
                               id="Que_operacion_le_han_hecho" 
-                              name="Que_operacion_le_han_hecho">
+                              name="AGREGAR_Que_operacion_le_han_hecho">
                     </div>
                 </div>
 
@@ -351,7 +351,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Le han operado del corazón?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
                             id="operado-corazon"
-                            name="Lo_han_operado_corazon">
+                            name="AGREGAR_Lo_han_operado_corazon">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -362,7 +362,7 @@
                                type="text" 
                                placeholder="¿Tiene algún marcapasos?"
                                id="Tiene_marcapasos_corazon"
-                               name="Tiene_marcapasos_corazon">
+                               name="AGREGAR_Tiene_marcapasos_corazon">
                     </div>
                 </div>
             
@@ -371,7 +371,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Está tomando algún anticoagulante oral (ASPIRINA, WARFARINA, RIVAROXABÁN, APIXABAN, CLOPIDROGEL)?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
                             id="anticoagulante"
-                            name="Toma_anticoagulante">
+                            name="AGREGAR_Toma_anticoagulante">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -383,7 +383,7 @@
                                type="text" 
                                placeholder="¿Cuál está tomando?"
                                id="Cual_anticoagulante_toma" 
-                               name="Cual_anticoagulante_toma">
+                               name="AGREGAR_Cual_anticoagulante_toma">
                     </div>
                 </div>
             
@@ -392,7 +392,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Está en tratamiento antidepresivo?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
                             id="antidepresivo"
-                            name="Tiene_tratamiento_antidepresivo">
+                            name="AGREGAR_Tiene_tratamiento_antidepresivo">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -404,7 +404,7 @@
                                type="text" 
                                placeholder="¿Qué tratamiento toma?"
                                id="Que_Tratamiento_Antidepresivo"
-                               name="Que_Tratamiento_Antidepresivo">
+                               name="AGREGAR_Que_Tratamiento_Antidepresivo">
                     </div>
                 </div>
             
@@ -413,7 +413,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Padece de artritis reumatoide?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                             id="Artritis_reumatoide" 
-                            name="Artritis_reumatoide">
+                            name="AGREGAR_Artritis_reumatoide">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -425,7 +425,7 @@
                 <label class="block text-xs text-[#3B3636] mb-1">¿Padece de osteoporosis?</label>
                 <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                         id="Padece_osteoporosis" 
-                        name="Padece_osteoporosis">
+                        name="AGREGAR_Padece_osteoporosis">
                     <option disabled selected>Seleccione</option>
                     <option value="Si">Sí</option>
                     <option value="No">No</option>
@@ -437,7 +437,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Tiene diabetes?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
                             id="diabetes"
-                            name="Tiene_diabetes">
+                            name="AGREGAR_Tiene_diabetes">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -449,7 +449,7 @@
                                type="text" 
                                placeholder="¿Qué valores maneja?"
                                id="Que_valores_diabetes_maneja" 
-                               name="Que_valores_diabetes_maneja">
+                               name="AGREGAR_Que_valores_diabetes_maneja">
                     </div>
                 </div>
             
@@ -458,7 +458,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Es hipertenso?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
                             id="hipertenso"
-                            name="Es_hipertenso">
+                            name="AGREGAR_Es_hipertenso">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -470,7 +470,7 @@
                                type="text" 
                                placeholder="¿Qué valores maneja?"
                                id="Valores_hipertenso_maneja" 
-                               name="Valores_hipertenso_maneja">
+                               name="AGREGAR_Valores_hipertenso_maneja">
                     </div>
                 </div>
             
@@ -481,7 +481,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Le han realizado transfusiones sanguíneas?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                             id="Le_han_realizado_transfusion_sanguinea" 
-                            name="Le_han_realizado_transfusion_sanguinea">
+                            name="AGREGAR_Le_han_realizado_transfusion_sanguinea">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -493,7 +493,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Sangra mucho al cortarse?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                             id="Sangra_al_cortarse" 
-                            name="Sangra_al_cortarse">
+                            name="AGREGAR_Sangra_al_cortarse">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -505,7 +505,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Ha tenido infarto en el corazón?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                             id="Ha_tenido_infarto_corazon" 
-                            name="Ha_tenido_infarto_corazon">
+                            name="AGREGAR_Ha_tenido_infarto_corazon">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -517,7 +517,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Tiene prótesis en el corazón?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                             id="Tiene_protesis_corazon" 
-                            name="Tiene_protesis_corazon">
+                            name="AGREGAR_Tiene_protesis_corazon">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -529,7 +529,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Toma ácido zoledrónico?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                             id="Toma_acido_zoledronico" 
-                            name="Toma_acido_zoledronico">
+                            name="AGREGAR_Toma_acido_zoledronico">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -541,7 +541,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Toma Fosamax (Alendronato)?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                             id="Toma_fosamax_alendronato" 
-                            name="Toma_fosamax_alendronato">
+                            name="AGREGAR_Toma_fosamax_alendronato">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -553,7 +553,7 @@
                 <label class="block text-xs text-[#3B3636] mb-1">¿Toma Ibandronato (Boniva)?</label>
                 <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                         id="Toma_ibandronato_boniva" 
-                        name="Toma_ibandronato_boniva">
+                        name="AGREGAR_Toma_ibandronato_boniva">
                     <option disabled selected>Seleccione</option>
                     <option value="Si">Sí</option>
                     <option value="No">No</option>
@@ -565,7 +565,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Toma Actonel (Risedronato)?</label>
                     <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                             id="Toma_actonel_risedronato" 
-                            name="Toma_actonel_risedronato">
+                            name="AGREGAR_Toma_actonel_risedronato">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -586,93 +586,93 @@
             <p class="text-xs text-[#3B3636] mb-4">(Favor de marcar las enfermedades que padezca o haya padecido)</p>
                 <div class="grid grid-cols-2 gap-6 mb-4">
                     <label class="flex items-center">
-                        <input type="hidden" name="Enfermedades_corazon" value="No">
-                        <input type="checkbox" class="mr-2" id="Enfermedades_corazon" name="Enfermedades_corazon" value="Si ">
+                        <input type="hidden" name="AGREGAR_Enfermedades_corazon" value="No">
+                        <input type="checkbox" class="mr-2" id="Enfermedades_corazon" name="AGREGAR_Enfermedades_corazon" value="Si ">
                         ENFERMEDADES DEL CORAZÓN
                     </label>
                     <label class="flex items-center">
-                        <input type="hidden" name="Enfermedades_pulmonares" value="No">
-                        <input type="checkbox" class="mr-2" id="Enfermedades_pulmonares" name="Enfermedades_pulmonares" value="Si">
+                        <input type="hidden" name="AGREGAR_Enfermedades_pulmonares" value="No">
+                        <input type="checkbox" class="mr-2" id="Enfermedades_pulmonares" name="AGREGAR_Enfermedades_pulmonares" value="Si">
                         ENFERMEDADES PULMONALES
                     </label>
                     <label class="flex items-center">
-                        <input type="hidden" name="Insuficiencia_renal" value="No">
-                        <input type="checkbox" class="mr-2" id="Insuficiencia_renal" name="Insuficiencia_renal" value="Si">
+                        <input type="hidden" name="AGREGAR_Insuficiencia_renal" value="No">
+                        <input type="checkbox" class="mr-2" id="Insuficiencia_renal" name="AGREGAR_Insuficiencia_renal" value="Si">
                         INSUFICIENCIA RENAL
                     </label>
                     <label class="flex items-center">
-                        <input type="hidden" name="Gastritis" value="No">
-                        <input type="checkbox" class="mr-2" id="Gastritis" name="Gastritis" value="Si">
+                        <input type="hidden" name="AGREGAR_Gastritis" value="No">
+                        <input type="checkbox" class="mr-2" id="Gastritis" name="AGREGAR_Gastritis" value="Si">
                         GASTRITIS
                     </label>
                     <label class="flex items-center">
-                        <input type="hidden" name="Epilepsia" value="No">
-                        <input type="checkbox" class="mr-2" id="Epilepsia" name="Epilepsia" value="Si">
+                        <input type="hidden" name="AGREGAR_Epilepsia" value="No">
+                        <input type="checkbox" class="mr-2" id="Epilepsia" name="AGREGAR_Epilepsia" value="Si">
                         EPILEPSIA
                     </label>
                     <label class="flex items-center">
-                        <input type="hidden" name="Diabetes" value="No">
-                        <input type="checkbox" class="mr-2" id="Diabetes" name="Diabetes" value="Si ">
+                        <input type="hidden" name="AGREGAR_Diabetes" value="No">
+                        <input type="checkbox" class="mr-2" id="Diabetes" name="AGREGAR_Diabetes" value="Si ">
                         DIABETES
                     </label>
                     <label class="flex items-center">
-                        <input type="hidden" name="Paralisis" value="No">
-                        <input type="checkbox" class="mr-2" id="Paralisis" name="Paralisis" value="Si">
+                        <input type="hidden" name="AGREGAR_Paralisis" value="No">
+                        <input type="checkbox" class="mr-2" id="Paralisis" name="AGREGAR_Paralisis" value="Si">
                         PARÁLISIS
                     </label>
                     <label class="flex items-center">
-                        <input type="hidden" name="vih_sida" value="No">
-                        <input type="checkbox" class="mr-2" id="vih_sida" name="vih_sida" value="Si ">
+                        <input type="hidden" name="AGREGAR_vih_sida" value="No">
+                        <input type="checkbox" class="mr-2" id="vih_sida" name="AGREGAR_vih_sida" value="Si ">
                         VIH/SIDA
                     </label>
                     <label class="flex items-center">
-                        <input type="hidden" name="Tuberculosis" value="No">
-                        <input type="checkbox" class="mr-2" id="Tuberculosis" name="Tuberculosis" value="Si ">
+                        <input type="hidden" name="AGREGAR_Tuberculosis" value="No">
+                        <input type="checkbox" class="mr-2" id="Tuberculosis" name="AGREGAR_Tuberculosis" value="Si ">
                         TUBERCULOSIS
                     </label>
                     <label class="flex items-center">
-                        <input type="hidden" name="Hemofilia" value="No">
-                        <input type="checkbox" class="mr-2" id="Hemofilia" name="Hemofilia" value="Si">
+                        <input type="hidden" name="AGREGAR_Hemofilia" value="No">
+                        <input type="checkbox" class="mr-2" id="Hemofilia" name="AGREGAR_Hemofilia" value="Si">
                         HEMOFILIA
                     </label>
                     <label class="flex items-center">
-                        <input type="hidden" name="Hepatitis" value="No">
-                        <input type="checkbox" class="mr-2" id="Hepatitis" name="Hepatitis" value="Si">
+                        <input type="hidden" name="AGREGAR_Hepatitis" value="No">
+                        <input type="checkbox" class="mr-2" id="Hepatitis" name="AGREGAR_Hepatitis" value="Si">
                         HEPATITIS
                     </label>
                     <label class="flex items-center">
-                        <input type="hidden" name="Anemia" value="No">
-                        <input type="checkbox" class="mr-2" id="Anemia" name="Anemia" value="Si ">
+                        <input type="hidden" name="AGREGAR_Anemia" value="No">
+                        <input type="checkbox" class="mr-2" id="Anemia" name="AGREGAR_Anemia" value="Si ">
                         ANEMIA
                     </label>
                     <label class="flex items-center">
-                        <input type="hidden" name="Presion_alta" value="No">
-                        <input type="checkbox" class="mr-2" id="Presion_alta" name="Presion_alta" value="Si ">
+                        <input type="hidden" name="AGREGAR_Presion_alta" value="No">
+                        <input type="checkbox" class="mr-2" id="Presion_alta" name="AGREGAR_Presion_alta" value="Si ">
                         PRESIÓN ALTA
                     </label>
                     <label class="flex items-center">
-                        <input type="hidden" name="Presion_baja" value="No">
-                        <input type="checkbox" class="mr-2" id="Presion_baja" name="Presion_baja" value="Si ">
+                        <input type="hidden" name="AGREGAR_Presion_baja" value="No">
+                        <input type="checkbox" class="mr-2" id="Presion_baja" name="AGREGAR_Presion_baja" value="Si ">
                         PRESIÓN BAJA
                     </label>
                     <label class="flex items-center">
-                        <input type="hidden" name="Asma" value="No">
-                        <input type="checkbox" class="mr-2" id="Asma" name="Asma" value="Si ">
+                        <input type="hidden" name="AGREGAR_Asma" value="No">
+                        <input type="checkbox" class="mr-2" id="Asma" name="AGREGAR_Asma" value="Si ">
                         ASMA
                     </label>
                     <label class="flex items-center">
-                        <input type="hidden" name="Artritis" value="No">
-                        <input type="checkbox" class="mr-2" id="Artritis" name="Artritis" value="Si ">
+                        <input type="hidden" name="AGREGAR_Artritis" value="No">
+                        <input type="checkbox" class="mr-2" id="Artritis" name="AGREGAR_Artritis" value="Si ">
                         ARTRITIS
                     </label>
                     <label class="flex items-center">
-                        <input type="hidden" name="Tiroides" value="No">
-                        <input type="checkbox" class="mr-2" id="Tiroides" name="Tiroides" value="Si ">
+                        <input type="hidden" name="AGREGAR_Tiroides" value="No">
+                        <input type="checkbox" class="mr-2" id="Tiroides" name="AGREGAR_Tiroides" value="Si ">
                         PROBLEMAS DE TIROIDES
                     </label>
                     <label class="flex items-center">
-                        <input type="hidden" name="Cancer" value="No">
-                        <input type="checkbox" class="mr-2" id="Cancer" name="Cancer" value="Si ">
+                        <input type="hidden" name="AGREGAR_Cancer" value="No">
+                        <input type="checkbox" class="mr-2" id="Cancer" name="AGREGAR_Cancer" value="Si ">
                         CÁNCER
                     </label>
                 </div>
@@ -682,7 +682,7 @@
                     <label class="block text-xs text-[#3B3636] mb-1">¿Algún familiar ha padecido de alguna de las enfermedades anteriores?</label>
                     <select id="familiar-enfermedad" class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                             id="Familiar_padecido_enfermedades" 
-                            name="Familiar_padecido_enfermedades">
+                            name="AGREGAR_Familiar_padecido_enfermedades">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -698,7 +698,7 @@
                                type="text" 
                                placeholder="Ingrese las enfermedades"
                                id="Enfermedades_padecidas" 
-                               name="Enfermedades_padecidas">
+                               name="AGREGAR_Enfermedades_padecidas">
                       </div>
                   
                       <!-- ¿Quiénes han padecido las enfermedades? -->
@@ -708,7 +708,7 @@
                                type="text" 
                                placeholder="Ingrese el parentesco"
                                id="Quien_padecio" 
-                               name="Quien_padecio">
+                               name="AGREGAR_Quien_padecio">
                       </div>
                     </div>
                   </div>
@@ -724,7 +724,7 @@
                         <label class="block text-xs text-[#3B3636] mb-1">¿FUMA?</label>
                         <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                                 id="fuma"
-                                name="Fuma">
+                                name="AGREGAR_Fuma">
                             <option disabled selected>Seleccione</option>
                             <option value="Si">Sí</option>
                             <option value="No">No</option>
@@ -739,7 +739,7 @@
                                type="number" 
                                placeholder="Ingrese cantidad"
                                id="Cuantos_cigarros_al_dia_fuma" 
-                               name="Cuantos_cigarros_al_dia_fuma" 
+                               name="AGREGAR_Cuantos_cigarros_al_dia_fuma" 
                                min="0">
                       </div>
                     </div>
@@ -749,7 +749,7 @@
                       <label class="block text-xs text-[#3B3636] mb-1">¿CONSUME ALGÚN TIPO DE DROGA?</label>
                       <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                               id="droga"
-                              name="Consume_drogas">
+                              name="AGREGAR_Consume_drogas">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -764,7 +764,7 @@
                                type="text" 
                                placeholder="Ingrese las drogas"
                                id="Drogas_consumiendo" 
-                               name="Drogas_consumiendo">
+                               name="AGREGAR_Drogas_consumiendo">
                       </div>
                     </div>
                   
@@ -773,7 +773,7 @@
                       <label class="block text-xs text-[#3B3636] mb-1">¿CONSUME BEBIDAS ALCOHÓLICAS CON FRECUENCIA?</label>
                       <select class="pl-4 py-2 bg-[#E6ECF8] rounded-full w-full drop-shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]"
                               id="alcohol"
-                              name="Consume_alcohol">
+                              name="AGREGAR_Consume_alcohol">
                         <option disabled selected>Seleccione</option>
                         <option value="Si">Sí</option>
                         <option value="No">No</option>
@@ -799,7 +799,7 @@
         </button>
 
         <!-- Input de archivo para subir la firma -->
-        <input type="file" name="Firma" id="Firma" accept="image/png" class="hidden">
+        <input type="file" name="AGREGAR_Firma" id="Firma" accept="image/png" class="hidden">
 
         <!-- Espacio para mostrar la firma -->
         <div id="signature-display" class="border-2 border-gray-300 w-1/2 h-64 rounded-md flex items-center justify-center ml-auto" style="height: 250px;">
@@ -833,7 +833,7 @@
                             <label for="Foto_paciente" class="bg-white text-black py-2 px-4 rounded-full shadow-md cursor-pointer">
                                 Seleccionar Fotografía
                             </label>
-                            <input type="file" id="Foto_paciente" name="Foto_paciente" accept="image/*" class="hidden">
+                            <input type="file" id="Foto_paciente" name="AGREGAR_Foto_paciente" accept="image/*" class="hidden">
                         </div>
 
                         <!-- Espacio para mostrar la fotografía -->
@@ -1170,5 +1170,5 @@ signatureModal.addEventListener('click', (e) => {
 });
 
         
-</script>
+        </script>
       
