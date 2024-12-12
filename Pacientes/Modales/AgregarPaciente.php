@@ -799,7 +799,7 @@
         </button>
 
         <!-- Input de archivo para subir la firma -->
-        <input type="file" name="AGREGAR_Firma" id="Firma" accept="image/png" class="hidden">
+        <input type="file" name="Firma" id="Firma" accept="image/png" class="hidden">
 
         <!-- Espacio para mostrar la firma -->
         <div id="signature-display" class="border-2 border-gray-300 w-1/2 h-64 rounded-md flex items-center justify-center ml-auto" style="height: 250px;">
@@ -833,7 +833,7 @@
                             <label for="Foto_paciente" class="bg-white text-black py-2 px-4 rounded-full shadow-md cursor-pointer">
                                 Seleccionar Fotografía
                             </label>
-                            <input type="file" id="Foto_paciente" name="AGREGAR_Foto_paciente" accept="image/*" class="hidden">
+                            <input type="file" id="Foto_paciente" name="Foto_paciente" accept="image/*" class="hidden">
                         </div>
 
                         <!-- Espacio para mostrar la fotografía -->
