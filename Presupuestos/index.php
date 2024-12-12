@@ -9,6 +9,7 @@
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
     <title>ClinicaDentalEsdent</title>
     <link rel="icon" href="/../ClinicaDentalEsdent/Configuraciones/img/logo.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body class="bg-#EFF1F9 " style="background-color: #e8ecff;color: #3C3C3C">
     
@@ -125,34 +126,90 @@
                 <th class="px-4 py-2 text-left rounded-l-full">FECHA</th>
                 <th class="px-4 py-2 text-left">NOMBRE</th>
                 <th class="px-4 py-2 text-left">TRATAMIENTO</th>
+                <th class="px-4 py-2 text-left">OBSERVACIONES</th>
                 <th class="px-4 py-2 text-left">COSTO</th>
-                  <th class="px-4 py-2 text-left">VALIDO HASTA</th>
+                <th class="px-4 py-2 text-left">VALIDO HASTA</th>
                 <th class="px-4 py-2 text-center rounded-r-full">OPCIONES</th>
             </tr>
         </thead>
     
         <!-- Cuerpo de la tabla -->
         <tbody class="bg-gray-100">
-            <!-- Fila 1 -->
+        <?php
+        include '../Configuraciones/conexion.php';
+        // Consulta para obtener todos los doctores
+        $query = "SELECT * FROM presupuestos ORDER BY fecha_registro DESC";
+        $result = mysqli_query($conn, $query);
+
+        // Verifica si hay resultados
+        if (mysqli_num_rows($result) > 0) {
+            while ($presupuesto = mysqli_fetch_assoc($result)) {
+        ?>
           <div class="mb-2">
             <tr class="bg-sky-100 overflow-hidden " style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
-                <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">Miércoles 2 de Octubre del 2024</td>
-                <td class="px-4 py-3 text-left">Andrade Villaseñor</td>
-                <td class="px-4 py-3 text-left">Limpieza y valoración</td>
-                <td class="px-4 py-3 text-left">$3,000 MXN</td>
-                <td class="px-4 py-3 text-left">28/10/2024</td>
-                <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-                    <!-- Botón que abre el modal -->
-                    <button id='edit-presupuesto-btn' class="bg-transparent border-0 cursor-pointer">
-                        <i class='bx bx-edit text-lg mx-2'></i>
-                     </button>
-                     <!-- Botón para justificante -->
-                     <button class="bg-transparent border-0 cursor-pointer">
-                       <i class='bx bx-trash  text-lg mx-2' style='color:#3c3c3c'></i>
-                     </button>
-                </td>
+              <td class="px-4 py-3 text-left">
+                <?php
+                  // Convierte la fecha a formato timestamp
+                  $fecha = strtotime($presupuesto['Fecha']);
+
+                  // Array de meses en español
+                  $meses = [
+                      "enero", "febrero", "marzo", "abril", "mayo", "junio",
+                      "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+                  ];
+
+                  // Obtener el día, mes y año
+                  $dia = date("d", $fecha);
+                  $mes = $meses[date("n", $fecha) - 1]; // Restamos 1 porque el mes en date() es 1-indexado
+                  $anio = date("Y", $fecha);
+
+                  // Mostrar la fecha en formato "día mes año"
+                  echo $dia . " " . $mes . " " . $anio;
+                ?>
+              </td>
+              <td class="px-4 py-3 text-left"><?php echo ($presupuesto['Nombre_paciente']) . ' ' . ($presupuesto['Apellido_paciente']); ?></td>
+              <td class="px-4 py-3 text-left"><?php echo ($presupuesto['Tratamiento']); ?></td>
+              <td class="px-4 py-3 text-left"><?php echo ($presupuesto['Observaciones']); ?></td>
+              <td class="px-4 py-3 text-left"><?php echo ($presupuesto['Costo']); ?></td>  
+              <td class="px-4 py-3 text-left">
+               <?php
+                  // Convierte la fecha a formato timestamp
+                  $fecha = strtotime($presupuesto['Valido_hasta']);
+                  // Array de meses en español
+                  $meses = [
+                      "enero", "febrero", "marzo", "abril", "mayo", "junio",
+                      "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+                  ];  
+                  // Obtener el día, mes y año
+                  $dia = date("d", $fecha);
+                  $mes = $meses[date("n", $fecha) - 1]; // Restamos 1 porque el mes en date() es 1-indexado
+                  $anio = date("Y", $fecha);
+                  // Mostrar la fecha en formato "día mes año"
+                  echo $dia . " " . $mes . " " . $anio;
+                ?>
+              </td>
+              <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+                  <!-- Botón que abre el modal -->
+                  <button id='edit-presupuesto-btn' class="bg-transparent border-0 cursor-pointer">
+                      <i class='bx bx-edit text-lg mx-2'></i>
+                   </button>
+                   <!-- Botón para justificante -->
+                  <button class="bg-transparent border-0 cursor-pointer"onclick="eliminarPresupuesto(<?php echo ($presupuesto['id_presupuesto']); ?>)">
+                    <i class='bx bx-trash  text-lg mx-2' style='color:#3c3c3c'></i>
+                  </button>
+              </td>
             </tr>
           </div>
+          <?php
+              }
+          } else {
+          ?>
+            <tr>
+                <td colspan="4" class="text-center">No hay presupuestos registradas.</td>
+            </tr>
+          <?php
+          }
+          ?>
         </tbody>
     </table>
   </div>
@@ -167,6 +224,54 @@
 
 </div>
 </div>
+
+<script>
+  function eliminarPresupuesto(id_presupuesto) {
+      console.log("ID recibido en eliminarPresupuesto:", id_presupuesto); // Verificar el ID
+      Swal.fire({
+          title: "¿Estás seguro?",
+          text: "¡No podrás revertir esto!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Sí, eliminarlo",
+          cancelButtonText: "No, cancelar",
+          reverseButtons: true
+      }).then((result) => {
+          if (result.isConfirmed) {
+              // Llamada AJAX para eliminar el presupuesto
+              $.ajax({
+                  url: 'Solicitudes/EliminarPresupuesto.php', // URL corregida
+                  method: 'POST',
+                  data: { id_presupuesto: id_presupuesto }, // Enviar id_presupuesto correctamente
+                  success: function(response) {
+                      console.log("Respuesta del servidor:", response); // Verificar la respuesta
+                      Swal.fire(
+                          "Eliminado",
+                          response,
+                          "success"
+                      ).then(() => {
+                          location.reload(); // Recargar la página después de eliminar
+                      });
+                  },
+                  error: function(xhr, status, error) {
+                      console.error("Error en la solicitud AJAX:", error); // Registrar errores
+                      Swal.fire(
+                          "Error",
+                          "Hubo un problema al eliminar el presupuesto.",
+                          "error"
+                      );
+                  }
+              });
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+              Swal.fire(
+                  "Cancelado",
+                  "El presupuesto está seguro.",
+                  "error"
+              );
+          }
+      });
+  }
+</script>
 </body>
 
   

@@ -18,33 +18,23 @@
             <label class="text-xs text-[#3B3636]">TRATAMIENTO</label>
             <textarea class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-md w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636] h-24" placeholder="Descripción del tratamiento"></textarea>
           </div>
+
+          <!-- Input: Observaciones -->
+          <div class="relative col-span-2">
+            <label class="text-xs text-[#3B3636]">OBSERVACIONES</label>
+            <textarea class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-md w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636] h-24" placeholder="Observaciones adicionales"></textarea>
+          </div>
   
           <!-- Input: Costo -->
           <div class="relative col-span-2">
             <label class="text-xs text-[#3B3636]">COSTO</label>
             <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" type="number" placeholder="Costo del tratamiento">
           </div>
-      
-          <!-- Input: Observaciones -->
-          <div class="relative col-span-2">
-            <label class="text-xs text-[#3B3636]">OBSERVACIONES</label>
-            <textarea class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-md w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636] h-24" placeholder="Observaciones adicionales"></textarea>
-          </div>
-      
-          <!-- Select: Doctor -->
-          <div class="relative col-span-2">
-            <label class="text-xs text-[#3B3636]">DOCTOR</label>
-            <select id="doctorSelectEdit" class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]">
-              <option disabled selected>Selecciona un doctor</option>
-              <option value="doctor1">Dr. Juan Pérez</option>
-              <option value="doctor2">Dra. Ana Gómez</option>
-            </select>
-          </div>
   
           <!-- Input: Fecha -->
           <div class="relative col-span-2">
             <label class="text-xs text-[#3B3636]">FECHA</label>
-            <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" type="text" placeholder="Fecha de la cita">
+            <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" type="date" placeholder="Fecha de la cita">
           </div>
   
           <!-- Input: Válido hasta -->
@@ -63,7 +53,7 @@
           Cerrar
         </button>
         <button id="submit-edit-presupuesto" class="text-white px-4 py-2 rounded-full shadow-md" style="background-color: #B4221B;">
-          Guardar
+          Actualizar
         </button>
       </div>
     </div>
