@@ -15,7 +15,6 @@ if ($idPaciente <= 0 && isset($_SESSION['idPaciente'])) {
 
 // Verificar si el idPaciente es válido
 if ($idPaciente <= 0) {
-    // Si no se encuentra el idPaciente, mostrar un error o redirigir
     die("ID de paciente no proporcionado o inválido.");
 }
 
@@ -28,33 +27,54 @@ try {
         throw new Exception("Conexión fallida: " . $conn->connect_error);
     }
 
+    // Variable para almacenar el nombre del paciente
+    $Nombre_paciente = '';
+
+    // Consulta SQL para obtener el nombre del paciente
+    $sqlNombre = "SELECT Nombre_paciente, Apellido_paciente FROM pacientes WHERE idPaciente = ?";
+    $stmtNombre = $conn->prepare($sqlNombre);
+    $stmtNombre->bind_param("i", $idPaciente);
+    $stmtNombre->execute();
+    $resultNombre = $stmtNombre->get_result();
+
+    if ($resultNombre && $resultNombre->num_rows > 0) {
+        $row = $resultNombre->fetch_assoc();
+        $Nombre_paciente = $row['Nombre_paciente'] . ' ' . $row['Apellido_paciente'];
+    } else {
+        throw new Exception("No se encontró al paciente con el ID proporcionado.");
+    }
+
+    // Liberar resultados
+    $stmtNombre->close();
+
     // Consulta SQL para obtener historial por idPaciente
-    $sql = "SELECT * FROM historial_tratamiento WHERE idPaciente = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $idPaciente);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $sqlHistorial = "SELECT * FROM historial_tratamiento WHERE idPaciente = ?";
+    $stmtHistorial = $conn->prepare($sqlHistorial);
+    $stmtHistorial->bind_param("i", $idPaciente);
+    $stmtHistorial->execute();
+    $resultHistorial = $stmtHistorial->get_result();
 
     // Variable para almacenar el historial
     $historial = [];
 
-    if ($result && $result->num_rows > 0) {
-        // Obtener cada fila de resultados como un arreglo asociativo
-        while ($row = $result->fetch_assoc()) {
+    if ($resultHistorial && $resultHistorial->num_rows > 0) {
+        while ($row = $resultHistorial->fetch_assoc()) {
             $historial[] = $row;
         }
-    } 
+    }
 
     // Liberar resultados
-    $stmt->close();
+    $stmtHistorial->close();
+
 } catch (Exception $e) {
-    // Manejar errores y almacenar mensaje
     echo "Error: " . $e->getMessage();
 } finally {
     // Cerrar conexión
     $conn->close();
 }
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -194,9 +214,9 @@ try {
         <!-- Título y párrafo alineados a la izquierda -->
         <div class="ml-8 mt-8">
           <h1 class="text-4xl font-semibold">HISTORIAL DEL PACIENTE</h1>
-          <?php foreach ($historial as $nombre): ?>
-          <p class="text-lg text-gray-500 mt-1 mb-12">Paciente: <?= $nombre['Nombre_doctor']; ?></p>
-          <?php endforeach; ?>
+          
+          <p class="text-lg text-gray-500 mt-1 mb-12">Paciente: <?= $Nombre_paciente; ?></p>
+          
         </div>
 
 
@@ -229,14 +249,15 @@ try {
         
         <div class="mb-2">
             <tr class="bg-sky-100 overflow-hidden" style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
-                <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;"></td>
+                <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;"><?= $registro['Fecha']; ?></td>
                 <td class="px-4 py-3 text-left"><?= $registro['Tratamiento']; ?></td>
                 <td class="px-4 py-3 text-left"><?= $registro['Observacion']; ?></td>
                 <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
                     <!-- Botón que abre el modal -->
-                    <button class="bg-transparent border-0 cursor-pointer" onclick="openInfoModal()">
-                        <i class='bx bx-id-card text-lg mx-2'></i>
-                    </button>
+                    <!-- Botón que abre el modal -->
+<button class="bg-transparent border-0 cursor-pointer" onclick="openInfoModal(<?= $registro['id_tratamiento']; ?>)">
+    <i class='bx bx-id-card text-lg mx-2'></i>
+</button>
                     <!-- Botón para justificante -->
                     <button onclick="openJustificanteModal()" class="bg-transparent border-0 cursor-pointer">
                         <i class='bx bx-detail text-lg mx-2' style='color:#3c3c3c'></i>
