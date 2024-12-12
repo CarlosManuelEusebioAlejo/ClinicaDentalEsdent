@@ -120,32 +120,32 @@ include 'solicitudes/mostrar_pacientes.php';
             
                 <!-- Cuerpo de la tabla -->
                 <tbody class="bg-gray-100">
-                <?php foreach ($pacientes as $paciente): ?>
+                <?php foreach ($pacientes as $pacientei): ?>
                     <!-- Fila 1 -->
                     <div class="mb-2">
                       <tr class="bg-sky-100 overflow-hidden " style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
-                          <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;"><?= $paciente['Nombre_paciente'] ?></td>
-                          <td class="px-4 py-3 text-left"><?= $paciente['Apellido_paciente'] ?></td>
+                          <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;"><?= $pacientei['Nombre_paciente'] ?></td>
+                          <td class="px-4 py-3 text-left"><?= $pacientei['Apellido_paciente'] ?></td>
                           <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
                               <!-- Botón para abrir el modal -->
                                    <!-- Botón para abrir el modal -->
                             <!-- Botón para abrir el modal -->
 <!-- Botón para ver datos del paciente -->
-<button onclick="openVerPacienteModal(<?= $paciente['idPaciente'] ?>)" class="bg-transparent border-0 cursor-pointer">
-        <i class="bx bx-id-card text-lg mx-2" style="color:#3c3c3c;"></i>
-    </button>
+<button onclick="openVerPacienteModal(<?= $pacientei['idPaciente'] ?>)" class="bg-transparent border-0 cursor-pointer">
+    <i class='bx bx-id-card text-lg mx-2' style='color:#3c3c3c'></i>
+</button>
 
                            
                               <!-- Botón para redirigir al historial sin pasar el idPaciente en la URL -->
-                              <form id="redirectForm<?= $paciente['idPaciente'] ?>" method="POST" action="/../ClinicaDentalEsdent/Historial/index.php" style="display: none;">
-                              <input type="hidden" name="idPaciente" value="<?= $paciente['idPaciente'] ?>">
+                              <form id="redirectForm<?= $pacientei['idPaciente'] ?>" method="POST" action="/../ClinicaDentalEsdent/Historial/index.php" style="display: none;">
+                              <input type="hidden" name="idPaciente" value="<?= $pacientei['idPaciente'] ?>">
                               </form>
-                              <button class="bg-transparent border-0 cursor-pointer" onclick="document.getElementById('redirectForm<?= $paciente['idPaciente'] ?>').submit();">
+                              <button class="bg-transparent border-0 cursor-pointer" onclick="document.getElementById('redirectForm<?= $pacientei['idPaciente'] ?>').submit();">
                                 <i class='bx bx-folder text-lg mx-2'></i>
                               </button>                                                            
 
                               <!-- Botón para borrar -->
-                              <button class="bg-transparent border-0 cursor-pointer">
+                              <button class="bg-transparent border-0 cursor-pointer" onclick="eliminarPaciente(<?php echo $pacientei['idPaciente']; ?>)">
                                   <i class='bx bx-trash text-lg mx-2' style='color:#3c3c3c'></i>
                               </button>
                           </td>
@@ -159,10 +159,58 @@ include 'solicitudes/mostrar_pacientes.php';
       </div>
     </div>
     <?php
-      include 'Modales/AgregarPaciente.php';
+
       include 'Modales/VerPaciente.php';
       include 'Modales/EditarPaciente.php';
     ?>
     <script src="../js/AgregarPacientes.js"></script>
-</body>
+    <?php       include 'Modales/AgregarPaciente.php'; ?>
+    <script src="../js/ActualizarPaciente.js"></script>
+<script>
+    function eliminarPaciente(idPaciente) {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "¡No podrás revertir esto!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminarlo",
+            cancelButtonText: "No, cancelar",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Llamada AJAX para eliminar el doctor
+                $.ajax({
+                    url: 'Solicitudes/EliminarPaciente.php', // URL corregida
+                    method: 'POST',
+                    data: { idPaciente: idPaciente },
+                    success: function(response) {
+                        Swal.fire(
+                            "Eliminado",
+                            response,
+                            "success"
+                        ).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire(
+                            "Error",
+                            "Hubo un problema al eliminar el doctor.",
+                            "error"
+                        );
+                        console.error(error);
+                    }
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire(
+                    "Cancelado",
+                    "El Paciente está seguro.",
+                    "error"
+                );
+            }
+        });
+    }
+</script>
+
+  </body>
 </html>
