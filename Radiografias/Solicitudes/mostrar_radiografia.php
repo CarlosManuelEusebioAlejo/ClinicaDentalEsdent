@@ -1,22 +1,26 @@
 <?php
-// Incluir detalles de la conexión a la base de datos
+// Incluir detalles de conexión
 include '../Configuraciones/conexion.php';
 
-// Iniciar sesión para manejar variables de sesión
-session_start();
+// Iniciar sesión si no se ha hecho ya
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-
-// Obtener el idPaciente desde la solicitud POST
+// Obtener idPaciente desde POST, GET o Sesión
 $idPaciente = isset($_POST['idPaciente']) ? intval($_POST['idPaciente']) : 0;
 
-
-// Si no se recibe el idPaciente por POST, intentar obtenerlo desde la sesión
 if ($idPaciente <= 0 && isset($_SESSION['idPaciente'])) {
     $idPaciente = $_SESSION['idPaciente'];
 }
 
-// Almacenar el idPaciente en la sesión para usarlo en futuras peticiones
+// Almacenar el idPaciente en la sesión
 $_SESSION['idPaciente'] = $idPaciente;
+
+// Verificar idPaciente válido
+if ($idPaciente <= 0) {
+    die("ID de paciente inválido.");
+}
 
 try {
     // Verificar conexión
@@ -24,38 +28,51 @@ try {
         throw new Exception("Conexión fallida: " . $conn->connect_error);
     }
 
-    // Verificar que el idPaciente sea válido
-    if ($idPaciente <= 0) {
-        throw new Exception("ID de paciente inválido.");
+    // Variable para almacenar el nombre del paciente
+    $Nombre_paciente = '';
+
+    // Consulta SQL para obtener el nombre del paciente
+    $sqlNombre = "SELECT Nombre_paciente, Apellido_paciente FROM pacientes WHERE idPaciente = ?";
+    $stmtNombre = $conn->prepare($sqlNombre);
+    $stmtNombre->bind_param("i", $idPaciente);
+    $stmtNombre->execute();
+    $resultNombre = $stmtNombre->get_result();
+
+    if ($resultNombre && $resultNombre->num_rows > 0) {
+        $row = $resultNombre->fetch_assoc();
+        $Nombre_paciente = $row['Nombre_paciente'] . ' ' . $row['Apellido_paciente'];
+    } else {
+        throw new Exception("No se encontró al paciente con el ID proporcionado.");
     }
 
-    // Consulta SQL para obtener radiografías por idPaciente
+    // Liberar resultados
+    $stmtNombre->close();
+    
+    // Preparar y ejecutar consulta
     $sql = "SELECT * FROM radiografias WHERE idPaciente = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $idPaciente); // Vincular el idPaciente a la consulta
-    $stmt->execute(); // Ejecutar la consulta
-    $result = $stmt->get_result(); // Obtener el resultado
+    $stmt->bind_param("i", $idPaciente);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    // Variable para almacenar las radiografías
+    // Verificar resultados
     $radiografias = [];
-
     if ($result && $result->num_rows > 0) {
-        // Obtener cada fila de resultados como un arreglo asociativo
         while ($row = $result->fetch_assoc()) {
             $radiografias[] = $row;
         }
     } else {
-        // No se encontraron radiografías para este paciente
-        $error = "No se encontraron radiografías para este paciente.";
+        throw new Exception("No se encontraron radiografías para el paciente con ID $idPaciente.");
     }
 
-    // Liberar resultados
+    // Cerrar declaración
     $stmt->close();
 } catch (Exception $e) {
-    // Manejar errores y almacenar mensaje
     $error = $e->getMessage();
 } finally {
-    // Cerrar la conexión
+    // Cerrar conexión
     $conn->close();
 }
+
+
 ?>
