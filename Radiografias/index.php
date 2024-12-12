@@ -120,7 +120,7 @@ include 'Solicitudes/mostrar_radiografia.php';
             
         </div>
         <div class="ml-8 mt-8">
-          <h1 class="text-4xl font-semibold">Paciente: Carlos Manuel Eusebio Alejo</h1>
+          <h1 class="text-4xl font-semibold">PACIENTE : <?= $Nombre_paciente ?></h1>
           <p class="text-lg text-gray-500 mt-1 mb-12">1 Radiografía(s)</p>
         </div>
 
