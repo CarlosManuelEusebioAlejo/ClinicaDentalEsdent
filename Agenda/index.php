@@ -7,8 +7,19 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Wallpoet&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>ClinicaDentalEsdent</title>
     <link rel="icon" href="/../ClinicaDentalEsdent/Configuraciones/img/logo.png" type="image/x-icon">
+    <style>
+      #cita-modal {
+        z-index: 9999; /* Un valor alto para asegurarte de que esté al frente */
+      }
+
+      #calendar {
+        z-index: 1; /* Asegúrate de que el calendario tenga un índice menor */
+      }
+
+    </style>
     <script type='importmap'>
         {
           "imports": {
@@ -111,41 +122,127 @@
       <?php
         include 'Modales/AgregarCita.php';
       ?>
-      <script type='module'>
-        import { Calendar } from '@fullcalendar/core'
-        import dayGridPlugin from '@fullcalendar/daygrid'
-        import timeGridPlugin from '@fullcalendar/timegrid'
-        import esLocale from '@fullcalendar/core/locales/es' 
+<script type="module">
+  import { Calendar } from '@fullcalendar/core';
+  import dayGridPlugin from '@fullcalendar/daygrid';
+  import timeGridPlugin from '@fullcalendar/timegrid';
+  import esLocale from '@fullcalendar/core/locales/es';
 
-        document.addEventListener('DOMContentLoaded', function() {
-          const calendarEl = document.getElementById('calendar');
-          const calendar = new Calendar(calendarEl, {
-            plugins: [dayGridPlugin, timeGridPlugin],
-            locale: esLocale, 
-            headerToolbar: {
-              left: 'prev,next today',
-              center: 'title',
-              right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-            },
-            events: async function(fetchInfo, successCallback, failureCallback) {
-              try {
-                // Obtener las citas de la base de datos en formato JSON
-                const response = await fetch('Solicitudes/VerCita.php');  // Ajusta la ruta si es necesario
-                const citas = await response.json();
-              
-                // Llamar a la función successCallback para cargar las citas en el calendario
-                successCallback(citas);
-              } catch (error) {
-                console.error('Error al cargar citas:', error);
-                failureCallback(error);
-              }
-            },
-          });
-          calendar.render();
-        });
-      </script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const calendarEl = document.getElementById('calendar');
+    const modalEl = document.getElementById('cita-modal');
+    const detallesEl = document.getElementById('cita-detalles');
+    const cerrarModalBtn = document.getElementById('cerrar-modal');
+  
+    const calendar = new Calendar(calendarEl, {
+      plugins: [dayGridPlugin, timeGridPlugin],
+      locale: esLocale,
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      },
+      initialView: 'timeGridWeek',
+      slotMinTime: '08:00:00',
+      slotMaxTime: '21:00:00',
+      events: async function(fetchInfo, successCallback, failureCallback) {
+        try {
+          const response = await fetch('Solicitudes/VerCita.php');
+          const citas = await response.json();
+          successCallback(citas);
+        } catch (error) {
+          console.error('Error al cargar citas:', error);
+          failureCallback(error);
+        }
+      },
+      eventRender: function(info) {
+        // Añadir información adicional en el título de los eventos
+        const event = info.event;
+        const extendedProps = event.extendedProps;
 
-    </div>
+        // Mostrar la unidad y la fecha en el tooltip
+        const unidad = extendedProps.Unidad;
+        const fechaInicio = event.start.toLocaleString();
+        const fechaFin = event.end ? event.end.toLocaleString() : 'No especificada';
+
+        // Esto es opcional: establecer un título más completo para el evento
+        event.setProp('title', `${unidad} (${fechaInicio} - ${fechaFin})`);
+        
+        // También puedes agregar un "tooltip" o una descripción al evento
+        info.el.setAttribute('title', `Unidad: ${unidad}\nFecha de inicio: ${fechaInicio}\nFecha de fin: ${fechaFin}`);
+      },
+      eventClick: function(info) {
+        // Evitar que el navegador siga el enlace por defecto
+        info.jsEvent.preventDefault();
+      
+        // Mostrar el modal
+        modalEl.classList.remove('hidden');
+      
+        // Cargar los detalles de la cita en el modal
+        const { start, end, extendedProps } = info.event;
+
+        // Mostrar los detalles de la cita en el modal
+        detallesEl.innerHTML = `
+          <div class="p-6 rounded-sm shadow-lg mb-10" style="background-color: #f5f7ff;">
+            <div class="relative mb-4">
+              <span class="text-gray-700 font-semibold" id="placeholder-text">PACIENTE</span>
+              <input 
+                class="pl-8 py-2 text-sm bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black font-medium" 
+                placeholder="${extendedProps.Paciente || 'No especificado'}">
+            </div>
+            <div class="relative mb-4">
+              <span class="text-gray-700 font-semibold" id="placeholder-text">UNIDAD</span>
+              <input 
+                class="pl-8 py-2 text-sm bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black font-medium" 
+                placeholder="${extendedProps.Unidad || 'No especificada'}">
+            </div>
+            <div class="relative mb-4">
+              <span class="text-gray-700 font-semibold" id="placeholder-text">MOTIVO DE LA CITA</span>
+              <textarea 
+                class="pl-8 py-2 text-sm bg-[#E6ECF8] w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black font-medium" 
+                placeholder="Motivo de la Cita" style="resize: none;"
+              >
+                ${extendedProps.Motivo || 'No especificado'}
+              </textarea>
+            </div>
+
+            <div class="relative mb-4">
+              <span class="text-gray-700 font-semibold" id="placeholder-text">DOCTOR</span>
+              <input 
+                class="pl-8 py-2 text-sm bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black font-medium" 
+                placeholder="${extendedProps.Doctor || 'No especificado'}">
+            </div>
+            <div class="relative mb-4">
+              <span class="text-gray-700 font-semibold" id="placeholder-text">HORA INICIO</span>
+              <input 
+                class="pl-8 py-2 text-sm bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black font-medium" 
+                placeholder="${start.toLocaleString()}">
+            </div>
+            <div class="relative mb-4">
+              <span class="text-gray-700 font-semibold" id="placeholder-text">HORA FINALIZACIÓN</span>
+              <input 
+                class="pl-8 py-2 text-sm bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-black font-medium" 
+                placeholder="${end ? end.toLocaleString() : 'No especificado'}">
+            </div>
+          </div>
+        `;
+      }
+    });
+  
+    // Renderizar el calendario
+    calendar.render();
+  
+    // Cerrar el modal
+    cerrarModalBtn.addEventListener('click', () => {
+      modalEl.classList.add('hidden');
+    });
+  });
+</script>
+
+<?php
+  include 'Modales/VerCita.php';
+  include 'Modales/EditarCita.php';
+?>
   </body>
 </html>
 
