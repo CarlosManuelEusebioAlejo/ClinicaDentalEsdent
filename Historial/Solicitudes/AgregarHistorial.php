@@ -1,49 +1,87 @@
 <?php
+header('Content-Type: application/json');
+
 // Conexión a la base de datos
-include '../../Configuraciones/conexion.php';
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "clinicanew1";
 
-// Verificar si se enviaron los datos
-if (isset($_POST['idPaciente'], $_POST['Tratamiento'], $_POST['Observacion'], $_POST['Costo'], $_POST['id_doctor'], $_POST['Fecha'])) {
-    // Obtener los valores del formulario
-    $idPaciente = $_POST['idPaciente'];
-    $tratamiento = $_POST['Tratamiento'];
-    $observacion = $_POST['Observacion'];
-    $costo = $_POST['Costo'];
-    $id_doctor = $_POST['id_doctor'];
-    $fecha = $_POST['Fecha'];
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Obtener el nombre del doctor de la base de datos
-    $queryDoctor = "SELECT Nombre_doctor FROM doctores WHERE id_doctor = ?";
-    $stmtDoctor = $conn->prepare($queryDoctor);
-    $stmtDoctor->bind_param("i", $id_doctor);
-    $stmtDoctor->execute();
-    $resultDoctor = $stmtDoctor->get_result();
-    $nombreDoctor = '';
+if ($conn->connect_error) {
+    echo json_encode(['success' => false, 'error' => 'Error de conexión a la base de datos.']);
+    exit();
+}
 
-    if ($resultDoctor->num_rows > 0) {
-        $rowDoctor = $resultDoctor->fetch_assoc();
-        $nombreDoctor = $rowDoctor['Nombre_doctor'];
-    }
-    $stmtDoctor->close();
+// Validar y sanitizar las entradas
+$idPaciente = isset($_POST['idPaciente']) ? intval($_POST['idPaciente']) : null;
+$idDoctor = isset($_POST['doctor']) ? explode(',', $_POST['doctor'])[0] : null;
+$nombreDoctor = isset($_POST['doctor']) ? explode(',', $_POST['doctor'])[1] : '';
+$tratamiento = isset($_POST['Tratamiento']) ? $conn->real_escape_string(trim($_POST['Tratamiento'])) : '';
+$observacion = isset($_POST['Observaciones']) ? $conn->real_escape_string(trim($_POST['Observaciones'])) : '';
+$costo = isset($_POST['Costo']) ? intval($_POST['Costo']) : 0;
+$fecha = isset($_POST['Fecha']) ? $conn->real_escape_string(trim($_POST['Fecha'])) : '';
 
-    // Insertar el tratamiento en la base de datos junto con el nombre del doctor
-    $query = "INSERT INTO historial_tratamiento (idPaciente, Tratamiento, Observacion, Costo, id_doctor, nombre_doctor, Fecha) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($query);
-    $stmt->bind_param("issdiss", $idPaciente, $tratamiento, $observacion, $costo, $id_doctor, $nombreDoctor, $fecha);
+// Validar campos obligatorios
+$errores = [];
+
+if (!$idPaciente) {
+    $errores[] = 'ID del paciente';
+}
+if (!$idDoctor) {
+    $errores[] = 'ID del doctor';
+}
+if (!$nombreDoctor) {
+    $errores[] = 'Nombre del doctor';
+}
+if (!$tratamiento) {
+    $errores[] = 'Tratamiento';
+}
+if (!$observacion) {
+    $errores[] = 'Observación';
+}
+if (!$costo) {
+    $errores[] = 'Costo';
+}
+if (!$fecha) {
+    $errores[] = 'Fecha';
+}
+
+// Si hay errores, devolverlos como respuesta
+if (count($errores) > 0) {
+    echo json_encode(['success' => false, 'error' => 'Los siguientes campos son obligatorios: ' . implode(', ', $errores)]);
+    exit();
+}
+
+// Insertar los datos en la tabla
+$sql = "INSERT INTO historial_tratamiento (
+            idPaciente, 
+            id_doctor, 
+            Nombre_doctor, 
+            Fecha, 
+            Tratamiento, 
+            Observacion, 
+            Costo 
+            
+        ) 
+        VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+$stmt = $conn->prepare($sql);
+
+if ($stmt) {
+    $stmt->bind_param('iissssi', $idPaciente, $idDoctor, $nombreDoctor, $fecha, $tratamiento, $observacion, $costo);
 
     if ($stmt->execute()) {
-        echo "Tratamiento agregado correctamente.";
+        echo json_encode(['success' => true, 'message' => 'Tratamiento agregado correctamente.']);
     } else {
-        echo "Error al agregar el tratamiento: " . $stmt->error;
+        echo json_encode(['success' => false, 'error' => 'Error al guardar el tratamiento: ' . $stmt->error]);
     }
 
     $stmt->close();
-    $conn->close();
 } else {
-    echo "Por favor, complete todos los campos requeridos.";
+    echo json_encode(['success' => false, 'error' => 'Error al preparar la consulta: ' . $conn->error]);
 }
+
+$conn->close();
 ?>
-
-
-
-

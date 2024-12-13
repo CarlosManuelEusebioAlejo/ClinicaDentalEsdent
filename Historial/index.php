@@ -1,3 +1,81 @@
+<?php
+// Incluir detalles de la conexión a la base de datos
+include '../Configuraciones/conexion.php';
+
+// Iniciar sesión para manejar variables de sesión
+session_start();
+
+// Obtener el idPaciente desde el POST, si está disponible
+$idPaciente = isset($_POST['idPaciente']) ? intval($_POST['idPaciente']) : 0;
+
+// Si no se recibe el idPaciente por POST, intentar obtenerlo desde la sesión
+if ($idPaciente <= 0 && isset($_SESSION['idPaciente'])) {
+    $idPaciente = $_SESSION['idPaciente'];
+}
+
+// Verificar si el idPaciente es válido
+if ($idPaciente <= 0) {
+    die("ID de paciente no proporcionado o inválido.");
+}
+
+// Almacenar el idPaciente en la sesión para usarlo en futuras peticiones
+$_SESSION['idPaciente'] = $idPaciente;
+
+try {
+    // Verificar conexión
+    if ($conn->connect_error) {
+        throw new Exception("Conexión fallida: " . $conn->connect_error);
+    }
+
+    // Variable para almacenar el nombre del paciente
+    $Nombre_paciente = '';
+
+    // Consulta SQL para obtener el nombre del paciente
+    $sqlNombre = "SELECT Nombre_paciente, Apellido_paciente FROM pacientes WHERE idPaciente = ?";
+    $stmtNombre = $conn->prepare($sqlNombre);
+    $stmtNombre->bind_param("i", $idPaciente);
+    $stmtNombre->execute();
+    $resultNombre = $stmtNombre->get_result();
+
+    if ($resultNombre && $resultNombre->num_rows > 0) {
+        $row = $resultNombre->fetch_assoc();
+        $Nombre_paciente = $row['Nombre_paciente'] . ' ' . $row['Apellido_paciente'];
+    } else {
+        throw new Exception("No se encontró al paciente con el ID proporcionado.");
+    }
+
+    // Liberar resultados
+    $stmtNombre->close();
+
+    // Consulta SQL para obtener historial por idPaciente
+    $sqlHistorial = "SELECT * FROM historial_tratamiento WHERE idPaciente = ?";
+    $stmtHistorial = $conn->prepare($sqlHistorial);
+    $stmtHistorial->bind_param("i", $idPaciente);
+    $stmtHistorial->execute();
+    $resultHistorial = $stmtHistorial->get_result();
+
+    // Variable para almacenar el historial
+    $historial = [];
+
+    if ($resultHistorial && $resultHistorial->num_rows > 0) {
+        while ($row = $resultHistorial->fetch_assoc()) {
+            $historial[] = $row;
+        }
+    }
+
+    // Liberar resultados
+    $stmtHistorial->close();
+
+} catch (Exception $e) {
+    echo "Error: " . $e->getMessage();
+} finally {
+    // Cerrar conexión
+    $conn->close();
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -107,14 +185,27 @@
     <div class="flex justify-between items-center mx-8 ">
     <div class="flex justify-between items-center mx-8">
             <!-- Botón rojo para index.html -->
+            
             <a href="/..//ClinicaDentalEsdent/Pacientes/" class="flex items-center text-white px-4 py-2 rounded-full font-semibold hover:bg-red-600" style="background-color: #07b52d;">
                 <img src="/..//ClinicaDentalEsdent/Configuraciones/img/regresar.png" alt="Regresar" class="h-5 mr-2"> Regresar
             </a>
         </div>
       <!-- Botones de odontograma y radiografía -->
       <div class="flex space-x-4">
-        <a href="/../ClinicaDentalEsdent/Odontograma/" class="bg-blue-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-blue-600"  style="background-color: #B4221B;">ODONTOGRAMA</a>
-        <a href="/../ClinicaDentalEsdent/Radiografias/" class="bg-green-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-green-600"  style="background-color: #B4221B;">RADIOGRAFÍAS</a>
+    <!-- Enviar el idPaciente a la URL del Odontograma -->
+    <!-- Formulario para Odontograma con idPaciente -->
+    
+    <form id="redirectFormOdontograma<?= $idPaciente['idPaciente'] ?>" method="POST" action="/../ClinicaDentalEsdent/Odontograma/" style="display: inline;">
+        <input type="hidden" name="idPaciente" value="<?= $idPaciente['idPaciente'] ?>">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-blue-600"  style="background-color: #B4221B;">ODONTOGRAMA</button>
+    </form>
+
+    <!-- Formulario para Radiografías con idPaciente -->
+    <form id="redirectFormRadiografia<?= $idPaciente['idPaciente'] ?>" method="POST" action="/../ClinicaDentalEsdent/Radiografias/" style="display: inline;">
+        <input type="hidden" name="idPaciente" value="<?= $idPaciente['idPaciente'] ?>">
+        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-green-600"  style="background-color: #B4221B;">RADIOGRAFÍAS</button>
+    </form>
+    
       </div>
     </div>
       
@@ -123,7 +214,9 @@
         <!-- Título y párrafo alineados a la izquierda -->
         <div class="ml-8 mt-8">
           <h1 class="text-4xl font-semibold">HISTORIAL DEL PACIENTE</h1>
-          <p class="text-lg text-gray-500 mt-1 mb-12">Paciente: Carlos Manuel Eusebio Alejo</p>
+          
+          <p class="text-lg text-gray-500 mt-1 mb-12">Paciente: <?= $Nombre_paciente; ?></p>
+          
         </div>
 
 
@@ -152,49 +245,19 @@
         </thead>
 
         <tbody class="bg-gray-100">
-        <?php
-// Conexión a la base de datos
-include '../Configuraciones/conexion.php';
-
-// Consulta para obtener todos los tratamientos
-$query = "SELECT ht.id_tratamiento, ht.Tratamiento, ht.Observacion, ht.Costo, ht.Fecha, d.Nombre_doctor 
-          FROM historial_tratamiento ht
-          INNER JOIN doctores d ON ht.id_doctor = d.id_doctor";
-
-// Ejecutar la consulta
-$result = $conn->query($query);
-
-// Función para convertir la fecha al formato en español
-function formatoFechaEspanol($fecha) {
-    $dias = array('domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado');
-    $meses = array('enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre');
-    
-    $timestamp = strtotime($fecha);
-    $diaSemana = $dias[date('w', $timestamp)];
-    $dia = date('d', $timestamp);
-    $mes = $meses[date('n', $timestamp) - 1]; // Restar 1 ya que los meses en PHP comienzan en 1
-    $anio = date('Y', $timestamp);
-
-    return "$diaSemana, $dia de $mes de $anio";
-}
-
-// Verificar si hay resultados
-if ($result->num_rows > 0) {
-    // Mostrar los datos en la tabla HTML
-    while ($row = $result->fetch_assoc()) {
-        // Formatear la fecha usando la función personalizada
-        $fecha = formatoFechaEspanol($row['Fecha']);
-        ?>
+        <?php foreach ($historial as $registro): ?>
+        
         <div class="mb-2">
             <tr class="bg-sky-100 overflow-hidden" style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
-                <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;"><?php echo $fecha; ?></td>
-                <td class="px-4 py-3 text-left"><?php echo $row['Tratamiento']; ?></td>
-                <td class="px-4 py-3 text-left"><?php echo $row['Observacion']; ?></td>
+                <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;"><?= $registro['Fecha']; ?></td>
+                <td class="px-4 py-3 text-left"><?= $registro['Tratamiento']; ?></td>
+                <td class="px-4 py-3 text-left"><?= $registro['Observacion']; ?></td>
                 <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
                     <!-- Botón que abre el modal -->
-                    <button class="bg-transparent border-0 cursor-pointer" onclick="openInfoModal()">
-                        <i class='bx bx-id-card text-lg mx-2'></i>
-                    </button>
+                    <!-- Botón que abre el modal -->
+<button class="bg-transparent border-0 cursor-pointer" onclick="openInfoModal(<?= $registro['id_tratamiento']; ?>)">
+    <i class='bx bx-id-card text-lg mx-2'></i>
+</button>
                     <!-- Botón para justificante -->
                     <button onclick="openJustificanteModal()" class="bg-transparent border-0 cursor-pointer">
                         <i class='bx bx-detail text-lg mx-2' style='color:#3c3c3c'></i>
@@ -202,17 +265,10 @@ if ($result->num_rows > 0) {
                 </td>
             </tr>
         </div>
-        <?php
-    }
-} else {
-    echo "<tr><td colspan='4' class='text-center'>No se encontraron tratamientos.</td></tr>";
-}
 
-// Cerrar la conexión
-$conn->close();
-?>
 
       </tbody>
+      <?php endforeach; ?>
     </table> 
     <?php
       include 'Modales/VerHistorial.php';
