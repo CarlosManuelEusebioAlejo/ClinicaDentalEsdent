@@ -1,3 +1,9 @@
+<?php
+
+// PHP QUE EXTRAE LA INFORMACION DE LOS PACIENTES Y LOS MUESTRA EN LA TABLA
+include 'Solicitudes/mostrar_radiografia.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -102,9 +108,16 @@
       <div class="flex-1 flex flex-col mt-12 mx-4">
         <div class="flex justify-between items-center mx-8">
             <!-- Botón rojo para index.html -->
-            <a href="/..//ClinicaDentalEsdent/Historial/" class="flex items-center text-white px-4 py-2 rounded-full font-semibold hover:bg-red-600" style="background-color: #07b52d;">
-                <img src="/..//ClinicaDentalEsdent/Configuraciones/img/regresar.png" alt="Regresar" class="h-5 mr-2"> Regresar
-            </a>
+            <!-- Botón de regresar con formulario oculto -->
+            <form id="regresarForm" method="POST" action="/../ClinicaDentalEsdent/Historial/" style="display: inline;">
+                <!-- Campo oculto con el ID del paciente -->
+                <input type="hidden" name="idPaciente" value="<?= $idPaciente['idPaciente'] ?>">
+                <!-- Botón que simula el enlace de regresar -->
+                <button type="submit" class="flex items-center text-white px-4 py-2 rounded-full font-semibold hover:bg-red-600" style="background-color: #07b52d;">
+                    <img src="/..//ClinicaDentalEsdent/Configuraciones/img/regresar.png" alt="Regresar" class="h-5 mr-2"> Regresar
+                </button>
+            </form>
+            
         </div>
         <div class="ml-8 mt-8">
           <h1 class="text-4xl font-semibold">Paciente: Carlos Manuel Eusebio Alejo</h1>
@@ -138,16 +151,17 @@
                 
                     <!-- Cuerpo de la tabla -->
                     <tbody class="bg-gray-100">
+                    <?php foreach ($radiografias as $radiografia): ?>
                         <!-- Fila 1 -->
                       <div class="mb-2">
                         <tr class="bg-sky-100 overflow-hidden " style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
-                            <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">Miércoles 2 de Octubre del 2024</td>
-                            <td class="px-4 py-3 text-left">Panoramica</td>
-                            <td class="px-4 py-3 text-left">Panoramica</td>
-                            <td class="px-4 py-3 text-left">Porxcita: Blanqueamiento</td>
+                            <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;"><?= $radiografia['Fecha'] ?></td>
+                            <td class="px-4 py-3 text-left"><?= $radiografia['Tipo_radiografia'] ?></td>
+                            <td class="px-4 py-3 text-left"><?= $radiografia['Descripcion'] ?></td>
+                            <td class="px-4 py-3 text-left"><?= $radiografia['Observacion'] ?></td>
                             <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
                                 <!-- Botón para ver radiografía -->
-                                <button onclick="openVerRadiografiaModal()" class="bg-transparent border-0 cursor-pointer">
+                                <button onclick="openVerRadiografiaModal(<?= $radiografia['id_radiografias'] ?>)" class="bg-transparent border-0 cursor-pointer">
                                     <i class='bx bx-id-card text-lg mx-2' style='color:#3c3c3c'></i>
                                 </button>
                                 <!-- Botón para editar radiografía -->
@@ -157,26 +171,8 @@
                             </td>
                         </tr>
                       </div>
-                
-                        <!-- Fila 2 -->
-                        <div class="mb-2">
-                        <tr class="overflow-hidden mb-2" style="background-color: #e8ecff; border-radius: 50px;  box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229);">
-                            <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">Miércoles 2 de Octubre del 2024</td>
-                            <td class="px-4 py-3 text-left">Panoramica</td>
-                            <td class="px-4 py-3 text-left">Panoramica</td>
-                            <td class="px-4 py-3 text-left">Se recomienda usar un enjuague dental y cepillo de dientes con cerdas suaves</td>
-                            <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-                                 <!-- Botón para ver radiografía -->
-                                 <button onclick="openVerRadiografiaModal()" class="bg-transparent border-0 cursor-pointer">
-                                    <i class='bx bx-id-card text-lg mx-2' style='color:#3c3c3c'></i>
-                                </button>
-                                <!-- Botón para editar radiografía -->
-                                <button onclick="openEditRadiografiaModal()" class="bg-transparent border-0 cursor-pointer">
-                                    <i class='bx bx-edit  text-lg mx-2' style='color:#3c3c3c;'></i>
-                                </button>
-                            </td>
-                        </tr>
-                        </div>
+
+                      <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
