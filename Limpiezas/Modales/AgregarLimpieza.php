@@ -23,7 +23,6 @@
                         <input type="hidden" id="idPaciente" name="idPaciente">
                         <input type="hidden" id="Nombre_paciente" name="Nombre_paciente">
                         <input type="hidden" id="Apellido_paciente" name="Apellido_paciente">
-
                         <ul id="resultado-busqueda" class="absolute bg-white shadow-md rounded-md mt-1 w-full z-10"></ul>
                     </div>
 

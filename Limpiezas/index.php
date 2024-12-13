@@ -139,7 +139,7 @@
                         <?php
                         include '../Configuraciones/conexion.php';
                         // Consulta para obtener todos los doctores
-                        $query = "SELECT * FROM limpieza_dental";
+                        $query = "SELECT * FROM limpieza_dental ORDER BY fecha_registro DESC";
                         $result = mysqli_query($conn, $query);
 
                         // Verifica si hay resultados
@@ -230,6 +230,7 @@
         });
     }
 </script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
     // Seleccionar todas las celdas que contienen fechas (ajusta la clase o selector según tu tabla)
