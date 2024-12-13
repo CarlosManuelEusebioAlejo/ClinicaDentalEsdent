@@ -3,7 +3,7 @@ if (isset($_GET['id_tratamiento'])) {
     $idTratamiento = intval($_GET['id_tratamiento']); // Usar id_tratamiento
 
     // Conexión a la base de datos
-    $conexion = new mysqli('localhost', 'root', '', 'clinicanew1');
+    $conexion = new mysqli('localhost', 'root', '', 'clinicadentalesdent');
 
     if ($conexion->connect_error) {
         http_response_code(500);
