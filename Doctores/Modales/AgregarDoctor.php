@@ -120,14 +120,12 @@
                     </div> -->
             <div class="p-6 rounded-sm shadow-lg mb-10" style="background-color: #f5f7ff;">
                 <h2 class="text-white px-4 pt-1 mb-10 rounded-full text-xl" style="background-color: #B4221B;">CERTIFICADO</h2>
-                
-                <div class="flex items-center">
-                    <div class="mr-4">
-                        <!-- Input del certificado, ahora con name="Certificado" -->
-                        <input type="file" id="foto-input" name="Certificado" accept="image/*" class="mb-4">
-                    </div>
-                    <div id="foto-display" class="border-2 border-gray-300 w-1/2 h-64 rounded-md flex items-center justify-center">
-                        <span class="text-gray-500">Aquí se mostrará la fotografía</span>
+                <div class="flex items-center justify-center">
+                    <div class="flex items-center">
+                        <input type="file" id="foto-input" name="Certificado" accept="image/*" class="mr-4">
+                        <div id="foto-display" class="border-2 border-gray-300 w-64 h-64 rounded-md flex items-center justify-center">
+                            <span class="text-gray-500">Aquí se mostrará el certificado</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -144,6 +142,34 @@
         </form>
     </div>
 </div>
+
+<script>
+        // Muestra la imagen seleccionada del certificado
+        const fotoInput = document.getElementById('foto-input');
+        const fotoDisplay = document.getElementById('foto-display');
+
+        fotoInput.addEventListener('change', function(event) {
+            console.log('Archivo seleccionado:', event.target.files[0]); // Debugging
+
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    fotoDisplay.innerHTML = '';
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = 'Vista previa del certificado';
+                    img.classList.add('w-full', 'h-full', 'object-cover', 'rounded-md');
+                    fotoDisplay.appendChild(img);
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                fotoDisplay.innerHTML = '<span class="text-gray-500">Aquí se mostrará la fotografía</span>';
+            }
+        });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Selecciona el formulario por ID
@@ -270,22 +296,6 @@
         const dataUrl = signaturePad.toDataURL();
         signatureDisplay.innerHTML = `<img src="${dataUrl}" alt="Firma" class="h-full"/>`;
         signatureModal.classList.add('hidden'); // Cerrar el modal
-    });
-
-    // JS de la séptima sección del modal
-    const photoInput = document.getElementById('foto-input'); // Asegúrate de que el id coincida
-    const photoDisplay = document.getElementById('foto-display');
-
-    // Mostrar la fotografía seleccionada
-    photoInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                photoDisplay.innerHTML = `<img src="${e.target.result}" alt="Fotografía del paciente" class="h-full w-full object-cover rounded-md"/>`;
-            }
-            reader.readAsDataURL(file);
-        }
     });
 </script>
       
