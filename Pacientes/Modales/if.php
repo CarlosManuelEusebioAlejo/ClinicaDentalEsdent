@@ -1,4 +1,4 @@
-      Telefono: $('#Telefono').val(),
+Telefono: $('#Telefono').val(),
       Correo: $('#Correo').val(),
       Estado_Civil: $('#Estado_Civil').val(),
       Ocupacion: $('#Ocupacion').val(),
