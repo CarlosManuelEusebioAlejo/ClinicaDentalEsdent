@@ -69,7 +69,7 @@ $query = $idPaciente
 
 // Ejecutar la consulta
 if ($conn->query($query) === TRUE) {
-    echo json_encode(['status' => 'success', 'message' => '¡Cita registrada correctamente!', 'redirectUrl' => '../']);
+    echo json_encode(['status' => 'success', 'message' => '¡Cita registrada correctamente!', 'redirectUrl' => '../Agenda/']);
 } else {
     error_log("Error al agregar la cita: " . $conn->error); // Agregar log para depuración
     echo json_encode(['status' => 'error', 'message' => 'Error al agregar la cita: ' . $conn->error]);
@@ -78,4 +78,3 @@ if ($conn->query($query) === TRUE) {
 // Cerrar conexión
 $conn->close();
 ?>
-
