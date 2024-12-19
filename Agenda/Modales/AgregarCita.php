@@ -281,25 +281,25 @@ function seleccionarPaciente(paciente) {
 </script>
 
 
-<!--------------------------------- JAVASCRIPT PARA ABRIR Y CERRAR EL MODAL ----------------------------------------->
-  <script>
-    const addPresupuestoBtn = document.getElementById('add-presupuesto-btn');
-    const closePresupuestoModalBtn = document.getElementById('close-presupuesto-modal-btn');
-    const presupuestoModal = document.getElementById('presupuesto-modal');
-    const closePresupuestoModalX = document.getElementById('close-presupuesto-modal-x');
+<!--------------------------------- JAVASCRIPT PARA ABRIR Y CERRAR EL MODAL ---------------------------------------->
+<script>
+  const addPresupuestoBtn = document.getElementById('add-presupuesto-btn');
+  const closePresupuestoModalBtn = document.getElementById('close-presupuesto-modal-btn');
+  const presupuestoModal = document.getElementById('presupuesto-modal');
+  const closePresupuestoModalX = document.getElementById('close-presupuesto-modal-x');
   
-    // Mostrar el modal al hacer clic en "AGREGAR PRESUPUESTO"
-    addPresupuestoBtn.addEventListener('click', function() {
-      presupuestoModal.classList.remove('hidden');
-    });
+  // Mostrar el modal al hacer clic en "AGREGAR PRESUPUESTO"
+  addPresupuestoBtn.addEventListener('click', function() {
+    presupuestoModal.classList.remove('hidden');
+  });
   
-    // Cerrar el modal al hacer clic en "Cerrar"
-    closePresupuestoModalX.addEventListener('click', function() {
-      presupuestoModal.classList.add('hidden');
-    });
+  // Cerrar el modal al hacer clic en el botón de "Cerrar"
+  closePresupuestoModalBtn.addEventListener('click', function() {
+    presupuestoModal.classList.add('hidden');
+  });
 
-     // Cerrar el modal al hacer clic en la "X"
-     closePresupuestoModalX.addEventListener('click', function() {
-          modal.classList.add('hidden');
-        });
-  </script>
+  // Cerrar el modal al hacer clic en la "X"
+  closePresupuestoModalX.addEventListener('click', function() {
+    presupuestoModal.classList.add('hidden');
+  });
+</script>
