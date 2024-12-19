@@ -280,9 +280,10 @@ CREATE TABLE IF NOT EXISTS `ClinicaDentalEsdent`.`pagos`(
                              'Tarjeta',
                              'Billpocket',
                              'Transferencia')            NOT NULL                 COMMENT 'Metodo de pago del paciente',
-     `Factura`          ENUM('Si', 
+    `Factura`           ENUM('Si', 
                              'No')                       NOT NULL                 COMMENT 'Requiere factura el paciente',
-    `fecha_registro`  DATETIME                           NOT NULL DEFAULT NOW()   COMMENT 'Fecha y hora en que se registró el pago',
+    `fecha_Pago`        DATE                             NOT NULL                 COMMENT 'Fecha del pago',
+    `fecha_registro`    DATETIME                           NOT NULL DEFAULT NOW() COMMENT 'Fecha y hora en que se registró el pago',
     PRIMARY KEY (`id_pagos`),
         CONSTRAINT `fk_pagos_doctor` FOREIGN KEY (`id_doctor`) REFERENCES `doctores`(`id_doctor`) ON DELETE CASCADE ON UPDATE CASCADE,
         CONSTRAINT `fk_pagos_paciente` FOREIGN KEY (`idPaciente`) REFERENCES `pacientes`(`idPaciente`) ON DELETE CASCADE ON UPDATE CASCADE
