@@ -1,6 +1,6 @@
 
 <!----------------------------------------------------------------- Modal Ver Datos del Odontograma --------------------------------------------------------------------------->
-<div id="openOdontogramaModal" class="fixed inset-0 flex z-50 items-center justify-center bg-opacity-50 bg-black hidden">
+<div id="odontogramaModal" class="fixed inset-0 flex z-50 items-center justify-center bg-opacity-50 bg-black hidden">
     <div class="p-8 rounded-lg overflow-auto relative" style="background-color: #FBFDFF; height: 710px; width: 600px;">
         <!-- Botón X para cerrar el modal -->
        <button id="close-odontograma-modal-x" class="absolute top-0 right-0 m-2 pb-px border-4 border-red-700 text-red-700 hover:bg-red-700 hover:text-white w-8 h-8 rounded-full flex items-center justify-center text-lg font-bold">&times;</button>

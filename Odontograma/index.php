@@ -9,7 +9,9 @@
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="/Configuraciones/css/odontograma.css">
-    <title>Clinica</title>
+    <title>ClinicaDentalEsdent</title>
+    <link rel="icon" href="/../ClinicaDentalEsdent/Configuraciones/img/logo.png" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
                 /* Cuadrado de Odontograma */
                 .line-diagonal {
@@ -128,7 +130,7 @@
           <div class="flex justify-center mb-6">
             <div class="bg-[#E9EDFF] w-24 h-24 flex flex-col items-center justify-center rounded-lg shadow-lg">
                 <i class='bx bx-id-card text-3xl'></i>
-                <span class="text-sm font-semibold mt-2">ODONTOGRAMA</span>
+                <span class="text-sm font-semibold mt-2">PACIENTES</span>
             </div>
           </div>
           
@@ -138,10 +140,11 @@
                         <i class='bx bxs-dashboard text-2xl'></i>
                         <span class="font-semibold mx-4">PANEL</span>
                     </a>
-                    <a href="/../ClinicaDentalEsdent/Pacientes/" class="flex items-center p-2 rounded-lg bg-[#E9EDFF]">
+                    <a href="/../ClinicaDentalEsdent/Pacientes/" class="flex items-center p-2 rounded-full bg-white shadow-inner" style="box-shadow: inset 0px 3px 6px rgba(88, 132, 209, 0.391); background-color: #e8ecff24;">
                         <i class='bx bx-id-card text-2xl'></i>
                         <span class="font-semibold mx-4">PACIENTES</span>
                     </a>
+
                     <a href="/../ClinicaDentalEsdent/Agenda/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
                         <i class='bx bxs-book-bookmark text-2xl'></i>
                         <span class="font-semibold mx-4">AGENDA</span>
@@ -155,7 +158,7 @@
                         <span class="font-semibold mx-4">PRESUPUESTOS</span>
                     </a>
                     <a href="/../ClinicaDentalEsdent/Limpiezas/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
-                        <img src="/..//ClinicaDentalEsdent/Configuraciones/img/limpieza.png" alt="Regresar" class="h-6">
+                        <img src="/..//ClinicaDentalEsdent/Configuraciones/img/Dientelimpieza.png" class="h-6"> 
                         <span class="font-semibold mx-4">LIMPIEZAS</span>
                     </a>
                     <a href="/../ClinicaDentalEsdent/ExplicacionVisual/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
@@ -208,8 +211,13 @@
             <h1 class="text-4xl font-semibold">ODONTOGRAMA</h1>
             <p class="text-xl mt-1 mb-10">Paciente: Carlos Manuel Eusebio Alejo</p>
         </div>
-        <!-- Botón rojo para index.html -->
-        <a href="../Historial/" class="text-white px-4 py-2 rounded-full items-center font-semibold hover:bg-red-600" style="background-color: #07b52d;">Regresar al Inicio</a>
+        <!-- Botón para regresar a historial -->
+        <a href="../Historial/" class="text-white px-4 py-2 rounded-full items-center font-semibold hover:bg-red-600" style="background-color: #07b52d; display: flex; align-items: center;">
+            <img src="/..//ClinicaDentalEsdent/Configuraciones/img/regresar.png" alt="Regresar" class="h-5 mr-2"> 
+            <span>Regresar</span>
+        </a>
+
+        
     </div>
 
        <!-- Div centrado -->
@@ -790,9 +798,6 @@
                 <button class="bg-transparent border-0 cursor-pointer" onclick="openOdontogramaModal()">
                     <i class='bx bx-id-card text-lg mx-2'></i>
                 </button>
-                <?php
-                include'Modales/VerDatos.php';
-                ?>
                 <!-- Botón para BORRAR -->
                 <button class="bg-transparent border-0 cursor-pointer" onclick="deleteEntry()">
                     <i class='bx bx-trash text-lg mx-2' style='color:#3c3c3c'></i>
@@ -800,13 +805,32 @@
             </td>
           </tr>
         </div>
+  
+          <!-- Fila 2 -->
+          <div class="mb-2">
+          <tr class="overflow-hidden mb-2" style="background-color: #e8ecff; border-radius: 50px;  box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229);">
+              <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">18</td>
+              <td class="px-4 py-3 text-left">Limpieza dental</td>
+              <td class="px-4 py-3 text-left">Limpieza dental, se cerró área de contacto entre oD 46 y 47 con resina (posiblemente cambiar a inlay), se cubrió aberturas de 45</td>
+              <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+                <!-- Botón para abrir el modal de ver datos del odontograma -->
+                <button class="bg-transparent border-0 cursor-pointer" onclick="openOdontogramaModal()">
+                    <i class='bx bx-id-card text-lg mx-2'></i>
+                </button>
+                <!-- Botón para BORRAR -->
+                <button class="bg-transparent border-0 cursor-pointer" onclick="deleteEntry()">
+                    <i class='bx bx-trash text-lg mx-2' style='color:#3c3c3c'></i>
+                </button>
+              </td>
+          </tr>
+          </div>
       </tbody>
   </table>
 
-    <?php
-    include'Modales/SeleccionarDiente.php';
-    include'Modales/VerDatos.php';
-    ?>
+<?php
+include'Modales/SeleccionarDiente.php';
+include'Modales/VerDatos.php';
+?>
 <script src="../Configuraciones/js/odontograma.js"></script>
 <script src="../Configuraciones/js/pincel.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
