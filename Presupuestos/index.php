@@ -55,7 +55,7 @@
               <span class="font-semibold mx-4">PRESUPUESTOS</span>
             </a>
             <a href="/../ClinicaDentalEsdent/Limpiezas/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
-              <i class='bx bx-play-circle text-2xl'></i>
+              <img src="/..//ClinicaDentalEsdent/Configuraciones/img/Dientelimpieza.png" class="h-6"> 
               <span class="font-semibold mx-4">LIMPIEZAS</span>
             </a>
             <a href="/../ClinicaDentalEsdent/ExplicacionVisual/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
@@ -112,10 +112,6 @@
         <button id="add-presupuesto-btn" class="text-white px-4 py-2 rounded-full shadow-lg" style="background-color: #B4221B;">
             + AGREGAR PRESUPUESTO
           </button>
-          
-          <div>
-            <input type="text" placeholder="Buscar Paciente" class="px-4 py-2 rounded-full shadow-lg">
-          </div>
       </div>
 
       <!-- Tabla de pacientes -->
