@@ -10,29 +10,32 @@
             <div class="rounded-full shadow-md flex items-center justify-between text-center m-4 px-4 py-2" style="background-color: #B4221B;">
                 <h1 class="text-white text-3xl">Datos del Paciente</h1>
                 
-                <!-- Botón Editar Paciente -->
-                <button type="button" onclick="openEditarPacienteModal(<?= $pacientev['idPaciente'] ?>)" 
-                        id="edit-patient-btn-<?= $pacientev['idPaciente'] ?>" 
-                        class="w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center hover:shadow-lg">
-                    <i class="bx bx-edit" style="color:#3c3c3c; font-size: 1.5rem;"></i>
-                </button>
+                <!-- Contenedor para los botones de editar e imprimir -->
+                <div class="flex items-center gap-4 ml-auto">
+                    <!-- Botón Editar Paciente -->
+                    <button type="button" onclick="openEditarPacienteModal(<?= $pacientev['idPaciente'] ?>)" 
+                            id="edit-patient-btn-<?= $pacientev['idPaciente'] ?>" 
+                            class="w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center hover:shadow-lg">
+                        <i class="bx bx-edit" style="color:#3c3c3c; font-size: 1.5rem;"></i>
+                    </button>
 
-                <!-- Botón Imprimir PDF -->
-                <button id="download-pdf<?= $pacientev['idPaciente'] ?>" 
-                        class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all"
-                        onclick="generatePDF(<?= $pacientev['idPaciente'] ?>)">
-                    <i class="bx bx-download" style="font-size: 1.5rem;"></i> 
-                    <span>Imprimir PDF</span>
-                </button>
+                    <!-- Botón Imprimir PDF -->
+                    <button id="download-pdf<?= $pacientev['idPaciente'] ?>" 
+                            class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-all"
+                            onclick="generatePDF(<?= $pacientev['idPaciente'] ?>)">
+                        <i class="bx bx-download" style="font-size: 1.5rem;"></i> 
+                        <span>Imprimir PDF</span>
+                    </button>
+                </div>
             </div>
 
             <script>
-function generatePDF(pacienteId) {
-    // Cambia la URL según la ruta de tu archivo PHP que genera el PDF
-    var url = 'pdf/pdf.php?idPaciente=' + pacienteId;
-    window.open(url, '_blank'); // Abre el PDF en una nueva pestaña
-}
-</script>
+                function generatePDF(pacienteId) {
+                    // Cambia la URL según la ruta de tu archivo PHP que genera el PDF
+                    var url = 'pdf/pdf.php?idPaciente=' + pacienteId;
+                    window.open(url, '_blank'); // Abre el PDF en una nueva pestaña
+                }
+            </script>
 
             <div class="p-6 rounded-sm shadow-lg mb-10" style="background-color: #f5f7ff;">
                 <h2 class="text-white px-4 pt-1 mb-10 rounded-full text-xl" style="background-color: #B4221B; height: 40px;">
