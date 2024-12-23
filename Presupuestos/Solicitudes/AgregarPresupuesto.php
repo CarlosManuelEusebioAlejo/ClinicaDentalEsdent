@@ -12,14 +12,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $Fecha              = $_POST['Fecha'];
     $Valido_hasta       = $_POST['Valido_hasta'];
 
+    // Verificar si 'Fecha' es mayor que 'Valido_hasta'
+    if (strtotime($Fecha) > strtotime($Valido_hasta)) {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'La fecha no puede ser mayor que la fecha de validez.',
+        ]);
+        exit;
+    }
+
+    // Obtener la fecha actual
+    $fecha_actual = date("Y-m-d");
+
+    // Determinar el estado basado en la fecha 'Valido_hasta'
+    if ($Valido_hasta >= $fecha_actual) {
+        $estado = 'pendiente'; // Si la fecha 'Valido_hasta' es futura o igual a la fecha actual
+    } else {
+        $estado = 'expirado';  // Si la fecha 'Valido_hasta' es anterior a la fecha actual
+    }
+
     // Preparar consulta SQL
-    $query = "INSERT INTO presupuestos (idPaciente, Nombre_paciente, Apellido_paciente, Tratamiento, Costo, Observaciones, Fecha, Valido_hasta) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO presupuestos (idPaciente, Nombre_paciente, Apellido_paciente, Tratamiento, Costo, Observaciones, Fecha, Valido_hasta, estado) 
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($query);
 
     if ($stmt) {
-        // Asociar parámetros
-        $stmt->bind_param("isssdsss", $idPaciente, $Nombre_paciente, $Apellido_paciente, $Tratamiento, $Costo, $Observaciones, $Fecha, $Valido_hasta);
+        // Asociar parámetros, incluyendo el estado
+        $stmt->bind_param("isssdssss", $idPaciente, $Nombre_paciente, $Apellido_paciente, $Tratamiento, $Costo, $Observaciones, $Fecha, $Valido_hasta, $estado);
         if ($stmt->execute()) {
             // Respuesta JSON exitosa
             echo json_encode([
