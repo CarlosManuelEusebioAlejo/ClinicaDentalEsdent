@@ -62,7 +62,7 @@ include 'solicitudes/mostrar_pacientes.php';
                       <span class="font-semibold mx-4">PRESUPUESTOS</span>
                     </a>
                     <a href="/../ClinicaDentalEsdent/Limpiezas/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
-                      <img src="/..//ClinicaDentalEsdent/Configuraciones/img/Dientelimpieza.png" class="h-6"> 
+                      <i class='bx bx-play-circle text-2xl'></i>
                       <span class="font-semibold mx-4">LIMPIEZAS</span>
                     </a>
                     <a href="/../ClinicaDentalEsdent/ExplicacionVisual/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
@@ -97,154 +97,120 @@ include 'solicitudes/mostrar_pacientes.php';
 
         <!-- Div centrado -->
         <div class="flex flex-1 justify-center items-start">
-          <div class="bg-white shadow-lg rounded-lg p-4 w-full max-w-5xl" style="background-color: #f8f8ff;">
-            <!-- Contenido original del div -->
-            <div class="flex justify-between items-center mt-6 mb-4 w-full">
-              <button id="add-patient-btn" class="text-white px-4 py-2 rounded-full shadow-lg" style="background-color: #B4221B;">
-                + AGREGAR PACIENTE
-              </button>
-              <div>
-                <input type="text" placeholder="Buscar Paciente" class="px-4 py-2 rounded-full shadow-lg">
+            <div class="bg-white shadow-lg rounded-lg p-4 w-full max-w-5xl" style="background-color: #f8f8ff;" >
+              <!-- Contenido original del div -->
+              <div class="flex justify-between items-center mt-6 mb-4 w-full">
+                  <button id="add-patient-btn" class="text-white px-4 py-2 rounded-full shadow-lg" style="background-color: #B4221B;">
+                    + AGREGAR PACIENTE
+                  </button>
+                  <div>
+                    <input type="text" placeholder="Buscar Paciente" class="px-4 py-2 rounded-full shadow-lg">
+                  </div>
               </div>
-            </div>
-
-            <!-- Tabla de pacientes -->
-            <table class="table-auto w-full border-separate" style="border-spacing: 0px 12px;">
-              <!-- Encabezado con borde redondeado -->
-              <thead class="bg-white rounded-full" style="box-shadow: inset 0px 3px 6px rgba(88, 132, 209, 0.391); background-color: #e8ecff24;">
-                <tr>
-                  <th class="px-4 py-2 text-left rounded-l-full">NOMBRE</th>
-                  <th class="px-4 py-2 text-left">APELLIDOS</th>
-                  <th class="px-4 py-2 text-center rounded-r-full">OPCIONES</th>
-                </tr>
-              </thead>
-
-              <!-- Cuerpo de la tabla -->
-              <tbody class="bg-gray-100">
+                   <!-- Tabla de pacientes -->
+              <table class="table-auto w-full border-separate" style="border-spacing: 0px 12px;">
+                <!-- Encabezado con borde redondeado -->
+                <thead class="bg-white rounded-full"  style=" box-shadow: inset 0px 3px 6px rgba(88, 132, 209, 0.391); background-color: #e8ecff24;">
+                    <tr>
+                        <th class="px-4 py-2 text-left rounded-l-full">NOMBRE</th>
+                        <th class="px-4 py-2 text-left">APELLIDOS</th>
+                        <th class="px-4 py-2 text-center rounded-r-full">OPCIONES</th>
+                    </tr>
+                </thead>
+            
+                <!-- Cuerpo de la tabla -->
+                <tbody class="bg-gray-100">
                 <?php foreach ($pacientes as $pacientei): ?>
-                  <!-- Fila de paciente -->
-                  <tr class="patient-row bg-sky-100 overflow-hidden" style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
-                    <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;"><?= $pacientei['Nombre_paciente'] ?></td>
-                    <td class="px-4 py-3 text-left"><?= $pacientei['Apellido_paciente'] ?></td>
-                    <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-                      <!-- Botón para ver datos del paciente -->
-                      <button onclick="openVerPacienteModal(<?= $pacientei['idPaciente'] ?>)" class="bg-transparent border-0 cursor-pointer">
-                        <i class='bx bx-id-card text-lg mx-2' style='color:#3c3c3c'></i>
-                      </button>
-                      <!-- Botón para redirigir al historial sin pasar el idPaciente en la URL -->
-                      <form id="redirectForm<?= $pacientei['idPaciente'] ?>" method="POST" action="/../ClinicaDentalEsdent/Historial/index.php" style="display: none;">
-                        <input type="hidden" name="idPaciente" value="<?= $pacientei['idPaciente'] ?>">
-                      </form>
-                      <button class="bg-transparent border-0 cursor-pointer" onclick="document.getElementById('redirectForm<?= $pacientei['idPaciente'] ?>').submit();">
-                        <i class='bx bx-folder text-lg mx-2'></i>
-                      </button>
-                      <!-- Botón para borrar -->
-                      <button class="bg-transparent border-0 cursor-pointer" onclick="eliminarPaciente(<?= $pacientei['idPaciente'] ?>)">
-                        <i class='bx bx-trash text-lg mx-2' style='color:#3c3c3c'></i>
-                      </button>
-                    </td>
-                  </tr>
-                <?php endforeach; ?>
-              </tbody>
-            </table>
-            <!-- Mensaje de "No se encuentra ningún paciente" debajo de la tabla -->
-            <div id="noResultsMessage" class="text-center text-red-500 font-semibold mt-4 hidden">
-              No se encuentra el paciente.
+                    <!-- Fila 1 -->
+                    <div class="mb-2">
+                      <tr class="bg-sky-100 overflow-hidden " style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
+                          <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;"><?= $pacientei['Nombre_paciente'] ?></td>
+                          <td class="px-4 py-3 text-left"><?= $pacientei['Apellido_paciente'] ?></td>
+                          <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+                              <!-- Botón para abrir el modal -->
+                                   <!-- Botón para abrir el modal -->
+                            <!-- Botón para abrir el modal -->
+<!-- Botón para ver datos del paciente -->
+<button onclick="openVerPacienteModal(<?= $pacientei['idPaciente'] ?>)" class="bg-transparent border-0 cursor-pointer">
+    <i class='bx bx-id-card text-lg mx-2' style='color:#3c3c3c'></i>
+</button>
+
+                           
+                              <!-- Botón para redirigir al historial sin pasar el idPaciente en la URL -->
+                              <form id="redirectForm<?= $pacientei['idPaciente'] ?>" method="POST" action="/../ClinicaDentalEsdent/Historial/index.php" style="display: none;">
+                              <input type="hidden" name="idPaciente" value="<?= $pacientei['idPaciente'] ?>">
+                              </form>
+                              <button class="bg-transparent border-0 cursor-pointer" onclick="document.getElementById('redirectForm<?= $pacientei['idPaciente'] ?>').submit();">
+                                <i class='bx bx-folder text-lg mx-2'></i>
+                              </button>                                                            
+
+                              <!-- Botón para borrar -->
+                              <button class="bg-transparent border-0 cursor-pointer" onclick="eliminarPaciente(<?php echo $pacientei['idPaciente']; ?>)">
+                                  <i class='bx bx-trash text-lg mx-2' style='color:#3c3c3c'></i>
+                              </button>
+                          </td>
+                      </tr>
+                    </div>
+                    <?php endforeach; ?>
+                </tbody>
+              </table>
             </div>
-          </div>
         </div>
       </div>
-
     </div>
     <?php
+
       include 'Modales/VerPaciente.php';
       include 'Modales/EditarPaciente.php';
-      include 'Modales/AgregarPaciente.php'; 
     ?>
     <script src="../js/AgregarPacientes.js"></script>
+    <?php       include 'Modales/AgregarPaciente.php'; ?>
     <script src="../js/ActualizarPaciente.js"></script>
-    <script>
-        function eliminarPaciente(idPaciente) {
-            Swal.fire({
-                title: "¿Estás seguro?",
-                text: "¡No podrás revertir esto!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Sí, eliminarlo",
-                cancelButtonText: "No, cancelar",
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Llamada AJAX para eliminar el doctor
-                    $.ajax({
-                        url: 'Solicitudes/EliminarPaciente.php', // URL corregida
-                        method: 'POST',
-                        data: { idPaciente: idPaciente },
-                        success: function(response) {
-                            Swal.fire(
-                                "Eliminado",
-                                response,
-                                "success"
-                            ).then(() => {
-                                location.reload();
-                            });
-                        },
-                        error: function(xhr, status, error) {
-                            Swal.fire(
-                                "Error",
-                                "Hubo un problema al eliminar el doctor.",
-                                "error"
-                            );
-                            console.error(error);
-                        }
-                    });
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    Swal.fire(
-                        "Cancelado",
-                        "El Paciente está seguro.",
-                        "error"
-                    );
-                }
-            });
-        }
-
-    </script>
-    <script>
-      // Selecciona el campo de entrada de búsqueda, las filas de la tabla y el mensaje
-      const searchInput = document.querySelector('input[placeholder="Buscar Paciente"]');
-      const tableRows = document.querySelectorAll('tbody .patient-row');
-      const noResultsMessage = document.getElementById('noResultsMessage');
-
-      // Escucha el evento de entrada en el buscador
-      searchInput.addEventListener('input', function () {
-        const filter = searchInput.value.toLowerCase(); // Convierte el texto a minúsculas
-
-        let resultsFound = false; // Variable para verificar si se encontraron resultados
-
-        // Itera sobre cada fila de la tabla
-        tableRows.forEach(row => {
-          // Obtiene los valores de las celdas (NOMBRE y APELLIDOS)
-          const nombre = row.querySelector('td:nth-child(1)').textContent.toLowerCase();
-          const apellidos = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-
-          // Comprueba si el texto del buscador coincide con el nombre o los apellidos
-          if (nombre.includes(filter) || apellidos.includes(filter)) {
-            row.style.display = ''; // Muestra la fila si coincide
-            resultsFound = true; // Si encuentra al menos una coincidencia, cambia el estado
-          } else {
-            row.style.display = 'none'; // Oculta la fila si no coincide
-          }
+<script>
+    function eliminarPaciente(idPaciente) {
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "¡No podrás revertir esto!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminarlo",
+            cancelButtonText: "No, cancelar",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Llamada AJAX para eliminar el doctor
+                $.ajax({
+                    url: 'Solicitudes/EliminarPaciente.php', // URL corregida
+                    method: 'POST',
+                    data: { idPaciente: idPaciente },
+                    success: function(response) {
+                        Swal.fire(
+                            "Eliminado",
+                            response,
+                            "success"
+                        ).then(() => {
+                            location.reload();
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire(
+                            "Error",
+                            "Hubo un problema al eliminar el doctor.",
+                            "error"
+                        );
+                        console.error(error);
+                    }
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire(
+                    "Cancelado",
+                    "El Paciente está seguro.",
+                    "error"
+                );
+            }
         });
+    }
+</script>
 
-        // Si no se encontraron resultados, muestra el mensaje
-        if (resultsFound) {
-          noResultsMessage.classList.add('hidden'); // Oculta el mensaje si hay resultados
-        } else {
-          noResultsMessage.classList.remove('hidden'); // Muestra el mensaje si no hay resultados
-        }
-      });
-    </script>
   </body>
 </html>
-
-
