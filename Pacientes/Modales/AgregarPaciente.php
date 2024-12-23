@@ -810,10 +810,10 @@
 
 <!-- Mini Modal para agregar firma -->
 <div id="signature-modal" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-[600px] h-[400px]" style="width: 600px; height: 400px;">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-[680px] h-[400px]" style="width: 680px; height: 400px;">
         <h3 class="text-lg font-bold mb-4">Dibuje su firma</h3>
         <!-- Área para dibujar la firma -->
-        <canvas id="signature-pad" class="border-2 border-gray-300 w-full h-32 mb-4" style="height: 250px;"></canvas>
+        <canvas id="signature-pad" class="border-2 border-gray-300 w-full h-32 mb-4" style="height: 250px; will-change: transform;"></canvas>
 
         <div class="flex justify-between mt-4">
             <button type="button" id="reset-signature" class="bg-blue-100 text-black rounded-full py-2 px-4">Reiniciar</button>
@@ -1086,35 +1086,20 @@ signaturePad.addEventListener('touchstart', (e) => {
 });
 
 // Dibujar (para mouse y táctil)
-signaturePad.addEventListener('mousemove', (e) => {
-    if (drawing) {
-        const { x, y } = getCoordinates(e);
-        // Dibujar una línea suave entre el punto anterior y el nuevo
-        drawSmoothLine(lastX, lastY, x, y);
-        lastX = x;
-        lastY = y;
-    }
-});
-
+signaturePad.addEventListener('mousemove', drawLine);
 signaturePad.addEventListener('touchmove', (e) => {
-    if (drawing) {
-        e.preventDefault(); // Evita el comportamiento por defecto (desplazamiento)
-        const { x, y } = getCoordinates(e);
-        drawSmoothLine(lastX, lastY, x, y);
-        lastX = x;
-        lastY = y;
-    }
+    e.preventDefault(); // Evita el comportamiento por defecto (desplazamiento)
+    drawLine(e);
 });
 
-// Función para dibujar líneas suaves (con interpolación)
-function drawSmoothLine(x1, y1, x2, y2) {
-    const steps = Math.max(Math.abs(x2 - x1), Math.abs(y2 - y1));
-    for (let i = 0; i <= steps; i++) {
-        const t = i / steps;
-        const x = x1 + (x2 - x1) * t;
-        const y = y1 + (y2 - y1) * t;
+// Función para dibujar líneas suaves (optimizada)
+function drawLine(e) {
+    if (drawing) {
+        const { x, y } = getCoordinates(e);
         canvasContext.lineTo(x, y);
         canvasContext.stroke();
+        lastX = x;
+        lastY = y;
     }
 }
 
@@ -1168,7 +1153,4 @@ signatureModal.addEventListener('click', (e) => {
         signatureModal.classList.add('hidden');
     }
 });
-
-        
-        </script>
-      
+</script>
