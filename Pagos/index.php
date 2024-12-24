@@ -285,6 +285,14 @@
             #three:checked + .ball {
               background-color: rgb(7, 212, 7); /* Color para "Pagado" */
             }
+
+            #prev-date, #next-date {
+                font-size: 1.5rem;
+                color: #333;
+                padding: 0.5rem;
+            }
+
+            
               </style>
         </div>
       </div>
@@ -297,119 +305,99 @@
 <div class="flex flex-1 justify-center items-start">
   <div class="bg-white overflow-y-auto h-[1/5] shadow-lg rounded-lg p-4 w-full max-w-5xl" style="background-color: #f8f8ff; height: 625px;">
 <!---------------------SECCIÓN POR DIAS DE PAGOS-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+    
+        <div id="daily-container" class="filter-container">
+            <div id="daily" class="active flex justify-center items-center mb-4">
+                <div class="flex items-center justify-center w-full">
+                    <button id="prev-date" class="cursor-pointer">
+                        <i class="bx bx-chevron-left text-lg"></i>
+                    </button>
+                    <div class="day-header flex items-center justify-center px-4 py-2 rounded-full shadow-md"
+                        style="background-color: #e4e5fa; border-radius: 50px; box-shadow: inset 4px 4px 10px #c4ccd8, inset -6px -6px 10px #ffffff; border: 2px solid rgba(144, 187, 223, 0.279); width: auto; min-width: 200px;">
+                        <span id="current-day" class="text-lg font-semibold text-center"></span>
+                    </div>
+                    <button id="next-date" class="cursor-pointer">
+                        <i class="bx bx-chevron-right text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-    <div id="daily-container" class="filter-container">
-      <div id="daily" class="active flex justify-center items-center mb-4">
-          <div class="day-header w-40 flex items-center justify-center px-1 py-1 rounded-full shadow-md" style="background-color: #e4e5fa; border-radius: 50px; box-shadow: inset 4px 4px 10px #c4ccd8, inset -6px -6px 10px #ffffff; border: 2px solid rgba(144, 187, 223, 0.279);">
-          <span class="text-lg font-semibold">LUNES</span>
-      </div>
-    </div> 
 
-    <!-- Contenedor para "LUNES" -->
-    <div class="flex flex-col overflow-y-auto h-85 mt-6 mb-6 p-4 bg-white shadow-inner w-full" style="box-shadow: inset 0px 3px 6px #0f5aab6c; background-color: #E9EDFF; border-radius: 28px;">
-           <!-- Primera tabla -->
-           <div class="mb-8">
-              <table class="table-auto w-full border-separate" style="border-spacing: 0px 12px;">
-                  <thead class="bg-white mt-4 rounded-full" style="box-shadow: inset 0px 3px 3px rgba(33, 83, 170, 0.391); background-color: #f8f8ff;">
-                      <tr>
-                          <th class="px-4 py-2 text-left rounded-l-full">PACIENTE</th>
-                          <th class="px-4 py-2 text-left">TRATAMIENTO</th>
-                          <th class="px-4 py-2 text-left">COSTO</th>
-                          <th class="px-4 py-2 text-left">ABONO</th>
-                          <th class="px-4 py-2 text-left">ADEUDO</th>
-                          <th class="px-4 py-2 text-left">DRA/OBS</th>
-                          <th class="px-4 py-2 text-center rounded-r-full">OPCIONES</th>
-                      </tr>
-                  </thead>
-                  <tbody class="bg-gray-100">
-                      <tr class="bg-sky-100 overflow-hidden" style="border-radius: 50px; box-shadow:0px 5px 6px rgba(29, 67, 133, 0.391); background-color: #f7f8fe;">
-                          <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">Andrade Villaseñor</td>
-                          <td class="px-4 py-3 text-left">Limpieza y Valoración</td>
-                          <td class="px-4 py-3 text-left">$3,000 MXN</td>
-                          <td class="px-4 py-3 text-left">$500 MXN</td>
-                          <td class="px-4 py-3 text-left">$2,500 MXN</td>
-                          <td class="px-4 py-3 text-left">Cinthia Patricia</td>
-                          <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-                              <button class="open-actualizar-pago bg-transparent border-0 cursor-pointer">
-                                  <i class="bx bx-money-withdraw text-lg mx-2"></i>
-                              </button>
-                              <!-- Botón para abrir el modal -->
-                              <button class="edit-pago-btn bg-transparent border-0 cursor-pointer" data-modal-id="ver-pago-modal">
-                                <i class='bx bx-show text-lg mx-2'></i>
-                              </button>
-                              <button class="bg-transparent border-0 cursor-pointer">
-                                  <i class='bx bx-trash text-lg mx-2' style='color:#3c3c3c'></i>
-                              </button>
-                          </td>
-                      </tr>
-                      <tr class="bg-sky-100 overflow-hidden" style="border-radius: 50px; box-shadow:0px 5px 6px rgba(29, 67, 133, 0.391); background-color: #f7f8fe;">
-                          <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">Andrade Villaseñor</td>
-                          <td class="px-4 py-3 text-left">Limpieza y Valoración</td>
-                          <td class="px-4 py-3 text-left">$3,000 MXN</td>
-                          <td class="px-4 py-3 text-left">$500 MXN</td>
-                          <td class="px-4 py-3 text-left">$2,500 MXN</td>
-                          <td class="px-4 py-3 text-left">Cinthia Patricia</td>
-                          <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-                              <button class="open-actualizar-pago bg-transparent border-0 cursor-pointer">
-                                  <i class="bx bx-money-withdraw text-lg mx-2"></i>
-                              </button>
-                              <!-- Botón para abrir el modal -->
-                              <button class="edit-pago-btn bg-transparent border-0 cursor-pointer" data-modal-id="ver-pago-modal">
-                                <i class='bx bx-show text-lg mx-2'></i>
-                              </button>
-                              <button class="bg-transparent border-0 cursor-pointer">
-                                  <i class='bx bx-trash text-lg mx-2' style='color:#3c3c3c'></i>
-                              </button>
-                          </td>
-                      </tr>
-                      <tr class="bg-sky-100 overflow-hidden" style="border-radius: 50px; box-shadow:0px 5px 6px rgba(29, 67, 133, 0.391); background-color: #f7f8fe;">
-                          <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">Andrade Villaseñor</td>
-                          <td class="px-4 py-3 text-left">Limpieza y Valoración</td>
-                          <td class="px-4 py-3 text-left">$3,000 MXN</td>
-                          <td class="px-4 py-3 text-left">$500 MXN</td>
-                          <td class="px-4 py-3 text-left">$2,500 MXN</td>
-                          <td class="px-4 py-3 text-left">Cinthia Patricia</td>
-                          <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-                              <button class="open-actualizar-pago bg-transparent border-0 cursor-pointer">
-                                  <i class="bx bx-money-withdraw text-lg mx-2"></i>
-                              </button>
-                              <!-- Botón para abrir el modal -->
-                              <button class="edit-pago-btn bg-transparent border-0 cursor-pointer" data-modal-id="ver-pago-modal">
-                                <i class='bx bx-show text-lg mx-2'></i>
-                              </button>
-                              <button class="bg-transparent border-0 cursor-pointer">
-                                  <i class='bx bx-trash text-lg mx-2' style='color:#3c3c3c'></i>
-                              </button>
-                          </td>
-                      </tr>
-                  </tbody>
-              </table>
-          </div>
+        <!-- Contenedor para la tabla principal -->
+        <div id="pagos-container" class="flex flex-col overflow-y-auto h-60 mt-6 mb-6 p-4 bg-white shadow-inner w-full"
+            style="box-shadow: inset 0px 3px 6px #0f5aab6c; background-color: #E9EDFF; border-radius: 28px;">
+            <table id="pagos-table" class="table-auto w-full border-separate"
+                style="border-spacing: 0px 12px;">
+                <thead class="bg-white mt-4 rounded-full"
+                    style="box-shadow: inset 0px 3px 3px rgba(33, 83, 170, 0.391); background-color: #f8f8ff;">
+                    <tr>
+                        <th class="px-4 py-2 text-left rounded-l-full">PACIENTE</th>
+                        <th class="px-4 py-2 text-left">TRATAMIENTO</th>
+                        <th class="px-4 py-2 text-left">COSTO</th>
+                        <th class="px-4 py-2 text-left">ABONO</th>
+                        <th class="px-4 py-2 text-center rounded-r-full">OPCIONES</th>
+                    </tr>
+                </thead>
+                <tbody id="pagos-tbody" class="bg-gray-100">
+                    <!-- Contenido generado dinámicamente -->
+                </tbody>
+            </table>
+        </div>
 
-          <!-- Segunda tabla -->
-          <div>
-              <table class="table-auto w-full border-separate" style="border-spacing: 0px 12px;">
-                  <thead class="bg-white mt-4 rounded-full" style="box-shadow: inset 0px 3px 3px rgba(33, 83, 170, 0.391); background-color: #f8f8ff;">
-                      <tr>
-                          <th class="px-4 py-2 text-left rounded-l-full">EFECTIVO</th>
-                          <th class="px-4 py-2 text-left">TRANSFERENCIA</th>
-                          <th class="px-4 py-2 text-left">BILLPOCKET</th>
-                          <th class="px-4 py-2 text-left">TARJETA</th>
-                          <th class="px-4 py-2 text-center rounded-r-full">TOTAL</th>
-                      </tr>
-                  </thead>
-                  <tbody class="bg-gray-100">
-                      <tr class="bg-sky-100 overflow-hidden" style="border-radius: 50px; box-shadow:0px 5px 6px rgba(29, 67, 133, 0.391); background-color: #f7f8fe;">
-                          <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">$39,290.00 MXN</td>
-                          <td class="px-4 py-3 text-left">$10,400.00 MXN</td>
-                          <td class="px-4 py-3 text-left">$11,250.00 MXN</td>
-                          <td class="px-4 py-3 text-left">$60,160.00 MXN</td>
-                          <td class="px-4 py-3 text-center rounded-r-full">$121,090.00 MXN</td>
-                      </tr>
-                  </tbody>
-              </table>
-          </div>
-      </div>
+        <script>
+            // Función para formatear la fecha en el formato deseado
+            function formatDate(date) {
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                return date.toLocaleDateString('es-ES', options);
+            }
+
+            // Inicialización de la fecha actual
+            let currentDate = new Date();
+
+            // Función para actualizar la fecha en el header
+            function updateDateDisplay() {
+                const dateString = formatDate(currentDate);
+                document.getElementById('current-day').textContent = dateString;
+
+                // Convertir la fecha al formato YYYY-MM-DD para enviar al servidor
+                const formattedDate = currentDate.toISOString().split('T')[0];
+
+                // Cargar pagos para la fecha seleccionada
+                loadPagosByDate(formattedDate);
+            }
+
+            // Función para cargar pagos mediante AJAX
+            function loadPagosByDate(date) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'Solicitudes/ObtenerPagos.php', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        // Actualizar la tabla con los resultados
+                        document.getElementById('pagos-tbody').innerHTML = xhr.responseText;
+                    } else {
+                        console.error('Error al cargar los pagos');
+                    }
+                };
+                xhr.send('fecha=' + date);
+            }
+
+            // Manejo del evento de mover hacia la izquierda (prev)
+            document.getElementById('prev-date').addEventListener('click', function () {
+                currentDate.setDate(currentDate.getDate() - 1);
+                updateDateDisplay();
+            });
+
+            // Manejo del evento de mover hacia la derecha (next)
+            document.getElementById('next-date').addEventListener('click', function () {
+                currentDate.setDate(currentDate.getDate() + 1);
+                updateDateDisplay();
+            });
+
+            // Inicializar la fecha al cargar la página
+            updateDateDisplay();
+        </script>
     </div>      
     <!----------------------------------------------------------------------------------------------------------------------------------------------------------------->
 
@@ -577,18 +565,20 @@ include'Modales/VerPago.php';
 include'Modales/EditarPago.php';?>
 
 <script>
-  document.getElementById('filter-select').addEventListener('change', function () {
-      const selectedValue = this.value;
+    // Script para mostrar y ocultar contenedores basado en el filtro seleccionado
+    document.getElementById('filter-select').addEventListener('change', function () {
+        const selectedValue = this.value;
 
-      // Ocultar todos los contenedores
-      document.querySelectorAll('.filter-container').forEach(container => {
-          container.classList.add('hidden');
-      });
+        // Ocultar todos los contenedores
+        document.querySelectorAll('.filter-container').forEach(container => {
+            container.classList.add('hidden');
+        });
 
-      // Mostrar el contenedor correspondiente
-      const targetContainer = document.getElementById(`${selectedValue}-container`);
-      if (targetContainer) {
-          targetContainer.classList.remove('hidden');
-      }
-  });
+        // Mostrar el contenedor correspondiente basado en el valor seleccionado
+        const targetContainer = document.getElementById(`${selectedValue}-container`);
+        if (targetContainer) {
+            targetContainer.classList.remove('hidden');
+        }
+    });
 </script>
+
