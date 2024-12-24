@@ -38,7 +38,7 @@
                     <select name="doctor" required class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]">
                         <option disabled selected>Selecciona un doctor</option>
                         <?php
-                        $conn = new mysqli("localhost", "root", "", "clinicanew1");
+                        $conn = new mysqli("localhost", "root", "", "clinicadentalesdent");
                         if ($conn->connect_error) die("Conexión fallida: " . $conn->connect_error);
                         $result = $conn->query("SELECT id_doctor, Nombre_doctor FROM doctores");
                         while ($row = $result->fetch_assoc()) {
@@ -68,8 +68,6 @@
 </div>
 
 <script>
-
-  
   const modal = document.getElementById('treatment-modal');
   const closeTreatmentModalX = document.getElementById('close-treatment-modal-x');
 
@@ -86,83 +84,74 @@
 
   closeTreatmentModalX?.addEventListener('click', closeModal);
 
-
-  
+  // Manejar el envío del formulario
   document.getElementById('addTreatmentForm').addEventListener('submit', function(event) {
     // Prevenir que el formulario se envíe de forma tradicional
     event.preventDefault(); // Esto previene que los valores se pongan en la URL
 
-    // Validación manual en frontend
-    const tratamiento = document.querySelector('[name="Tratamiento"]').value;
-    const observaciones = document.querySelector('[name="Observaciones"]').value;
-    const costo = document.querySelector('[name="Costo"]').value;
-    const doctor = document.querySelector('[name="doctor"]').value;
-    const fecha = document.querySelector('[name="Fecha"]').value;
-
-    // Inicializar un array para los errores
-    let errores = [];
-
-    // Verificar qué campos están vacíos y agregar los mensajes de error correspondientes
-    if (!tratamiento) {
-        errores.push('Tratamiento');
-    }
-    if (!observaciones) {
-        errores.push('Observaciones');
-    }
-    if (!costo) {
-        errores.push('Costo');
-    }
-    if (!doctor) {
-        errores.push('Doctor');
-    }
-    if (!fecha) {
-        errores.push('Fecha');
-    }
-
-    // Si hay errores, mostrar un mensaje detallado
-    if (errores.length > 0) {
-        alert("Los siguientes campos son obligatorios: " + errores.join(', '));
-        return;
-    }
-
-    // Si todos los campos están completos, continuar con el envío
-    const formData = new FormData(this); // Crear FormData con los datos del formulario
-    const submitBtn = document.getElementById('submitTreatmentBtn');
-
-    submitBtn.innerText = "Cargando...";
-    submitBtn.disabled = true;
-
     // Crear un objeto XMLHttpRequest para hacer la solicitud AJAX
     const xhr = new XMLHttpRequest();
+    const formData = new FormData(this); // Recoger los datos del formulario
+
     xhr.open('POST', '/ClinicaDentalEsdent/Historial/Solicitudes/AgregarHistorial.php', true);
 
     xhr.onload = function() {
-        if (xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText);
+      if (xhr.status === 200) {
+        const response = JSON.parse(xhr.responseText);
 
-            // Verifica si el tratamiento se agregó correctamente
-            if (response.success) {
-                alert("¡Tratamiento agregado con éxito!");
-                // Aquí se puede cerrar el modal
-                closeModal();
-                // Limpiar los campos del formulario
-                document.getElementById('addTreatmentForm').reset();
-            } else {
-                alert(`Error: ${response.error}`);
-            }
+        // Verifica si el tratamiento se agregó correctamente
+        if (response.success) {
+          // Alerta de éxito con SweetAlert2, que se cierra automáticamente después de 2 segundos
+          Swal.fire({
+            title: '¡Éxito!',
+            text: 'Tratamiento agregado correctamente.',
+            icon: 'success',
+            showConfirmButton: false,  // No muestra el botón de aceptar
+            timer: 2000,  // Tiempo en milisegundos antes de que desaparezca la alerta
+            timerProgressBar: true,  // Muestra el progreso del temporizador
+          }).then(() => {
+            // Recargar la página después de la alerta
+            location.reload();
+          });
+
+          // Cerrar el modal y limpiar el formulario
+          closeModal();
+          document.getElementById('addTreatmentForm').reset();
         } else {
-            alert("Error en la solicitud.");
+          // Alerta de error con SweetAlert2
+          Swal.fire({
+            title: 'Error',
+            text: `Error: ${response.error}`,
+            icon: 'error',
+            confirmButtonColor: '#B4221B',
+            confirmButtonText: 'Aceptar'
+          });
         }
-        submitBtn.innerText = "AGREGAR";
-        submitBtn.disabled = false;
+      } else {
+        // Alerta en caso de error en la solicitud
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo conectar al servidor.',
+          icon: 'error',
+          confirmButtonColor: '#B4221B',
+          confirmButtonText: 'Aceptar'
+        });
+      }
     };
 
     xhr.onerror = function() {
-        alert("No se pudo conectar al servidor.");
-        submitBtn.innerText = "AGREGAR";
-        submitBtn.disabled = false;
+      // Alerta en caso de error de conexión
+      Swal.fire({
+        title: 'Error',
+        text: 'No se pudo conectar al servidor debido a un problema de conexión a internet.',
+        icon: 'error',
+        confirmButtonColor: '#B4221B',
+        confirmButtonText: 'Aceptar'
+      });
     };
 
-    xhr.send(formData); // Enviar los datos
-});
+    xhr.send(formData); // Enviar los datos del formulario
+  });
 </script>
+
+

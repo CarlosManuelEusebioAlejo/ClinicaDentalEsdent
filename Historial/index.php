@@ -1,80 +1,8 @@
 <?php
-// Incluir detalles de la conexión a la base de datos
-include '../Configuraciones/conexion.php';
 
-// Iniciar sesión para manejar variables de sesión
-session_start();
-
-// Obtener el idPaciente desde el POST, si está disponible
-$idPaciente = isset($_POST['idPaciente']) ? intval($_POST['idPaciente']) : 0;
-
-// Si no se recibe el idPaciente por POST, intentar obtenerlo desde la sesión
-if ($idPaciente <= 0 && isset($_SESSION['idPaciente'])) {
-    $idPaciente = $_SESSION['idPaciente'];
-}
-
-// Verificar si el idPaciente es válido
-if ($idPaciente <= 0) {
-    die("ID de paciente no proporcionado o inválido.");
-}
-
-// Almacenar el idPaciente en la sesión para usarlo en futuras peticiones
-$_SESSION['idPaciente'] = $idPaciente;
-
-try {
-    // Verificar conexión
-    if ($conn->connect_error) {
-        throw new Exception("Conexión fallida: " . $conn->connect_error);
-    }
-
-    // Variable para almacenar el nombre del paciente
-    $Nombre_paciente = '';
-
-    // Consulta SQL para obtener el nombre del paciente
-    $sqlNombre = "SELECT Nombre_paciente, Apellido_paciente FROM pacientes WHERE idPaciente = ?";
-    $stmtNombre = $conn->prepare($sqlNombre);
-    $stmtNombre->bind_param("i", $idPaciente);
-    $stmtNombre->execute();
-    $resultNombre = $stmtNombre->get_result();
-
-    if ($resultNombre && $resultNombre->num_rows > 0) {
-        $row = $resultNombre->fetch_assoc();
-        $Nombre_paciente = $row['Nombre_paciente'] . ' ' . $row['Apellido_paciente'];
-    } else {
-        throw new Exception("No se encontró al paciente con el ID proporcionado.");
-    }
-
-    // Liberar resultados
-    $stmtNombre->close();
-
-    // Consulta SQL para obtener historial por idPaciente
-    $sqlHistorial = "SELECT * FROM historial_tratamiento WHERE idPaciente = ?";
-    $stmtHistorial = $conn->prepare($sqlHistorial);
-    $stmtHistorial->bind_param("i", $idPaciente);
-    $stmtHistorial->execute();
-    $resultHistorial = $stmtHistorial->get_result();
-
-    // Variable para almacenar el historial
-    $historial = [];
-
-    if ($resultHistorial && $resultHistorial->num_rows > 0) {
-        while ($row = $resultHistorial->fetch_assoc()) {
-            $historial[] = $row;
-        }
-    }
-
-    // Liberar resultados
-    $stmtHistorial->close();
-
-} catch (Exception $e) {
-    echo "Error: " . $e->getMessage();
-} finally {
-    // Cerrar conexión
-    $conn->close();
-}
-
+// PHP QUE EXTRAE LA INFORMACION DE LOS PACIENTES Y LOS MUESTRA EN LA TABLA
+include 'Solicitudes/mostrar_historial.php';
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -85,6 +13,11 @@ try {
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Wallpoet&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <!-- SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+<!-- SweetAlert2 JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Enlace de Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -135,7 +68,7 @@ try {
                         <span class="font-semibold mx-4">PRESUPUESTOS</span>
                     </a>
                     <a href="/../ClinicaDentalEsdent/Limpiezas/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
-                        <i class='bx bx-play-circle text-2xl'></i>
+                        <img src="/..//ClinicaDentalEsdent/Configuraciones/img/Dientelimpieza.png" class="h-6"> 
                         <span class="font-semibold mx-4">LIMPIEZAS</span>
                     </a>
                     <a href="/../ClinicaDentalEsdent/ExplicacionVisual/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
@@ -228,7 +161,7 @@ try {
       <!-- Contenido original del div -->
       <div class="flex justify-between items-center mt-6 mb-4 w-full">
           <button id="add-treatment-btn" class="text-white px-4 py-2 rounded-full shadow-lg" style="background-color: #B4221B;">
-              + AGREGAR CITA
+              + AGREGAR
           </button>
       </div>
 
@@ -245,30 +178,50 @@ try {
         </thead>
 
         <tbody class="bg-gray-100">
-        <?php foreach ($historial as $registro): ?>
-        
-        <div class="mb-2">
+          <?php if 
+            (!empty($historial)): 
+          ?>
+          <?php foreach ($historial as $registro): ?>
             <tr class="bg-sky-100 overflow-hidden" style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
-                <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;"><?= $registro['Fecha']; ?></td>
+                <td class="px-4 py-3 text-left">
+                  <?php
+                    // Convierte la fecha a formato timestamp
+                    $fecha = strtotime($registro['Fecha']);
+                    
+                    // Array de meses en español
+                    $meses = [
+                        "enero", "febrero", "marzo", "abril", "mayo", "junio",
+                        "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+                    ];
+                    
+                    // Obtener el día, mes y año
+                    $dia = date("d", $fecha);
+                    $mes = $meses[date("n", $fecha) - 1]; // Restamos 1 porque el mes en date() es 1-indexado
+                    $anio = date("Y", $fecha);
+                    
+                    // Mostrar la fecha en formato "día mes año"
+                    echo $dia . " " . $mes . " " . $anio;
+                  ?>
+                </td>
+
                 <td class="px-4 py-3 text-left"><?= $registro['Tratamiento']; ?></td>
                 <td class="px-4 py-3 text-left"><?= $registro['Observacion']; ?></td>
                 <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
                     <!-- Botón que abre el modal -->
-                    <!-- Botón que abre el modal -->
-<button class="bg-transparent border-0 cursor-pointer" onclick="openInfoModal(<?= $registro['id_tratamiento']; ?>)">
-    <i class='bx bx-id-card text-lg mx-2'></i>
-</button>
-                    <!-- Botón para justificante -->
-                    <button onclick="openJustificanteModal()" class="bg-transparent border-0 cursor-pointer">
-                        <i class='bx bx-detail text-lg mx-2' style='color:#3c3c3c'></i>
+                    <button class="bg-transparent border-0 cursor-pointer" onclick="openInfoModal(<?= $registro['id_tratamiento']; ?>)">
+                        <i class='bx bx-id-card text-lg mx-2'></i>
                     </button>
                 </td>
             </tr>
-        </div>
-
-
-      </tbody>
-      <?php endforeach; ?>
+          <?php endforeach; ?>
+          <?php else: ?>
+            <!-- Mensaje si no hay tratamientos registrados -->
+            <tr>
+                <td colspan="4" class="text-center py-4 text-gray-600">
+                    <p>No se encuentran tratamientos registrados</p>
+                </td>
+            </tr>
+          <?php endif; ?>
     </table> 
     <?php
       include 'Modales/VerHistorial.php';
