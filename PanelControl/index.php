@@ -1,3 +1,30 @@
+<?php
+    // session_start(); // Inicia la sesión
+
+    // // Verifica si el usuario está conectado
+    // if (!isset($_SESSION['id_doctor'])) {
+    //     // Redirige al formulario de inicio de sesión
+    //     header("Location: ../index.php");
+    //     exit(); // Asegúrate de que el script se detenga después de redirigir
+    // }
+
+    include '../Configuraciones/conexion.php';
+
+    // Seleccionar tablas de doctores y pacientes
+    $sql = "SELECT COUNT(*) as total_doctores FROM doctores";
+    $resultado_doctores = $conn->query($sql);
+
+    $sql = "SELECT COUNT(*) as total_pacientes FROM pacientes";
+    $resultado_pacientes = $conn->query($sql);
+
+    $sql = "SELECT COUNT(*) as Videos_Explicacion FROM videoExplicativo";
+    $resultado_ExplicacionVisual = $conn->query($sql);
+
+    // $sql = "SELECT COUNT(*) as total_citas FROM citas WHERE estado = 'Pendiente'";
+    // $resultado_citas = $conn->query($sql);
+
+    ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -53,7 +80,7 @@
               <span class="font-semibold mx-4">PRESUPUESTOS</span>
             </a>
             <a href="/../ClinicaDentalEsdent/Limpiezas/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
-              <i class='bx bx-play-circle text-2xl'></i>
+              <img src="/..//ClinicaDentalEsdent/Configuraciones/img/Dientelimpieza.png" class="h-6"> 
               <span class="font-semibold mx-4">LIMPIEZAS</span>
             </a>
             <a href="/../ClinicaDentalEsdent/ExplicacionVisual/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
@@ -97,7 +124,7 @@
               <span onclick="window.location.href='/../ClinicaDentalEsdent/Pacientes/'" 
                     class="block shadow-sm text-sm text-white py-2 px-6 rounded-full" 
                     style="background-color: #B4221B; box-shadow: inset 0 4px 6px rgba(43, 8, 8, 0.488); width: 125px;">
-                    8 Pacientes
+                    <?php echo $resultado_pacientes->fetch_assoc()["total_pacientes"]?> Pacientes
               </span>
           </div>
           <!-- Doctores Registrados -->
@@ -109,7 +136,7 @@
               <span onclick="window.location.href='/../ClinicaDentalEsdent/Doctores/'" 
                     class="block shadow-sm text-sm text-white py-2 px-6 rounded-full" 
                     style="background-color: #B4221B; box-shadow: inset 0 4px 6px rgba(43, 8, 8, 0.488);">
-                    5 Doctores
+                    <?php echo $resultado_doctores->fetch_assoc()['total_doctores']; ?> Doctores
               </span>
           </div>
           <!-- Pagos Pendientes -->
@@ -133,7 +160,7 @@
             <span onclick="window.location.href='/../ClinicaDentalEsdent/ExplicacionVisual/'" 
                   class="block shadow-sm text-sm text-white py-2 px-6 rounded-full" 
                   style="background-color: #B4221B; box-shadow: inset 0 4px 6px rgba(43, 8, 8, 0.488);">
-                  8 Videos
+                  <?php echo $resultado_ExplicacionVisual->fetch_assoc()['Videos_Explicacion']; ?> Videos
             </span>
           </div>
           <!-- Citas Pendientes -->
@@ -144,26 +171,53 @@
               <span onclick="window.location.href='/../ClinicaDentalEsdent/Agenda/'" 
                     class="block text-sm text-white py-2 px-4 rounded-full" 
                     style="background-color: #B4221B; box-shadow: inset 0 4px 6px rgba(43, 8, 8, 0.488);">
-                    6 Citas
+                    Citas
               </span>
             </div>
             <div class="overflow-y-auto h-48 mt-4"> <!-- Ajusta la altura como sea necesario -->
               <div class="space-y-4">
                 <!-- Ejemplo de cita -->
-                <div class="flex justify-between items-center rounded-lg p-4" style="background-color: #e8ecff; box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.1);">
-                  <div class="flex items-center justify-center bg-white rounded-lg w-20 h-10 shadow-md">
-                    <span class="text-md font-semibold text-gray-700">10:30AM</span>
-                  </div>
-                  <div class="text-sm font-semibold text-gray-800">
-                    Carlos Manuel Eusebio Alejo
-                  </div>
-                  <div class="flex items-center justify-center bg-white rounded-lg w-20 h-10 shadow-md">
-                    <span class="text-md font-semibold text-gray-700">UNIDAD 1</span>
-                  </div>
-                </div>
+                <?php
+                include '../Configuraciones/conexion.php';
+
+                // Obtener la fecha actual
+                $fechaActual = date('Y-m-d');
+
+                // Consulta para obtener las citas del día de hoy
+                $query = "SELECT * FROM citas WHERE Fecha_cita = '$fechaActual' ORDER BY Hora_inicio ASC";
+
+                $result = mysqli_query($conn, $query);
+
+                // Verifica si hay resultados
+                if (mysqli_num_rows($result) > 0) {
+                    while ($citas = mysqli_fetch_assoc($result)) {
+                        ?>
+                        <div class="flex justify-between items-center rounded-lg p-4" style="background-color: #e8ecff; box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.1);">
+                            <div class="flex items-center justify-center bg-white rounded-lg w-20 h-10 shadow-md">
+                                <span class="text-md font-semibold text-gray-700"><?php echo ($citas['Hora_inicio']); ?></span>
+                            </div>
+                            <div class="text-sm font-semibold text-gray-800">
+                                <?php echo ($citas['Nombre_paciente']); ?>
+                            </div>
+                            <div class="flex items-center justify-center bg-white rounded-lg w-20 h-10 shadow-md">
+                                <span class="text-md font-semibold text-gray-700">UNIDAD <?php echo ($citas['Unidad']); ?></span>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                } else {
+                    ?>
+                    <div class="text-center text-gray-600 font-semibold">
+                        No hay citas registradas para hoy.
+                    </div>
+                    <?php
+                }
+                ?>
+
               </div>
             </div>
           </div>
+
           <!-- fin citas pendientes -->
 
           <!-- Limpiezas Pendientes -->
@@ -174,21 +228,74 @@
               <span onclick="window.location.href='/../ClinicaDentalEsdent/Limpiezas/'" 
                     class="block text-sm text-white py-2 px-4 rounded-full" 
                     style="background-color: #B4221B; box-shadow: inset 0 4px 6px rgba(43, 8, 8, 0.488);">
-                    3 Limpiezas
+                    Limpiezas
               </span>
             </div>
             <div class="overflow-y-auto h-48 mt-4"> <!-- Ajusta la altura como sea necesario -->
               <div class="space-y-4">
-                <!-- Limpieza 1 -->
-                <div class="flex justify-between items-center rounded-lg p-4" style="background-color: #e8ecff; box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.1);">
-                  <div class="flex items-center justify-center bg-white rounded-lg w-20 h-10 shadow-md">
-                    <span class="text-md font-semibold text-gray-700">10:30AM</span>
-                  </div>
-                  <div class="text-sm font-semibold text-gray-800">Carlos Manuel Eusebio Alejo</div>
-                  <div class="flex items-center justify-center bg-white rounded-lg w-20 h-10 shadow-md">
-                    <span class="text-md font-semibold text-gray-700">UNIDAD 1</span>
-                  </div>
+                <div class="space-y-4">
+                  <?php
+                  include '../Configuraciones/conexion.php';
+                  // Consulta para obtener las limpiezas registradas
+                  $query = "SELECT * FROM limpieza_dental"; // Ajusta el nombre de la tabla y columnas
+                  $result = mysqli_query($conn, $query);
+
+                  // Verifica si hay resultados
+                  if (mysqli_num_rows($result) > 0) {
+                      while ($limpieza = mysqli_fetch_assoc($result)) {
+                          ?>
+                          <div class="flex justify-between items-center rounded-lg p-4" style="background-color: #e8ecff; box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.1);">
+                             
+                              <!-- Fecha de la Limpieza -->
+                              <div class="flex items-center justify-center bg-white rounded-lg w-40 h-10 shadow-md">
+                                  <span class="text-md font-semibold text-gray-700">
+                                    <?php
+                                    // Establece la localización en español
+                                    setlocale(LC_TIME, 'es_ES.UTF-8', 'es_ES', 'spanish');
+                                    // Fecha de ejemplo (cambia esto por tu variable con la fecha)
+                                    $fecha = $limpieza['Siguiente_visita']; // Por ejemplo: '2025-01-15'
+                                    // Convierte la fecha al formato deseado
+                                    echo strftime('%B del %Y', strtotime($fecha));
+                                    ?>
+
+                                  </span>
+                              </div>                              <!-- Nombre del Paciente -->
+                              <div class="text-sm font-semibold text-gray-800">
+                                  <?php echo htmlspecialchars($limpieza['Nombre_paciente']); ?>
+                              </div>
+                              <!-- Fecha de la Limpieza -->
+                              <div class="flex items-center justify-center bg-white rounded-lg w-35 h-10 shadow-md">
+                                  <span class="text-md font-semibold text-gray-700">
+                                      <?php
+                                        // Número de teléfono original (cambia esto por tu variable con el teléfono)
+                                        $telefono = $limpieza['telefono']; // Ejemplo: "3142174550"
+
+                                        // Verifica si el teléfono tiene exactamente 10 dígitos
+                                        if (strlen($telefono) === 10 && ctype_digit($telefono)) {
+                                            // Formatea el número
+                                            $telefono_formateado = substr($telefono, 0, 3) . '-' . substr($telefono, 3, 3) . '-' . substr($telefono, 6, 2) . '-' . substr($telefono, 8, 2);
+                                            echo htmlspecialchars($telefono_formateado);
+                                        } else {
+                                            // Muestra un mensaje de error si el número no tiene 10 dígitos
+                                            echo "Formato de teléfono inválido";
+                                        }
+                                      ?>
+
+                                  </span>
+                              </div>
+                          </div>
+                          <?php
+                      }
+                  } else {
+                      ?>
+                      <div class="text-center text-gray-600 font-semibold">
+                          No hay limpiezas registradas.
+                      </div>
+                      <?php
+                  }
+                  ?>
                 </div>
+                
               </div>
             </div>
           </div>
