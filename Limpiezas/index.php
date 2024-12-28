@@ -134,47 +134,50 @@
                     </thead>
                 
                     <!-- Cuerpo de la tabla -->
+
                     <tbody class="bg-gray-100">
-                        <!-- Fila 1 -->
                         <?php
                         include '../Configuraciones/conexion.php';
-                        // Consulta para obtener todos los doctores
-                        $query = "SELECT * FROM limpieza_dental";
+                        $query = "SELECT * FROM limpieza_dental ORDER BY fecha_registro DESC";
                         $result = mysqli_query($conn, $query);
-
-                        // Verifica si hay resultados
+                    
                         if (mysqli_num_rows($result) > 0) {
                             while ($limpieza = mysqli_fetch_assoc($result)) {
-                        ?>
-                        <div class="mb-2">
-                            <tr class="bg-sky-100 overflow-hidden " style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
-                                <td class="px-4 py-3 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;"><?php echo ($limpieza['Ultima_visita']); ?></td>
-                                <td class="px-4 py-3 text-left"><?php echo ($limpieza['Nombre_paciente']) . ' ' . ($limpieza['Apellido_paciente']); ?></td>
-                                <td class="px-4 py-3 text-left telefono"><?php echo ($limpieza['telefono']); ?></td>
-                                <td class="px-4 py-3 text-left"><?php echo ($limpieza['Siguiente_visita']); ?></td>
-                                <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
-                                        <!-- Botón que abre el modal -->
-                                    <!-- <button id="edit-limpieza-btn" class="bg-transparent border-0 cursor-pointer">
-                                        <i class='bx bx-edit text-lg mx-2'></i>
-                                    </button> -->
-                                    <!-- Botón para justificante -->
-                                    <button class="bg-transparent border-0 cursor-pointer"onclick="eliminarLimpieza(<?php echo ($limpieza['id_limpieza']); ?>)">
-                                    <i class='bx bx-trash  text-lg mx-2' style='color:#3c3c3c'></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        </div>
-                        <?php
+                                ?>
+                                <tr class="bg-sky-100 overflow-hidden" style="border-radius: 50px; box-shadow:0px 5px 6px rgba(3, 64, 179, 0.229); background-color: #e8ecff;">
+                                    <td class="px-4 py-3 text-left fecha" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">
+                                        <?php echo $limpieza['Ultima_visita']; ?>
+                                    </td>
+                                    <td class="px-4 py-3 text-left">
+                                        <?php echo $limpieza['Nombre_paciente'] . ' ' . $limpieza['Apellido_paciente']; ?>
+                                    </td>
+                                    <td class="px-4 py-3 text-left telefono">
+                                        <?php echo $limpieza['telefono']; ?>
+                                    </td>
+                                    <td class="px-4 py-3 text-left fecha-siguiente">
+                                        <?php echo $limpieza['Siguiente_visita']; ?>
+                                    </td>
+                                    <td class="px-4 py-3 text-center" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;">
+                                        <button class="bg-transparent border-0 cursor-pointer" onclick="eliminarLimpieza(<?php echo $limpieza['id_limpieza']; ?>)">
+                                            <i class='bx bx-trash text-lg mx-2' style='color:#3c3c3c'></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <?php
                             }
                         } else {
-                        ?>
-                          <tr>
-                              <td colspan="4" class="text-center">No hay limpiezas registradas.</td>
-                          </tr>
-                        <?php
+                            ?>
+                            <tr>
+                                <td colspan="5" class="text-center">No hay limpiezas registradas.</td>
+                            </tr>
+                            <?php
                         }
                         ?>
                     </tbody>
+
+
+
+
                 </table>
             </div>
         </div>
@@ -230,28 +233,8 @@
         });
     }
 </script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-    // Seleccionar todas las celdas que contienen fechas (ajusta la clase o selector según tu tabla)
-    const fechaElements = document.querySelectorAll('td:first-child');
-
-    // Función para formatear una fecha
-    function formatDate(fecha) {
-        const opciones = { day: '2-digit', month: 'long', year: 'numeric' }; // Opciones de formato
-        const nuevaFecha = new Date(fecha); // Convertir texto en objeto Date
-        return nuevaFecha.toLocaleDateString('es-ES', opciones); // Formatear en español
-    }
-
-    // Iterar sobre los elementos y transformar el texto
-    fechaElements.forEach((element) => {
-        const fechaOriginal = element.textContent.trim(); // Obtener el texto de la celda
-        if (fechaOriginal) {
-            const fechaFormateada = formatDate(fechaOriginal); // Formatear la fecha
-            element.textContent = fechaFormateada; // Actualizar el contenido de la celda
-        }
-    });
-});
-
 document.addEventListener('DOMContentLoaded', function () {
     // Mapeo de meses en español
     const mesesEspanol = [
@@ -259,45 +242,54 @@ document.addEventListener('DOMContentLoaded', function () {
         "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
     ];
 
-    // Selecciona los elementos que contienen fechas (ajusta el selector según tu HTML)
-    const fechaElements = document.querySelectorAll('td');
+    // Formatear fechas de "Ultima visita"
+    const ultimaVisitaElements = document.querySelectorAll('.fecha');
 
-    // Función para convertir la fecha
-    function convertirMes(fecha) {
-        const nuevaFecha = new Date(fecha); // Convertir texto en objeto Date
-        const mes = nuevaFecha.getMonth(); // Obtener mes (0-11)
-        const anio = nuevaFecha.getFullYear(); // Obtener año
-
-        // Devolver el formato deseado
-        return `${mesesEspanol[mes]} del ${anio}`;
+    function formatUltimaVisita(fecha) {
+        const partes = fecha.split('-'); // Suponiendo formato "YYYY-MM-DD"
+        const nuevaFecha = new Date(Date.UTC(partes[0], partes[1] - 1, partes[2]));
+        const dia = nuevaFecha.getUTCDate().toString().padStart(2, '0');
+        const mes = mesesEspanol[nuevaFecha.getUTCMonth()];
+        const anio = nuevaFecha.getUTCFullYear();
+        return `${dia} de ${mes} del ${anio}`;
     }
 
-    // Iterar sobre los elementos y transformar el texto si es una fecha válida
-    fechaElements.forEach((element) => {
-        const fechaOriginal = element.textContent.trim(); // Obtener el texto de la celda
-        if (!isNaN(Date.parse(fechaOriginal))) { // Verificar si el texto es una fecha válida
-            const fechaFormateada = convertirMes(fechaOriginal); // Formatear la fecha
-            element.textContent = fechaFormateada; // Actualizar el contenido de la celda
+    ultimaVisitaElements.forEach(celda => {
+        const fechaOriginal = celda.textContent.trim();
+        if (/^\d{4}-\d{2}-\d{2}$/.test(fechaOriginal)) {
+            celda.textContent = formatUltimaVisita(fechaOriginal);
         }
     });
+
+    // Formatear fechas de "Siguiente visita"
+    const siguienteVisitaElements = document.querySelectorAll('.fecha-siguiente');
+
+    function formatSiguienteVisita(fecha) {
+        const partes = fecha.split('-'); // Suponiendo formato "YYYY-MM"
+        const nuevaFecha = new Date(Date.UTC(partes[0], partes[1] - 1));
+        const mes = mesesEspanol[nuevaFecha.getUTCMonth()];
+        const anio = nuevaFecha.getUTCFullYear();
+        return `${mes} de ${anio}`;
+    }
+
+    siguienteVisitaElements.forEach(celda => {
+        const fechaOriginal = celda.textContent.trim();
+        if (/^\d{4}-\d{2}$/.test(fechaOriginal)) { // Validar formato "YYYY-MM"
+            celda.textContent = formatSiguienteVisita(fechaOriginal);
+        }
+    });
+
+    // Formatear los números de teléfono
+    const telefonos = document.querySelectorAll('.telefono');
+
+    function formatearTelefono(numero) {
+        const limpio = numero.replace(/\D/g, ''); // Eliminar caracteres no numéricos
+        return limpio.replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '$1-$2-$3-$4');
+    }
+
+    telefonos.forEach(celda => {
+        const numeroOriginal = celda.textContent.trim();
+        celda.textContent = formatearTelefono(numeroOriginal);
+    });
 });
-
-// Función para formatear números
-function formatearTelefono(numero) {
-    // Elimina cualquier carácter no numérico
-    const limpio = numero.replace(/\D/g, '');
-    // Aplica el formato 000-000-00-00
-    return limpio.replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, '$1-$2-$3-$4');
-}
-
-// Selecciona todas las celdas con clase 'telefono'
-const telefonos = document.querySelectorAll('.telefono');
-
-// Itera sobre cada celda y formatea el contenido
-telefonos.forEach(celda => {
-    const numeroOriginal = celda.textContent.trim();
-    celda.textContent = formatearTelefono(numeroOriginal);
-});
-
-
 </script>
