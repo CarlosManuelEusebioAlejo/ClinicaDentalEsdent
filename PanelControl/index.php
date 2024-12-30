@@ -181,6 +181,7 @@
                 include '../Configuraciones/conexion.php';
 
                 // Obtener la fecha actual
+                date_default_timezone_set('America/Mexico_City');
                 $fechaActual = date('Y-m-d');
 
                 // Consulta para obtener las citas del día de hoy
@@ -191,6 +192,7 @@
                 // Verifica si hay resultados
                 if (mysqli_num_rows($result) > 0) {
                     while ($citas = mysqli_fetch_assoc($result)) {
+                      
                         ?>
                         <div class="flex justify-between items-center rounded-lg p-4" style="background-color: #e8ecff; box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.1);">
                             <div class="flex items-center justify-center bg-white rounded-lg w-20 h-10 shadow-md">
@@ -212,6 +214,8 @@
                     </div>
                     <?php
                 }
+
+                
                 ?>
 
               </div>
