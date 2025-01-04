@@ -15,9 +15,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $Factura            = isset($_POST['Factura']) ? $_POST['Factura'] : '';
     $fecha_Pago         = isset($_POST['fecha_Pago']) ? $_POST['fecha_Pago'] : '';
 
+    // Validación: El abono no puede ser mayor que el costo
+    if ($Abono > $Costo) {
+        $Abono = $Costo;  // Si el abono es mayor que el costo, ajustarlo al costo
+    }
+
+    // Calcular el adeudo: es la diferencia entre el costo y el abono
+    $Adeudo = $Costo - $Abono;
+
     // Insertar datos en la tabla `pagos`
-    $query = "INSERT INTO pagos (idPaciente, Nombre_paciente, Apellido_paciente, Tratamiento, Costo, id_doctor, Nombre_doctor, Abono, Tipo_pago, Factura, fecha_Pago)
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    $query = "INSERT INTO pagos (idPaciente, Nombre_paciente, Apellido_paciente, Tratamiento, Costo, id_doctor, Nombre_doctor, Abono, Adeudo, Tipo_pago, Factura, fecha_Pago)
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
     $stmt = $conn->prepare($query);
     if (!$stmt) {
@@ -25,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $stmt->bind_param(
-        "isssdisssss",
+        "isssdissdsss",
         $idPaciente,
         $Nombre_paciente,
         $Apellido_paciente,
@@ -34,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id_doctor,
         $Nombre_doctor,
         $Abono,
+        $Adeudo,
         $Tipo_pago,
         $Factura,
         $fecha_Pago

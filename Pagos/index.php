@@ -7,6 +7,8 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href="https://fonts.googleapis.com/css2?family=Wallpoet&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <title>ClinicaDentalEsdent</title>
     <link rel="icon" href="/../ClinicaDentalEsdent/Configuraciones/img/logo.png" type="image/x-icon">
 </head>
@@ -119,8 +121,9 @@
           <div class="flex items-center space-x-4 mr-8">
             <select id="filter-select" class="neu-button">
               <option value="daily">Diarios</option>
-              <option value="weekly">Semanales</option>
-              <option value="monthly">Mensuales</option>
+              <!-- <option value="weekly">Semanales</option>
+              <option value="monthly">Mensuales</option> -->
+              <option value="Pendiente">Pagos Pendientes </option>
           </select>
 
           <style>
@@ -149,151 +152,14 @@
             }
           </style>
 
-          <div class="radio-input" style="flex-shrink: 0;">
-            <div class="glass">
-              <div class="glass-inner"></div>
-            </div>
-            <div class="selector">
-              <div class="choice">
-                <div>
-                  <input
-                    class="choice-circle"
-                    checked="true"
-                    value="one"
-                    name="number-selector"
-                    id="one"
-                    type="radio"
-                  />
-                  <div class="ball"></div>
-                </div>
-                <label for="one" class="choice-name">Todos</label>
-              </div>
-              <div class="choice">
-                <div>
-                  <input
-                    class="choice-circle"
-                    value="two"
-                    name="number-selector"
-                    id="two"
-                    type="radio"
-                  />
-                  <div class="ball"></div>
-                </div>
-                <label for="two" class="choice-name">Pendiente</label>
-              </div>
-              <div class="choice">
-                <div>
-                  <input
-                    class="choice-circle"
-                    value="three"
-                    name="number-selector"
-                    id="three"
-                    type="radio"
-                  />
-                  <div class="ball"></div>
-                </div>
-                <label for="three" class="choice-name">Pagado</label>
-              </div>
-            </div>
-          </div>
-          <style>/* From Uiverse.io by LilaRest */ 
-            .radio-input {
-              display: flex;
-              height: 80px; /* Altura total ajustada */
-              align-items: center;
-            }
-      
-            .glass {
-              z-index: 2;
-              height: 100%; /* Ajusta al contenedor */
-              width: 40px; /* Tamaño reducido */
-              margin-right: 10px;
-              padding: 3px;
-              background-color: rgba(184, 193, 206, 0.5);
-              border-radius: 15px;
-              box-shadow: rgba(81, 81, 127, 0.2) 0px 10px 20px -5px,
-                rgba(0, 0, 0, 0.25) 0px 4px 15px -6px,
-                rgba(39, 76, 114, 0.26) 0px -1px 3px 0px inset;
-              backdrop-filter: blur(3px);
-            }
-      
-            .glass-inner {
-              width: 100%;
-              height: 100%;
-              border-color: rgba(245, 245, 245, 0.45);
-              border-width: 3px;
-              border-style: solid;
-              border-radius: 12px;
-            }
-      
-            .selector {
-              display: flex;
-              flex-direction: column;
-            }
-      
-            .choice {
-              margin: 1px 0; /* Más compacto */
-              display: flex;
-              align-items: center;
-            }
-      
-            .choice > div {
-              position: relative;
-              width: 20px; /* Tamaño reducido */
-              height: 20px;
-              margin-right: 6px;
-              z-index: 0;
-            }
-      
-            .choice-circle {
-              appearance: none;
-              height: 100%;
-              width: 100%;
-              border-radius: 100%;
-              border-width: 3px;
-              border-style: solid;
-              border-color: rgba(245, 245, 245, 0.45);
-              cursor: pointer;
-              box-shadow: 0px 0px 8px -4px gray, 0px 0px 8px -6px gray inset;
-            }
-      
-            .ball {
-              z-index: 1;
-              position: absolute;
-              inset: 0px;
-              transform: translateX(-40px); /* Ajustado al tamaño */
-              box-shadow: rgba(0, 0, 0, 0.17) 0px -4px 4px 0px inset,
-                rgba(0, 0, 0, 0.15) 0px -6px 6px 0px inset,
-                rgba(0, 0, 0, 0.1) 0px -12px 8px 0px inset, rgba(0, 0, 0, 0.06) 0px 0.5px 0.25px,
-                rgba(0, 0, 0, 0.09) 0px 1px 0.5px, rgba(0, 0, 0, 0.09) 0px 2px 1px,
-                rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
-                0px -1px 6px -4px rgba(0, 0, 0, 0.09);
-              border-radius: 100%;
-              transition: transform 800ms cubic-bezier(1, -0.4, 0, 1.4), background-color 200ms;
-              background-color: rgb(232, 232, 232); /* Color inicial */
-            }
-      
-            .choice-circle:checked + .ball {
-              transform: translateX(0px);
-            }
-      
-            /* Cambios de color según la selección */
-            #two:checked + .ball {
-              background-color: rgb(255, 119, 0); /* Color para "Pendiente" */
-            }
-      
-            #three:checked + .ball {
-              background-color: rgb(7, 212, 7); /* Color para "Pagado" */
-            }
 
+          <style>/* From Uiverse.io by LilaRest */ 
             #prev-date, #next-date {
                 font-size: 1.5rem;
                 color: #333;
                 padding: 0.5rem;
             }
-
-            
-              </style>
+            </style>
         </div>
       </div>
     </div>
@@ -323,7 +189,6 @@
             </div>
         </div>
 
-
         <!-- Contenedor para la tabla principal -->
         <div id="pagos-container" class="flex flex-col overflow-y-auto h-60 mt-6 mb-6 p-4 bg-white shadow-inner w-full"
             style="box-shadow: inset 0px 3px 6px #0f5aab6c; background-color: #E9EDFF; border-radius: 28px;">
@@ -344,7 +209,6 @@
                 </tbody>
             </table>
         </div>
-
         <script>
             // Función para formatear la fecha en el formato deseado
             function formatDate(date) {
@@ -398,7 +262,6 @@
             // Inicializar la fecha al cargar la página
             updateDateDisplay();
         </script>
-    </div>      
     <!----------------------------------------------------------------------------------------------------------------------------------------------------------------->
 
 
@@ -444,41 +307,11 @@
                       </tbody>
                   </table>
             </button>
-
-            <div class="flex justify-center items-center">
-                <div class="day-header w-40 flex items-center justify-center px-1 py-1 rounded-full shadow-md" style="background-color: #fbfbfe; border-radius: 50px; box-shadow: inset 4px 4px 4px #c4ccd8, inset -6px -6px 10px #ffffff; border: 2px solid rgba(144, 187, 223, 0.279);">
-                    <span class="text-lg font-semibold">SEMANA 2</span>
-                </div>
-            </div>
-
-            <button class="bg-white mt-2 mb-4 rounded-full mb-4 flex justify-center items-center transition duration-200" 
-                  style="box-shadow: 0px 5px 6px rgba(29, 67, 133, 0.391); background-color: #f8f8ff; padding: 10px; transition: background-color 0.2s ease;"
-                  onmouseover="this.style.backgroundColor='#e0e4f7';" onmouseout="this.style.backgroundColor='#f8f8ff';">
-                  <table class="table-auto border-separate text-center" style="border-spacing: 0px 6px;">
-                      <thead class="bg-white rounded-full" style="box-shadow: inset 0px 3px 3px rgba(33, 83, 170, 0.391); background-color: #E9EDFF;">
-                          <tr>
-                              <th class="px-4 py-2 text-left rounded-l-full">EFECTIVO</th>
-                              <th class="px-4 py-2 text-left">TRANSFERENCIA</th>
-                              <th class="px-4 py-2 text-left">BILLPOCKET</th>
-                              <th class="px-4 py-2 text-left">TARJETA</th>
-                              <th class="px-4 py-2 text-center rounded-r-full">TOTAL</th>
-                          </tr>
-                      </thead>
-                      <tbody class="bg-gray-100">
-                          <tr class="bg-sky-100 overflow-hidden" style="border-radius: 50px; box-shadow: 0px 5px 6px rgba(107, 141, 201, 0.391); background-color: #E9EDFF;">
-                              <td class="px-4 py-2 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">$39,290.00 MXN</td>
-                              <td class="px-4 py-2 text-left">$10,400.00 MXN</td>
-                              <td class="px-4 py-2 text-left">$11,250.00 MXN</td>
-                              <td class="px-4 py-2 text-left">$60,160.00 MXN</td>
-                              <td class="px-4 py-2 text-center rounded-r-full">$121,090.00 MXN</td>
-                          </tr>
-                      </tbody>
-                  </table>
-            </button>
         </div>
       </div>
 
     <!------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
 <!---------------------SECCIÓN POR AÑOS DE PAGOS------------------------------------------------------------------------------------------------------------------------------------------------------------------------------>
       <div id="monthly-container" class="filter-container hidden">
          <!-- Contenedor que centra el encabezado de día -->
@@ -520,37 +353,6 @@
                       </tbody>
                   </table>
             </button>
-
-            <div class="flex justify-center items-center">
-                <div class="day-header w-40 flex items-center justify-center px-1 py-1 rounded-full shadow-md" style="background-color: #fbfbfe; border-radius: 50px; box-shadow: inset 4px 4px 4px #c4ccd8, inset -6px -6px 10px #ffffff; border: 2px solid rgba(144, 187, 223, 0.279);">
-                    <span class="text-lg font-semibold">FEBRERO</span>
-                </div>
-            </div>
-
-            <button class="bg-white mt-2 mb-4 rounded-full mb-4 flex justify-center items-center transition duration-200" 
-                  style="box-shadow: 0px 5px 6px rgba(29, 67, 133, 0.391); background-color: #f8f8ff; padding: 10px; transition: background-color 0.2s ease;"
-                  onmouseover="this.style.backgroundColor='#e0e4f7';" onmouseout="this.style.backgroundColor='#f8f8ff';">
-                  <table class="table-auto border-separate text-center" style="border-spacing: 0px 6px;">
-                      <thead class="bg-white rounded-full" style="box-shadow: inset 0px 3px 3px rgba(33, 83, 170, 0.391); background-color: #E9EDFF;">
-                          <tr>
-                              <th class="px-4 py-2 text-left rounded-l-full">EFECTIVO</th>
-                              <th class="px-4 py-2 text-left">TRANSFERENCIA</th>
-                              <th class="px-4 py-2 text-left">BILLPOCKET</th>
-                              <th class="px-4 py-2 text-left">TARJETA</th>
-                              <th class="px-4 py-2 text-center rounded-r-full">TOTAL</th>
-                          </tr>
-                      </thead>
-                      <tbody class="bg-gray-100">
-                          <tr class="bg-sky-100 overflow-hidden" style="border-radius: 50px; box-shadow: 0px 5px 6px rgba(107, 141, 201, 0.391); background-color: #E9EDFF;">
-                              <td class="px-4 py-2 text-left" style="border-top-left-radius: 50px; border-bottom-left-radius: 50px;">$39,290.00 MXN</td>
-                              <td class="px-4 py-2 text-left">$10,400.00 MXN</td>
-                              <td class="px-4 py-2 text-left">$11,250.00 MXN</td>
-                              <td class="px-4 py-2 text-left">$60,160.00 MXN</td>
-                              <td class="px-4 py-2 text-center rounded-r-full">$121,090.00 MXN</td>
-                          </tr>
-                      </tbody>
-                  </table>
-            </button>
         </div>
     </div>      
   </div>
@@ -564,6 +366,11 @@ include'Modales/AgregarPago.php';
 include'Modales/VerPago.php';
 include'Modales/EditarPago.php';?>
 
+<!-------------------------------- Script para mostrar el formato de fecha por dia  ----------------------------->
+
+<!------------------------------------------------------------------------------------------------------------------->
+
+<!----------------------- script de los filtros para el cambio de dia, semana o mes  -------------------------------->
 <script>
     // Script para mostrar y ocultar contenedores basado en el filtro seleccionado
     document.getElementById('filter-select').addEventListener('change', function () {
@@ -581,4 +388,89 @@ include'Modales/EditarPago.php';?>
         }
     });
 </script>
+<!-------------------------------------------------------------------------------------------------------------------->
 
+<!--------------------- script para mostrar las alertas a la hora de realizar un movimiento -------------------------->
+<script>
+    function Basurapagos(id_pago) {
+        // Mostrar alerta de confirmación antes de eliminar
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás recuperar este pago!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminarlo',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Llamar a la función para eliminar el pago
+                EliminarPago(id_pago);
+            }
+        });
+    }
+
+    function EliminarPago(id_pago) {
+        // Aquí debes enviar la solicitud para eliminar el pago usando Ajax o hacer una redirección
+        // Si es mediante Ajax
+        $.ajax({
+            url: 'Solicitudes/EliminarPago.php',  // Cambia esto por la ruta al backend
+            method: 'POST',
+            data: { id_pago: id_pago },
+            success: function(response) {
+                // Mostrar mensaje de éxito
+                Swal.fire(
+                    'Eliminado!',
+                    'El pago ha sido eliminado.',
+                    'success'
+                ).then(() => {
+                    // Opcional: Recargar la página o actualizar la lista
+                    location.reload();
+                });
+            },
+            error: function() {
+                // Mostrar mensaje de error si algo falla
+                Swal.fire(
+                    'Error',
+                    'Hubo un problema al eliminar el pago.',
+                    'error'
+                );
+            }
+        });
+    }
+</script>
+
+<!----------------------- script de los filtros para el cambio de dia, semana o mes  -------------------------------->
+<script>
+    // Función para mostrar la sección seleccionada y ocultar las demás
+    function showSection(sectionId) {
+        const allSections = document.querySelectorAll('.filter-container');
+        allSections.forEach(section => {
+            section.classList.add('hidden');
+        });
+        
+        const selectedSection = document.getElementById(sectionId);
+        if (selectedSection) {
+            selectedSection.classList.remove('hidden');
+        }
+    }
+
+    // Evento para mostrar la sección de días de pagos
+    document.getElementById('daily-btn').addEventListener('click', function() {
+        showSection('daily-container');
+    });
+
+    // Evento para mostrar la sección de semanas de pagos
+    document.getElementById('weekly-btn').addEventListener('click', function() {
+        showSection('weekly-container');
+    });
+
+    // Evento para mostrar la sección de años de pagos
+    document.getElementById('monthly-btn').addEventListener('click', function() {
+        showSection('monthly-container');
+    });
+
+    // Inicializar mostrando la sección de días de pagos
+    showSection('daily-container');
+</script>
