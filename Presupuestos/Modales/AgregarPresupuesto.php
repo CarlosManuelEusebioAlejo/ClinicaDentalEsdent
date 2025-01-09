@@ -9,23 +9,10 @@
         Agregar Presupuesto
     </h1>
 
-    <form id="presupuesto-form" action="Solicitudes/AgregarPresupuesto.php" method="POST">
+    <form id="presupuesto-form"  method="POST">
       <!-- Sección de Datos de Presupuesto -->
       <div class="p-6 rounded-sm shadow-md mb-10" style="background-color: #f5f7ff;">
           <div class="grid grid-cols-2 gap-6">
-              <!-- Input: Búsqueda de Paciente -->
-              <div class="relative col-span-2">
-                  <label class="text-xs text-[#3B3636]">BUSCAR PACIENTE</label>
-                  <input class="pl-8 py-2 text-xs bg-[#E6ECF8] rounded-full w-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-[#3B3636]" 
-                        type="text" 
-                        placeholder="Buscar paciente..."
-                        id="paciente-buscar">
-                  <input type="hidden" id="idPaciente" name="idPaciente">
-                  <input type="hidden" id="Nombre_paciente" name="Nombre_paciente">
-                  <input type="hidden" id="Apellido_paciente" name="Apellido_paciente">
-                  <ul id="resultado-busqueda" class="absolute bg-white shadow-md rounded-md mt-1 w-full z-10"></ul>
-              </div>
-
               <!-- Input: Tratamiento -->
               <div class="relative col-span-2">
                   <label class="text-xs text-[#3B3636]">TRATAMIENTO</label>
@@ -89,69 +76,61 @@
 <!-- Agrega SweetAlert -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-document.getElementById('presupuesto-form').addEventListener('submit', function (event) {
+document.getElementById('presupuesto-form').addEventListener('submit', async function (event) {
     event.preventDefault(); // Detener el envío inmediato del formulario
 
-    // Mostrar alerta de SweetAlert
+    // Mostrar alerta de carga inicial
     Swal.fire({
         title: 'Registrando Presupuesto',
         text: 'Por favor, espera...',
         icon: 'info',
         showConfirmButton: false,
-        timer: 2500 // Duración de la alerta en milisegundos
+        allowOutsideClick: false
     });
 
-    // Permitir que el formulario se envíe después de mostrar la alerta
-    setTimeout(() => {
-        event.target.submit();
-    }, 3000); // Coincidir con la duración de la alerta
-});
-</script>
+    // Capturar datos del formulario
+    const formData = new FormData(event.target);
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const searchInput = document.getElementById('paciente-buscar');
-    const resultsList = document.getElementById('resultado-busqueda');
-    const nombrePacienteInput = document.getElementById('Nombre_paciente');
-    const apellidoPacienteInput = document.getElementById('Apellido_paciente');
+    try {
+        // Enviar los datos al servidor usando Fetch
+        const response = await fetch('Solicitudes/AgregarPresupuesto.php', {
+            method: 'POST',
+            body: formData
+        });
 
-    searchInput?.addEventListener('input', function () {
-        const query = searchInput.value.trim();
+        // Analizar la respuesta JSON del servidor
+        const result = await response.json();
 
-        if (query.length > 0) {
-            fetch('Solicitudes/BuscarPaciente.php?q=' + query)
-                .then(response => response.json())
-                .then(data => {
-                    resultsList.innerHTML = '';
-                    if (data.length > 0) {
-                        data.forEach(paciente => {
-                            const li = document.createElement('li');
-                            li.textContent = `${paciente.Nombre_paciente} ${paciente.Apellido_paciente}`;
-                            li.dataset.id = paciente.idPaciente;
-                            li.dataset.nombre = paciente.Nombre_paciente;
-                            li.dataset.apellido = paciente.Apellido_paciente;
-
-                            li.addEventListener('click', function () {
-                                document.getElementById('idPaciente').value = this.dataset.id;
-                                nombrePacienteInput.value = this.dataset.nombre;
-                                apellidoPacienteInput.value = this.dataset.apellido;
-                                searchInput.value = `${this.dataset.nombre} ${this.dataset.apellido}`;
-                                resultsList.innerHTML = '';
-                            });
-
-                            resultsList.appendChild(li);
-                        });
-                    } else {
-                        resultsList.innerHTML = '<li>No se encontraron resultados</li>';
-                    }
-                });
+        if (result.status === 'success') {
+            // Mostrar alerta de éxito
+            Swal.fire({
+                icon: 'success',
+                title: '¡Presupuesto registrado!',
+                text: result.message,
+                timer: 2000,
+                showConfirmButton: false
+            }).then(() => {
+                location.reload(); // Refrescar la página después de cerrar la alerta
+            });
         } else {
-            resultsList.innerHTML = '';
+            // Mostrar alerta de error
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: result.message
+            });
         }
-    });
+    } catch (error) {
+        console.error('Error:', error);
+        // Mostrar alerta de error general
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un problema al procesar tu solicitud. Por favor, inténtalo nuevamente.'
+        });
+    }
 });
 </script>
-
   
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -176,3 +155,37 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 </script>
+
+<!----------------------- Formato para mostrar comas en los números ---------------->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const inputCosto = document.getElementById('inputCosto'); // Input del costo
+
+    // Formatear con comas mientras el usuario escribe
+    inputCosto.addEventListener('input', function () {
+        const value = this.value.replace(/,/g, ''); // Quitar comas
+        if (!isNaN(value) && value !== '') {
+            this.value = Number(value).toLocaleString('en-US'); // Agregar comas
+        } else {
+            this.value = ''; // Limpiar si no es válido
+        }
+    });
+
+    // Validar el valor al perder el enfoque
+    inputCosto.addEventListener('blur', function () {
+        const value = this.value.replace(/,/g, '');
+        if (isNaN(value) || value === '') {
+            this.value = ''; // Restaurar si el valor no es válido
+        } else {
+            this.value = Number(value).toLocaleString('en-US'); // Mantener formato válido
+        }
+    });
+
+    // Limpiar comas antes de enviar el formulario
+    const form = document.getElementById('presupuesto-form');
+    form.addEventListener('submit', function () {
+        inputCosto.value = inputCosto.value.replace(/,/g, ''); // Eliminar comas antes de enviar
+    });
+});
+</script>
+<!----------------------------------------------------------------------------------->
