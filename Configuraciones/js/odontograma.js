@@ -24,7 +24,7 @@ function initializeColors() {
         if (data.status === 'success') {
             data.colors.forEach(({ OD, Color, Posicion }) => {
                 // Selector más específico para evitar conflictos
-                const button = document.querySelector([data-num="${OD}"][data-pos="${Posicion}"]);
+                const button = document.querySelector(`[data-num="${OD}"][data-pos="${Posicion}"]`);
                 if (button) {
                     button.style.backgroundColor = Color; // Asignar color al botón
                     button.setAttribute('data-pos', Posicion); // Confirmar que la posición esté correctamente asignada
@@ -42,7 +42,7 @@ function handleButtonClick(event) {
     const button = event.target.closest('button'); // Detectar el botón clickeado
     if (!button) return; // Ignorar clics fuera de los botones
 
-    const buttonId = btn${button.dataset.num}; // Generar un ID único basado en "data-num"
+    const buttonId = `btn${button.dataset.num}`; // Generar un ID único basado en "data-num"
     button.setAttribute('id', buttonId);
 
     openSeleccionarDienteModal(button, buttonId);
@@ -190,3 +190,4 @@ function deleteEntry(idOdontograma) {
         }
     });
 }
+
