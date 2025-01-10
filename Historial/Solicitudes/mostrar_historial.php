@@ -2,8 +2,7 @@
 // Incluir detalles de la conexión a la base de datos
 include '../Configuraciones/conexion.php';
 
-// Iniciar sesión para manejar variables de sesión
-session_start();
+
 
 // Obtener el idPaciente desde el POST, si está disponible
 $idPaciente = isset($_POST['idPaciente']) ? intval($_POST['idPaciente']) : 0;

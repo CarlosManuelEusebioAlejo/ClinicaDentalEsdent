@@ -1,7 +1,10 @@
 <?php
-
+include '../sesion/session.php';
 // PHP QUE EXTRAE LA INFORMACION DE LOS PACIENTES Y LOS MUESTRA EN LA TABLA
 include 'Solicitudes/mostrar_historial.php';
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +25,7 @@ include 'Solicitudes/mostrar_historial.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <title>ClinicaDentalEsdent</title>
-    <link rel="icon" href="/../ClinicaDentalEsdent/Configuraciones/img/logo.png" type="image/x-icon">
+    <link rel="icon" href="/../clinicadentalesdent/Configuraciones/img/logo.png" type="image/x-icon">
 </head>
 <body class="bg-#EFF1F9 " style="background-color: #e8ecff;color: #3C3C3C">
     
@@ -35,7 +38,7 @@ include 'Solicitudes/mostrar_historial.php';
           <!-- Logo -->
           <div class="flex flex-col items-center mb-9">
             <span class="text-sm font-semibold">CLINICA DENTAL</span>
-            <img src="/../ClinicaDentalEsdent/Configuraciones/img/logo.png" alt="" class="w-24 h-24 mb-2" />
+            <img src="/../clinicadentalesdent/Configuraciones/img/logo.png" alt="" class="w-24 h-24 mb-2" />
           </div>
 
           <div class="flex justify-center mb-6">
@@ -47,42 +50,50 @@ include 'Solicitudes/mostrar_historial.php';
           
            <!-- Menú -->
            <nav class="space-y-4">
-                    <a href="/../ClinicaDentalEsdent/PanelControl/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
+                    <a href="/../clinicadentalesdent/PanelControl/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
                         <i class='bx bxs-dashboard text-2xl'></i>
                         <span class="font-semibold mx-4">PANEL</span>
                     </a>
-                    <a href="/../ClinicaDentalEsdent/Pacientes/" class="flex items-center p-2 rounded-full bg-[#E9EDFF]" style="box-shadow: inset 0px 3px 6px rgba(88, 132, 209, 0.391); background-color: #e8ecff24;">
+                    <a href="/../clinicadentalesdent/Pacientes/" class="flex items-center p-2 rounded-full bg-[#E9EDFF]" style="box-shadow: inset 0px 3px 6px rgba(88, 132, 209, 0.391); background-color: #e8ecff24;">
                         <i class='bx bx-id-card text-2xl'></i>
                         <span class="font-semibold mx-4">PACIENTES</span>
                     </a>
-                    <a href="/../ClinicaDentalEsdent/Agenda/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
+                    <a href="/../clinicadentalesdent/Agenda/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
                         <i class='bx bxs-book-bookmark text-2xl'></i>
                         <span class="font-semibold mx-4">AGENDA</span>
                     </a>
-                    <a href="/../ClinicaDentalEsdent/Pagos/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
+                    <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'Administrador'): ?>
+                    <a href="/../clinicadentalesdent/Pagos/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
                         <i class='bx bx-money text-2xl'></i>
                         <span class="font-semibold mx-4">PAGOS</span>
                     </a>
-                    <a href="/../ClinicaDentalEsdent/Presupuestos/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
+                    <?php endif; ?> 
+                    <a href="/../clinicadentalesdent/Presupuestos/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
                         <i class='bx bx-money-withdraw text-2xl'></i>
                         <span class="font-semibold mx-4">PRESUPUESTOS</span>
                     </a>
-                    <a href="/../ClinicaDentalEsdent/Limpiezas/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
-                        <img src="/..//ClinicaDentalEsdent/Configuraciones/img/Dientelimpieza.png" class="h-6"> 
+                    <a href="/../clinicadentalesdent/Limpiezas/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
+                        <img src="/..//clinicadentalesdent/Configuraciones/img/Dientelimpieza.png" class="h-6"> 
                         <span class="font-semibold mx-4">LIMPIEZAS</span>
                     </a>
-                    <a href="/../ClinicaDentalEsdent/ExplicacionVisual/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
+                    <a href="/../clinicadentalesdent/ExplicacionVisual/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
                         <i class='bx bx-play-circle text-2xl'></i>
                         <span class="font-semibold mx-4">VISUAL</span>
                     </a>
-                    <a href="/../ClinicaDentalEsdent/Doctores/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
+                    <a href="/../clinicadentalesdent/Recetario/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
+                        <img src="/..//clinicadentalesdent/Configuraciones/img/Dientelimpieza.png" class="h-6"> 
+                        <span class="font-semibold mx-4">RECETARIO</span>
+                    </a>
+                    <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'Administrador'): ?>
+                    <a href="/../clinicadentalesdent/Doctores/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
                         <i class='bx bx-group text-2xl'></i>
                         <span class="font-semibold mx-4">DOCTORES</span>
                     </a>
-                    <a href="/../ClinicaDentalEsdent/InteligenciaArtificial/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
-                    <i class='bx bx-brain text-2xl'></i>
-                    <span class="font-semibold mx-4">ESDENT IA</span>
-                </a>
+                    <?php endif; ?> 
+                    <!-- <a href="/../clinicadentalesdent/InteligenciaArtificial/" class="flex items-center p-2 rounded-lg hover:bg-[#E9EDFF]">
+                      <i class='bx bx-brain text-2xl'></i>
+                      <span class="font-semibold mx-4">ESDENT IA</span>
+                    </a> -->
                 </nav>
 
         <style>
@@ -106,7 +117,7 @@ include 'Solicitudes/mostrar_historial.php';
   
     <!-- Sección inferior (Logout) -->
     <div class="flex justify-center items-center">
-        <a href="#" class="mt-2 p-3 rounded-lg shadow-lg" style="background-color: #f3f3fd;">
+        <a href="../sesion/logout.php" class="mt-2 p-3 rounded-lg shadow-lg" style="background-color: #f3f3fd;">
           <i class='bx bx-log-out mt-1 text-2xl'></i>
         </a>
     </div>           
@@ -119,8 +130,8 @@ include 'Solicitudes/mostrar_historial.php';
     <div class="flex justify-between items-center mx-8">
             <!-- Botón rojo para index.html -->
             
-            <a href="/..//ClinicaDentalEsdent/Pacientes/" class="flex items-center text-white px-4 py-2 rounded-full font-semibold hover:bg-red-600" style="background-color: #07b52d;">
-                <img src="/..//ClinicaDentalEsdent/Configuraciones/img/regresar.png" alt="Regresar" class="h-5 mr-2"> Regresar
+            <a href="/..//clinicadentalesdent/Pacientes/" class="flex items-center text-white px-4 py-2 rounded-full font-semibold hover:bg-red-600" style="background-color: #07b52d;">
+                <img src="/..//clinicadentalesdent/Configuraciones/img/regresar.png" alt="Regresar" class="h-5 mr-2"> Regresar
             </a>
         </div>
       <!-- Botones de odontograma y radiografía -->
@@ -128,15 +139,25 @@ include 'Solicitudes/mostrar_historial.php';
     <!-- Enviar el idPaciente a la URL del Odontograma -->
     <!-- Formulario para Odontograma con idPaciente -->
     
-    <form id="redirectFormOdontograma<?= $idPaciente['idPaciente'] ?>" method="POST" action="/../ClinicaDentalEsdent/Odontograma/" style="display: inline;">
+    <form id="redirectFormOdontograma<?= $idPaciente['idPaciente'] ?>" method="POST" action="/../clinicadentalesdent/Odontograma/" style="display: inline;">
         <input type="hidden" name="idPaciente" value="<?= $idPaciente['idPaciente'] ?>">
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-blue-600"  style="background-color: #B4221B;">ODONTOGRAMA</button>
     </form>
 
     <!-- Formulario para Radiografías con idPaciente -->
-    <form id="redirectFormRadiografia<?= $idPaciente['idPaciente'] ?>" method="POST" action="/../ClinicaDentalEsdent/Radiografias/" style="display: inline;">
+    <form id="redirectFormRadiografia<?= $idPaciente['idPaciente'] ?>" method="POST" action="/../clinicadentalesdent/Radiografias/" style="display: inline;">
         <input type="hidden" name="idPaciente" value="<?= $idPaciente['idPaciente'] ?>">
         <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-green-600"  style="background-color: #B4221B;">RADIOGRAFÍAS</button>
+    </form>
+
+    <form id="redirectFormRecetario" method="POST" action="/../clinicadentalesdent/Presupuestos/" style="display: inline;">
+        <input type="hidden" name="idPaciente" value="">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-blue-600"  style="background-color: #B4221B;">PRESUPUESTOS</button>
+    </form>
+
+    <form id="redirectFormRecetario<?= $idPaciente['idPaciente'] ?>" method="POST" action="/../clinicadentalesdent/Recetario/" style="display: inline;">
+        <input type="hidden" name="idPaciente" value="">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-full font-semibold hover:bg-blue-600"  style="background-color: #B4221B;">RECETARIO</button>
     </form>
     
       </div>

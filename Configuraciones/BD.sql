@@ -204,9 +204,6 @@ CREATE TABLE IF NOT EXISTS `ClinicaDentalEsdent`.`odontograma`(
     `Diagnostico`       VARCHAR(255)             NOT NULL                 COMMENT 'Diagnostico realizado al paciente',
     `Tratamiento`       VARCHAR(255)             NOT NULL                 COMMENT 'tratamiento realizado al paciente',
     `Observacion`       VARCHAR(255)             DEFAULT NULL             COMMENT 'Observaciones realizadas al paciente',
-    `Presupuesto`       decimal(10,2)            DEFAULT NULL             COMMENT 'Presupuesto estimado para el tratamiento del paciente',
-    `Color`             VARCHAR(7)               DEFAULT NULL             COMMENT 'Color seleccionado para el tratamiento o diente (en formato hexadecimal)',
-    `Posicion`          VARCHAR(255)             NOT NULL                 COMMENT 'Posición del diente que donde se realizara el trabajo',
     `fecha_registro`    DATETIME                 NOT NULL DEFAULT NOW()   COMMENT 'Fecha y hora en que se registró el pago',
     PRIMARY KEY (`id_odontograma`),
         CONSTRAINT `fk_odontograma_paciente` FOREIGN KEY (`idPaciente`) REFERENCES `pacientes`(`idPaciente`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -283,10 +280,9 @@ CREATE TABLE IF NOT EXISTS `ClinicaDentalEsdent`.`pagos`(
                              'Tarjeta',
                              'Billpocket',
                              'Transferencia')            NOT NULL                 COMMENT 'Metodo de pago del paciente',
-    `Factura`           ENUM('Si', 
+     `Factura`          ENUM('Si', 
                              'No')                       NOT NULL                 COMMENT 'Requiere factura el paciente',
-    `fecha_Pago`        DATE                             NOT NULL                 COMMENT 'Fecha del pago',
-    `fecha_registro`    DATETIME                           NOT NULL DEFAULT NOW() COMMENT 'Fecha y hora en que se registró el pago',
+    `fecha_registro`  DATETIME                           NOT NULL DEFAULT NOW()   COMMENT 'Fecha y hora en que se registró el pago',
     PRIMARY KEY (`id_pagos`),
         CONSTRAINT `fk_pagos_doctor` FOREIGN KEY (`id_doctor`) REFERENCES `doctores`(`id_doctor`) ON DELETE CASCADE ON UPDATE CASCADE,
         CONSTRAINT `fk_pagos_paciente` FOREIGN KEY (`idPaciente`) REFERENCES `pacientes`(`idPaciente`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -294,7 +290,6 @@ CREATE TABLE IF NOT EXISTS `ClinicaDentalEsdent`.`pagos`(
 COMMENT='Tabla para el registro de pagos en la clínica dental';
 
 --------------------------- FIN DE LA TABLA DE PAGOS DENTALES EN LA BASE DE DATOS  'ClinicaDentalEsdent'.'pagos'-----------------------------
-
 
 
 --------------------------- INICIO DE LA TABLA DE LIMPIEZAS DENTALES EN LA BASE DE DATOS  'ClinicaDentalEsdent'.'presupuestos',-----------------
@@ -317,5 +312,28 @@ CREATE TABLE IF NOT EXISTS `ClinicaDentalEsdent`.`presupuestos` (
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1 
   COMMENT='Tabla para el registro de presupuestos dentales realizadas a los pacientes de la clínica dental';
 
-
 --------------------------- FIN DE LA TABLA DE LIMPIEZAS DENTALES EN LA BASE DE DATOS  'ClinicaDentalEsdent'.'presupuestos',-----------------
+
+
+--------------------------- INICIO DE LA TABLA DE LIMPIEZAS DENTALES EN LA BASE DE DATOS  'ClinicaDentalEsdent'.'Recetas',-----------------
+
+DROP TABLE IF EXISTS `ClinicaDentalEsdent`.`Recetas`;
+CREATE TABLE IF NOT EXISTS `ClinicaDentalEsdent`.`Recetas` (
+    `id_receta`         INT            UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Identificador único de la receta dental realizada.',
+    `idPaciente`        INT            UNSIGNED NOT NULL                COMMENT 'Identificador único del paciente que recibió la receta.',
+    `Nombre_paciente`   VARCHAR(100)            NOT NULL                COMMENT 'Nombres del paciente',
+    `Apellido_paciente` VARCHAR(100)            NOT NULL                COMMENT 'Apellidos del paciente',
+    `Edad`              TINYINT        UNSIGNED NOT NULL                COMMENT 'Edad del paciente',
+    `Receta`            VARCHAR(100)            NOT NULL                COMMENT 'Receta realizada al paciente',
+    `Fecha`             DATE                    NOT NULL                COMMENT 'Fecha que se realizo la receta',
+    `fecha_registro`    DATETIME NOT NULL DEFAULT NOW()                 COMMENT 'Fecha y hora en que se registró la receta',
+    PRIMARY KEY (`id_receta`),
+    CONSTRAINT `fk_receta_paciente` FOREIGN KEY (`idPaciente`) REFERENCES `pacientes`(`idPaciente`) 
+        ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1 
+  COMMENT='Tabla para el registro de recetas dentales realizadas a los pacientes de la clínica dental';
+
+--------------------------- FIN DE LA TABLA DE LIMPIEZAS DENTALES EN LA BASE DE DATOS  'ClinicaDentalEsdent'.'Recetas',-----------------
+
+-- Habilita las comprobaciones de las llaves foráneas
+SET FOREIGN_KEY_CHECKS = 1;

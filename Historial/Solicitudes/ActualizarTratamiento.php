@@ -20,7 +20,7 @@ $tratamiento = isset($_POST['EDITAR_Tratamiento']) ? $conn->real_escape_string(t
 $costo = isset($_POST['EDITAR_costo']) ? floatval($_POST['EDITAR_costo']) : 0;
 $observacion = isset($_POST['EDITAR_Observaciones']) ? $conn->real_escape_string(trim($_POST['EDITAR_Observaciones'])) : '';
 $fecha = isset($_POST['EDITAR_fecha_registro']) ? $conn->real_escape_string(trim($_POST['EDITAR_fecha_registro'])) : '';
-$doctor = isset($_POST['EDITAR_doctor']) ? $conn->real_escape_string(trim($_POST['EDITAR_doctor'])) : '';
+$idDoctor = isset($_POST['EDITAR_doctor']) ? intval($_POST['EDITAR_doctor']) : null;
 
 // Validar campos obligatorios
 $errores = [];
@@ -29,10 +29,31 @@ if (!$tratamiento) $errores[] = 'Tratamiento';
 if (!$costo) $errores[] = 'Costo';
 if (!$observacion) $errores[] = 'Observaciones';
 if (!$fecha) $errores[] = 'Fecha';
+if (!$idDoctor) $errores[] = 'Doctor';
 
 // Si hay errores, devolverlos
 if (!empty($errores)) {
     echo json_encode(['success' => false, 'error' => 'Campos faltantes: ' . implode(', ', $errores)]);
+    exit();
+}
+
+// Obtener el Nombre_doctor basado en el idDoctor
+$sqlDoctor = "SELECT Nombre_doctor FROM doctores WHERE id_doctor = ?";
+$stmtDoctor = $conn->prepare($sqlDoctor);
+
+if (!$stmtDoctor) {
+    echo json_encode(['success' => false, 'error' => 'Error al preparar la consulta para obtener el doctor: ' . $conn->error]);
+    exit();
+}
+
+$stmtDoctor->bind_param('i', $idDoctor);
+$stmtDoctor->execute();
+$resultDoctor = $stmtDoctor->get_result();
+$nombreDoctor = $resultDoctor->fetch_assoc()['Nombre_doctor'] ?? null;
+$stmtDoctor->close();
+
+if (!$nombreDoctor) {
+    echo json_encode(['success' => false, 'error' => 'Doctor no encontrado.']);
     exit();
 }
 
@@ -42,13 +63,14 @@ $sql = "UPDATE historial_tratamiento
             Costo = ?, 
             Observacion = ?, 
             Fecha = ?, 
-            Nombre_doctor = ?
+            Nombre_doctor = ?,
+            id_doctor = ?
         WHERE id_tratamiento = ?";
 
 $stmt = $conn->prepare($sql);
 
 if ($stmt) {
-    $stmt->bind_param('sdsssi', $tratamiento, $costo, $observacion, $fecha, $doctor, $idTratamiento);
+    $stmt->bind_param('sdsssii', $tratamiento, $costo, $observacion, $fecha, $nombreDoctor, $idDoctor, $idTratamiento);
 
     if ($stmt->execute()) {
         echo json_encode(['success' => true, 'message' => 'Tratamiento actualizado correctamente.']);
